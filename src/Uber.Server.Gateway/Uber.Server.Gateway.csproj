@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Uber.Module.Movie.File\Uber.Module.Movie.File.csproj" />
+    <ProjectReference Include="..\Uber.Module.Movie.Search\Uber.Module.Movie.Search.csproj" />
+    <ProjectReference Include="..\Uber.Module.Movie.Writer\Uber.Module.Movie.Writer.csproj" />
+  </ItemGroup>
+
+</Project>
