@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Grace.AspNetCore.Hosting;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace Uber.Server.Gateway
 {
@@ -19,7 +14,10 @@ namespace Uber.Server.Gateway
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseGrace()
+                .UseApplicationInsights()
                 .UseStartup<Startup>()
+                .ConfigureAppConfiguration((host, config) => config.AddJsonFile("AppSettings.User.json", optional: true, reloadOnChange: true))
                 .Build();
     }
 }
