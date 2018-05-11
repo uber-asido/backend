@@ -1,4 +1,6 @@
 ﻿using FluentValidation.AspNetCore;
+using Microsoft.AspNet.OData.Builder;
+using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -33,6 +35,8 @@ namespace Uber.Server.Gateway
             services
                 .AddMvc()
                 .AddFluentValidation();
+
+            services.AddOData();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,13 +59,16 @@ namespace Uber.Server.Gateway
                 .SetPreflightMaxAge(TimeSpan.FromMinutes(100))
                 .Build());
 
-            app.Map(new PathString("/api"), _ =>
+            app.UseMvc(routeBuilder =>
             {
-                //app.Map(new PathString("/api/movie/file"), resources => resources.UseMovieFileApi());
-                //app.Map(new PathString("/api/movie/search"), resources => resources.UseMovieSearchApi());
-            });
+                var odataBuilder = new ODataConventionModelBuilder(app.ApplicationServices);
+                odataBuilder.EnableLowerCamelCase(NameResolverOptions.ProcessDataMemberAttributePropertyNames | NameResolverOptions.ProcessExplicitPropertyNames | NameResolverOptions.ProcessReflectedPropertyNames);
 
-            app.UseMvc();
+                app.UseMovieSearchApi(odataBuilder);
+
+                routeBuilder.Select().Expand().Filter().OrderBy().MaxTop(1000).Count();
+                routeBuilder.MapODataServiceRoute("ODataRoute", "odata", odataBuilder.GetEdmModel());
+            });
         }
     }
 }

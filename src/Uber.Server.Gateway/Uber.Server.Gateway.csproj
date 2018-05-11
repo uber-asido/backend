@@ -14,12 +14,11 @@
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-beta2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Uber.Module.Movie.File\Uber.Module.Movie.File.csproj" />
-    <ProjectReference Include="..\Uber.Module.Movie.Search\Uber.Module.Movie.Search.csproj" />
-    <ProjectReference Include="..\Uber.Module.Movie.Writer\Uber.Module.Movie.Writer.csproj" />
+    <ProjectReference Include="..\Uber.Module.Movie.Search.Api\Uber.Module.Movie.Search.Api.csproj" />
   </ItemGroup>
 
 </Project>
