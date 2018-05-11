@@ -8,17 +8,17 @@ namespace Uber.Module.Movie.Search.Manager
 {
     public class SearchManager : ISearchManager
     {
-        public Task<SearchItem> Create(SearchItem search)
-        {
-            throw new NotImplementedException();
-        }
-
         public IQueryable<SearchItem> Query()
         {
             throw new NotImplementedException();
         }
 
         public IQueryable<SearchItem> QuerySingle(Guid key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<SearchItem> Create(SearchItem search)
         {
             throw new NotImplementedException();
         }
