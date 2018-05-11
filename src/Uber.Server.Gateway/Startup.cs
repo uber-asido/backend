@@ -3,13 +3,13 @@ using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net;
+using Uber.Module.Movie.Search.EFCore;
 
 namespace Uber.Server.Gateway
 {
@@ -27,10 +27,11 @@ namespace Uber.Server.Gateway
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMovieSearch(builder =>
-            {
-                builder.UseEFCoreStores(options => options.UseNpgsql(Configuration.GetConnectionString("MovieSearch")));
-            });
+            var searchConnectionString = new ConnectionString(Configuration.GetConnectionString("MovieSearch"));
+
+            services.AddSingleton(searchConnectionString);
+            services.AddInstaller();
+            services.AddMovieSearch(builder => builder.UseEFCoreStores(options => options.UseNpgsql(searchConnectionString.Value)));
 
             services
                 .AddMvc()

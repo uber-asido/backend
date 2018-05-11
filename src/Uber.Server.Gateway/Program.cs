@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Uber.Core.Setup;
 
 namespace Uber.Server.Gateway
 {
@@ -9,7 +11,15 @@ namespace Uber.Server.Gateway
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            var host = BuildWebHost(args);
+
+            using (var scope = host.Services.CreateScope())
+            {
+                var installer = scope.ServiceProvider.GetRequiredService<Installer>();
+                installer.ExecuteAsync().Wait();
+            }
+
+            host.Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

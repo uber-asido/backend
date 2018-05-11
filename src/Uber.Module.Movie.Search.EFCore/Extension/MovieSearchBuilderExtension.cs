@@ -12,6 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IMovieSearchBuilder UseEFCoreStores(this IMovieSearchBuilder builder, Action<DbContextOptionsBuilder> optionsAction)
         {
             builder.Services
+                .AddInstallerStep<Migrate>()
                 .AddDbContext<DataContext>(optionsAction)
                 .AddStore<ISearchItemStore, SearchItemStore>();
 
