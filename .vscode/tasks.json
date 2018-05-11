@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/Uber.Server.Gateway/Uber.Server.Gateway.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
