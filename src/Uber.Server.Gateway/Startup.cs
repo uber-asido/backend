@@ -4,6 +4,7 @@ using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -26,11 +27,10 @@ namespace Uber.Server.Gateway
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddMovieFile(builder =>
-            //{
-            //    builder.UseEntityFrameworkCoreStores(options => options.UsePostgreSql(Configuration.GetConnectionString("MovieFile")));
-            //});
-            //...
+            services.AddMovieSearch(builder =>
+            {
+                builder.UseEFCoreStores(options => options.UseNpgsql(Configuration.GetConnectionString("MovieSearch")));
+            });
 
             services
                 .AddMvc()

@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Uber.Module.Movie.Search.Api\Uber.Module.Movie.Search.Api.csproj" />
+    <ProjectReference Include="..\Uber.Module.Movie.Search.EFCore\Uber.Module.Movie.Search.EFCore.csproj" />
   </ItemGroup>
 
 </Project>

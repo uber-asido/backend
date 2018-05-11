@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNetCore.Builder;
 using Uber.Core.OData;
-using Uber.Module.Movie.Search.Abstraction.Models;
+using Uber.Module.Movie.Search.Abstraction.Model;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class ApplicationBuilderExtensions
+    public static class ApplicationBuilderExtension
     {
         public static IApplicationBuilder UseMovieSearchApi(this IApplicationBuilder app, ODataModelBuilder odataBuilder)
         {

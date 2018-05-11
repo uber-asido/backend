@@ -30,10 +30,8 @@ namespace Uber.Core.OData
         }
     }
 
-    public static class ODataModelBuilderExtenions
+    public static class ODataModelBuilderExtenion
     {
-        
-
         public static void AddNamespace(this ODataModelBuilder builder, string @namespace, Action<UberODataModelBuilder> action)
         {
             if (string.IsNullOrWhiteSpace(@namespace))

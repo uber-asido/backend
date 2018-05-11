@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Uber.Module.Movie.Search.Abstraction.Models
+namespace Uber.Module.Movie.Search.Abstraction.Model
 {
     public enum SearchItemType
     {
