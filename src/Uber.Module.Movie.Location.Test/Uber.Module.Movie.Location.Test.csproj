@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Uber.Module.Movie.Writer\Uber.Module.Movie.Writer.csproj" />
+    <ProjectReference Include="..\Uber.Module.Movie.Location\Uber.Module.Movie.Location.csproj" />
   </ItemGroup>
 
 </Project>

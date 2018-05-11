@@ -1,7 +1,7 @@
 using FluentAssertions;
 using Xunit;
 
-namespace Uber.Module.Movie.Writer.Test
+namespace Uber.Module.Movie.Location.Test
 {
     public class UnitTest1
     {
