@@ -10,6 +10,6 @@ namespace Uber.Module.Movie.Search.Abstraction.Store
         IQueryable<SearchItem> Query();
         IQueryable<SearchItem> QuerySingle(Guid key);
 
-        Task<SearchItem> Create(SearchItem search);
+        Task Create(SearchItem search);
     }
 }

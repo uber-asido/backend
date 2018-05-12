@@ -5,7 +5,7 @@ using Uber.Core.Setup;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class ServiceCollectionExtensions
+    public static class ServiceCollectionExtension
     {
         public static IServiceCollection AddManager<TManager, TImplementation>(this IServiceCollection services, ServiceLifetime lifetime = ServiceLifetime.Scoped)
             where TManager : class

@@ -19,12 +19,13 @@ namespace Uber.Module.Movie.Search.Test.Manager
         }
 
         [Fact]
-        public void CanQuerySingle()
+        public async Task CanQuerySingle()
         {
             SearchManager.QuerySingle(Guid.NewGuid()).Should().BeEmpty();
 
-            var item1 = new SearchItem { Key = Guid.NewGuid(), Text = "foobar", Type = SearchItemType.Organization };
-            SearchManager.QuerySingle(item1.Key).Should().HaveCount(1);
+            var item = new SearchItem { Key = Guid.NewGuid(), Text = "foobar", Type = SearchItemType.Organization };
+            await SearchManager.Create(item);
+            SearchManager.QuerySingle(item.Key).Should().HaveCount(1);
         }
 
         [Fact]

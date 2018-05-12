@@ -8,19 +8,16 @@ namespace Uber.Module.Movie.Search.EFCore.Store
 {
     public class SearchItemStore : ISearchItemStore
     {
-        public IQueryable<SearchItem> Query()
+        private readonly DataStore db;
+
+        public SearchItemStore(DataStore db)
         {
-            throw new NotImplementedException();
+            this.db = db;
         }
 
-        public IQueryable<SearchItem> QuerySingle(Guid key)
-        {
-            throw new NotImplementedException();
-        }
+        public IQueryable<SearchItem> Query() => db.SearchItems;
+        public IQueryable<SearchItem> QuerySingle(Guid key) => db.SearchItems.Where(e => e.Key == key);
 
-        public Task<SearchItem> Create(SearchItem search)
-        {
-            throw new NotImplementedException();
-        }
+        public Task Create(SearchItem search) => db.InsertAndCommit(search);
     }
 }

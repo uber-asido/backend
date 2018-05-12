@@ -14,6 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services
                 .AddInstallerStep<Migrate>()
                 .AddDbContext<DataContext>(optionsAction)
+                .AddDataStore<DataStore, DataContext>()
                 .AddStore<ISearchItemStore, SearchItemStore>();
 
             return builder;

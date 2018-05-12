@@ -3,24 +3,29 @@ using System.Linq;
 using System.Threading.Tasks;
 using Uber.Module.Movie.Search.Abstraction.Manager;
 using Uber.Module.Movie.Search.Abstraction.Model;
+using Uber.Module.Movie.Search.Abstraction.Store;
 
 namespace Uber.Module.Movie.Search.Manager
 {
     public class SearchManager : ISearchManager
     {
-        public IQueryable<SearchItem> Query()
+        private readonly ISearchItemStore searchStore;
+
+        public SearchManager(ISearchItemStore searchStore)
         {
-            throw new NotImplementedException();
+            this.searchStore = searchStore;
         }
 
-        public IQueryable<SearchItem> QuerySingle(Guid key)
-        {
-            throw new NotImplementedException();
-        }
+        public IQueryable<SearchItem> Query() => searchStore.Query();
+        public IQueryable<SearchItem> QuerySingle(Guid key) => searchStore.QuerySingle(key);
 
-        public Task<SearchItem> Create(SearchItem search)
+        public async Task<SearchItem> Create(SearchItem search)
         {
-            throw new NotImplementedException();
+            if (search.Key == default(Guid))
+                search.Key = Guid.NewGuid();
+
+            await searchStore.Create(search);
+            return search;
         }
     }
 }
