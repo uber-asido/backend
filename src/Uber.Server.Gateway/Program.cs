@@ -16,7 +16,7 @@ namespace Uber.Server.Gateway
             using (var scope = host.Services.CreateScope())
             {
                 var installer = scope.ServiceProvider.GetRequiredService<Installer>();
-                installer.ExecuteAsync().Wait();
+                installer.Execute().Wait();
             }
 
             host.Run();

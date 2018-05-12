@@ -23,7 +23,7 @@ namespace Uber.Core.Setup
                 .ToDictionary(x => x.Key, x => x.AsEnumerable());
         }
 
-        public async Task ExecuteAsync()
+        public async Task Execute()
         {
             var errors = new List<string>();
 
