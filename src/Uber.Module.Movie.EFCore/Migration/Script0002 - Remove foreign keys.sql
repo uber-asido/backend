@@ -1,0 +1,13 @@
+﻿alter table movie_actor drop constraint fk_movie_actor_movie_key;
+alter table movie_actor drop constraint fk_movie_actor_actor_key;
+
+alter table movie_distributor drop constraint fk_movie_distributor_movie_key;
+alter table movie_distributor drop constraint fk_movie_distributor_distributor_key;
+
+alter table movie_filming_address drop constraint fk_movie_filming_address_movie_key;
+
+alter table movie_production_company drop constraint fk_movie_production_company_movie_key;
+alter table movie_production_company drop constraint fk_movie_production_company_production_company_key;
+
+alter table movie_writer drop constraint fk_movie_writer_movie_key;
+alter table movie_writer drop constraint fk_movie_writer_writer_key;

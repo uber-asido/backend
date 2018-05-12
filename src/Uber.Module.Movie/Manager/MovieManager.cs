@@ -18,13 +18,12 @@ namespace Uber.Module.Movie.Manager
         public IQueryable<Abstraction.Model.Movie> Query() => movieStore.Query();
         public IQueryable<Abstraction.Model.Movie> QuerySingle(Guid key) => movieStore.QuerySingle(key);
 
-        public async Task<Abstraction.Model.Movie> Create(Abstraction.Model.Movie movie)
+        public Task<Abstraction.Model.Movie> Create(Abstraction.Model.Movie movie)
         {
             if (movie.Key == default(Guid))
                 movie.Key = Guid.NewGuid();
 
-            await movieStore.Create(movie);
-            return movie;
+            return movieStore.Create(movie);
         }
     }
 }

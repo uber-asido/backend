@@ -9,6 +9,6 @@ namespace Uber.Module.Movie.Abstraction.Store
         IQueryable<Model.Movie> Query();
         IQueryable<Model.Movie> QuerySingle(Guid key);
 
-        Task Create(Model.Movie movie);
+        Task<Model.Movie> Create(Model.Movie movie);
     }
 }

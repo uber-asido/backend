@@ -6,9 +6,11 @@
 
   <ItemGroup>
     <None Remove="Migration\Script0001 - Initial.sql" />
+    <None Remove="Migration\Script0002 - Remove foreign keys.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Migration\Script0002 - Remove foreign keys.sql" />
     <EmbeddedResource Include="Migration\Script0001 - Initial.sql" />
   </ItemGroup>
 

@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Uber.Module.Geocoding.Abstraction.Model;
@@ -24,7 +25,18 @@ namespace Uber.Module.Movie.Test.Manager
         {
             MovieManager.QuerySingle(Guid.NewGuid()).Should().BeEmpty();
 
-            var movie = new Abstraction.Model.Movie { Key = Guid.NewGuid(), Title = "", ReleaseYear = 2018 };
+            var movie = new Abstraction.Model.Movie
+            {
+                Key = Guid.NewGuid(),
+                Title = "",
+                ReleaseYear = 2018,
+                Actors = new List<Actor>(),
+                Distributors = new List<Distributor>(),
+                FilmingAddresses = new List<Address>(),
+                FunFacts = new List<string>(),
+                ProductionCompanies = new List<ProductionCompany>(),
+                Writers = new List<Writer>()
+            };
             var found = await MovieManager.Create(movie);
             MovieManager.QuerySingle(movie.Key).Should().HaveCount(1);
         }
