@@ -1,7 +1,7 @@
-﻿using DbUp;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using Uber.Core.EFCore;
 using Uber.Core.Setup;
 
 namespace Uber.Module.Movie.Search.EFCore
@@ -12,24 +12,17 @@ namespace Uber.Module.Movie.Search.EFCore
         public int Priority => 0;
         public InstallPhase Phase => InstallPhase.Upgrade;
 
-        private readonly ConnectionString connectionStrings;
+        private readonly ConnectionString connectionString;
 
-        public Migrate(ConnectionString connectionStrings)
+        public Migrate(ConnectionString connectionString)
         {
-            this.connectionStrings = connectionStrings;
+            this.connectionString = connectionString;
         }
 
         public Task<IEnumerable<string>> Run()
         {
-            var upgrader = DeployChanges.To
-                .PostgresqlDatabase(connectionStrings.Value)
-                .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
-                .LogToConsole()
-                .Build();
-
-            var upgradeStatus = upgrader.PerformUpgrade();
-            var result = upgradeStatus.Successful ? null : new[] { upgradeStatus.Error.ToString() };
-            return Task.FromResult<IEnumerable<string>>(result);
+            var result = DataMigrate.PerformUpgrade(connectionString.Value, Assembly.GetExecutingAssembly());
+            return Task.FromResult(result);
         }
 
         public Task<bool> ShouldRun() => Task.FromResult(true);
