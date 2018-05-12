@@ -10,7 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class FilmMovieBuilderExtension
     {
-        public static IFilmMovieBuilder UseEFCoreStores(this IFilmMovieBuilder builder, Action<DbContextOptionsBuilder> optionsAction)
+        public static IMovieBuilder UseEFCoreStores(this IMovieBuilder builder, Action<DbContextOptionsBuilder> optionsAction)
         {
             builder.Services
                 .AddInstallerStep<Migrate>()

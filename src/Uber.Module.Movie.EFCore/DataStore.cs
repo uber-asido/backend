@@ -6,6 +6,13 @@ namespace Uber.Module.Movie.EFCore
     public class DataStore : DataStoreBase<DataContext>
     {
         public DbSet<Entity.Movie> Movies => DataContext.Movies;
+
+        public DbSet<Entity.MovieActor> MovieActors => DataContext.MovieActors;
+        public DbSet<Entity.MovieDistributor> MovieDistributors => DataContext.MovieDistributors;
+        public DbSet<Entity.MovieFilmingAddress> MovieFilmingAddresses => DataContext.MovieFilmingAddresses;
+        public DbSet<Entity.MovieProductionCompany> MovieProductionCompanies => DataContext.MovieProductionCompanies;
+        public DbSet<Entity.MovieWriter> MovieWriters => DataContext.MovieWriters;
+
         public DbSet<Abstraction.Model.Actor> Actors => DataContext.Actors;
         public DbSet<Abstraction.Model.Distributor> Distributors => DataContext.Distributors;
         public DbSet<Abstraction.Model.ProductionCompany> ProductionCompanies => DataContext.ProductionCompanies;

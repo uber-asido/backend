@@ -15,19 +15,16 @@ namespace Uber.Module.Movie.Manager
             this.movieStore = movieStore;
         }
 
-        public IQueryable<Abstraction.Model.Movie> Query()
-        {
-            throw new NotImplementedException();
-        }
+        public IQueryable<Abstraction.Model.Movie> Query() => movieStore.Query();
+        public IQueryable<Abstraction.Model.Movie> QuerySingle(Guid key) => movieStore.QuerySingle(key);
 
-        public IQueryable<Abstraction.Model.Movie> QuerySingle(Guid key)
+        public async Task<Abstraction.Model.Movie> Create(Abstraction.Model.Movie movie)
         {
-            throw new NotImplementedException();
-        }
+            if (movie.Key == default(Guid))
+                movie.Key = Guid.NewGuid();
 
-        public Task<Abstraction.Model.Movie> Create(Abstraction.Model.Movie movie)
-        {
-            throw new NotImplementedException();
+            await movieStore.Create(movie);
+            return movie;
         }
     }
 }
