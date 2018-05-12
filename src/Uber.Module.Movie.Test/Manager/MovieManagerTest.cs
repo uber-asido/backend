@@ -96,8 +96,11 @@ namespace Uber.Module.Movie.Test.Manager
             found.Distributors.Select(e => e.Key).All(key => key != default(Guid)).Should().BeTrue();
             found.Distributors.Select(e => e.Name).Should().BeEquivalentTo(new[] { "Test distributor 1", "Test distributor 2" });
 
-            // TODO: Implement once geocoding service is mocked.
-            // found.FilmingAddresses...
+            found.FilmingAddresses.Should().HaveCount(2);
+            found.FilmingAddresses.Select(e => e.Key).All(key => key != default(Guid)).Should().BeTrue();
+            found.FilmingAddresses.Select(e => e.FormattedAddress).Should().BeEquivalentTo(new[] { "Test address 1", "Test address 2" });
+            found.FilmingAddresses.Select(e => e.Latitude).Should().BeEquivalentTo(new[] { 1, 2 });
+            found.FilmingAddresses.Select(e => e.Longitude).Should().BeEquivalentTo(new[] { 1, 2 });
 
             found.FunFacts.Should().HaveCount(2);
             found.FunFacts.Should().BeEquivalentTo(new[] { "Test fun fact 1", "Test fun fact 2" });
