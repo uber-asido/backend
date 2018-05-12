@@ -12,7 +12,7 @@ namespace Uber.Module.Search.Test
         {
             var connectionString = new ConnectionString("Server=localhost;Port=5432;Database=uber_search_test;User Id=uber;Password=x;");
             services.AddSingleton(connectionString);
-            services.AddMovieSearch(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionString.Value)));
+            services.AddSearch(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionString.Value)));
         }
     }
 

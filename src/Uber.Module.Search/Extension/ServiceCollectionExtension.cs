@@ -5,11 +5,11 @@ using Uber.Module.Search.Manager;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    internal class MovieSearchBuilder : IMovieSearchBuilder
+    internal class SearchBuilder : ISearchBuilder
     {
         public IServiceCollection Services { get; }
 
-        public MovieSearchBuilder(IServiceCollection services)
+        public SearchBuilder(IServiceCollection services)
         {
             Services = services;
         }
@@ -17,13 +17,13 @@ namespace Microsoft.Extensions.DependencyInjection
 
     public static class ServiceCollectionExtension
     {
-        public static IServiceCollection AddMovieSearch(this IServiceCollection services, Action<IMovieSearchBuilder> configureAction)
+        public static IServiceCollection AddSearch(this IServiceCollection services, Action<ISearchBuilder> configureAction)
         {
             services
                 .AddScoped<SearchManager>()
                 .AddManager<ISearchManager, SearchManager>();
 
-            var builder = new MovieSearchBuilder(services);
+            var builder = new SearchBuilder(services);
             configureAction(builder);
 
             return services;

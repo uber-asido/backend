@@ -8,7 +8,7 @@ namespace Uber.Module.Search.EFCore
 {
     public class Migrate : IInstallStep
     {
-        public string Name => "Migrate Movie Search EF Core store";
+        public string Name => "Migrate search EF Core store";
         public int Priority => 0;
         public InstallPhase Phase => InstallPhase.Upgrade;
 

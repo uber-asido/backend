@@ -7,7 +7,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ApplicationBuilderExtension
     {
-        public static IApplicationBuilder UseMovieSearchApi(this IApplicationBuilder app, ODataModelBuilder odataBuilder)
+        public static IApplicationBuilder UseSearchApi(this IApplicationBuilder app, ODataModelBuilder odataBuilder)
         {
             odataBuilder.AddNamespace("MovieSearch", builder =>
             {

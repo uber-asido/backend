@@ -27,11 +27,11 @@ namespace Uber.Server.Gateway
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            var searchConnectionString = new ConnectionString(Configuration.GetConnectionString("MovieSearch"));
+            var searchConnectionString = new ConnectionString(Configuration.GetConnectionString("Search"));
 
             services.AddSingleton(searchConnectionString);
             services.AddInstaller();
-            services.AddMovieSearch(builder => builder.UseEFCoreStores(options => options.UseNpgsql(searchConnectionString.Value)));
+            services.AddSearch(builder => builder.UseEFCoreStores(options => options.UseNpgsql(searchConnectionString.Value)));
 
             services
                 .AddMvc()
@@ -65,7 +65,7 @@ namespace Uber.Server.Gateway
                 var odataBuilder = new ODataConventionModelBuilder(app.ApplicationServices);
                 odataBuilder.EnableLowerCamelCase(NameResolverOptions.ProcessDataMemberAttributePropertyNames | NameResolverOptions.ProcessExplicitPropertyNames | NameResolverOptions.ProcessReflectedPropertyNames);
 
-                app.UseMovieSearchApi(odataBuilder);
+                app.UseSearchApi(odataBuilder);
 
                 routeBuilder.Select().Expand().Filter().OrderBy().MaxTop(1000).Count();
                 routeBuilder.MapODataServiceRoute("ODataRoute", "odata", odataBuilder.GetEdmModel());

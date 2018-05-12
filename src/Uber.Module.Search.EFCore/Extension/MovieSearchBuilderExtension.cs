@@ -7,9 +7,9 @@ using Uber.Module.Search.EFCore.Store;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class MovieSearchBuilderExtension
+    public static class SearchBuilderExtension
     {
-        public static IMovieSearchBuilder UseEFCoreStores(this IMovieSearchBuilder builder, Action<DbContextOptionsBuilder> optionsAction)
+        public static ISearchBuilder UseEFCoreStores(this ISearchBuilder builder, Action<DbContextOptionsBuilder> optionsAction)
         {
             builder.Services
                 .AddInstallerStep<Migrate>()

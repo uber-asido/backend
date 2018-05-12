@@ -15,7 +15,7 @@ namespace Uber.Module.Search.Test.Manager
         [Fact]
         public void CanQuery()
         {
-            SearchManager.Query().ToList().Should().NotBeNull();
+            SearchManager.Query().Should().NotBeNull();
         }
 
         [Fact]
