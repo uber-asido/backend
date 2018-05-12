@@ -1,44 +1,39 @@
 ﻿using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Uber.Core.OData;
 using Uber.Module.Movie.Search.Abstraction.Model;
+using Uber.Module.Movie.Search.Manager;
 
 namespace Uber.Module.Movie.Search.Api.OData
 {
     public class SearchItemController : UberODataController
     {
-        private static readonly List<SearchItem> searchItems = new List<SearchItem>
+        private readonly SearchManager searchManager;
+
+        public SearchItemController(SearchManager searchManager)
         {
-            new SearchItem { Key = Guid.NewGuid(), Text = "Item 1", Type = SearchItemType.Movie },
-            new SearchItem { Key = Guid.NewGuid(), Text = "Item 2", Type = SearchItemType.Movie },
-            new SearchItem { Key = Guid.NewGuid(), Text = "Item 3", Type = SearchItemType.Movie },
-            new SearchItem { Key = Guid.NewGuid(), Text = "Item 4", Type = SearchItemType.Organization },
-            new SearchItem { Key = Guid.NewGuid(), Text = "Item 5", Type = SearchItemType.Person },
-            new SearchItem { Key = Guid.NewGuid(), Text = "Item 6", Type = SearchItemType.Person },
-            new SearchItem { Key = Guid.NewGuid(), Text = "Item 7", Type = SearchItemType.Person },
-            new SearchItem { Key = Guid.NewGuid(), Text = "Item 8", Type = SearchItemType.Organization },
-            new SearchItem { Key = Guid.NewGuid(), Text = "Item 9", Type = SearchItemType.Organization },
-        };
+            this.searchManager = searchManager;
+        }
 
         [EnableQuery]
         [HttpGet]
-        public IQueryable<SearchItem> Get() => searchItems.AsQueryable();
+        public IQueryable<SearchItem> Get() => searchManager.Query();
 
         [EnableQuery]
         [HttpGet]
-        public IActionResult Get([FromODataUri] Guid key)
+        public IQueryable<SearchItem> Get([FromODataUri] Guid key) => searchManager.QuerySingle(key);
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] SearchItem model)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return BadRequest();
 
-            var model = searchItems.SingleOrDefault(e => e.Key == key);
-            if (model == null)
-                return NotFound();
-
-            return Ok(model);
+            var result = await searchManager.Create(model);
+            return Created(result);
         }
     }
 }
