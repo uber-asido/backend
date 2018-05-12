@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Uber.Core.EFCore\Uber.Core.EFCore.csproj" />
+    <ProjectReference Include="..\Uber.Core\Uber.Core.csproj" />
+    <ProjectReference Include="..\Uber.Module.Movie.Abstraction\Uber.Module.Movie.Abstraction.csproj" />
+  </ItemGroup>
+
+</Project>

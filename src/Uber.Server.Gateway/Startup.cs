@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net;
-using Uber.Module.Movie.Search.EFCore;
+using Uber.Module.Search.EFCore;
 
 namespace Uber.Server.Gateway
 {
