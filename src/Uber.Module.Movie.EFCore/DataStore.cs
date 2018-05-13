@@ -9,7 +9,6 @@ namespace Uber.Module.Movie.EFCore
 
         public DbSet<Entity.MovieActor> MovieActors => DataContext.MovieActors;
         public DbSet<Entity.MovieDistributor> MovieDistributors => DataContext.MovieDistributors;
-        public DbSet<Entity.MovieFilmingAddress> MovieFilmingAddresses => DataContext.MovieFilmingAddresses;
         public DbSet<Entity.MovieProductionCompany> MovieProductionCompanies => DataContext.MovieProductionCompanies;
         public DbSet<Entity.MovieWriter> MovieWriters => DataContext.MovieWriters;
 
@@ -17,6 +16,8 @@ namespace Uber.Module.Movie.EFCore
         public DbSet<Abstraction.Model.Distributor> Distributors => DataContext.Distributors;
         public DbSet<Abstraction.Model.ProductionCompany> ProductionCompanies => DataContext.ProductionCompanies;
         public DbSet<Abstraction.Model.Writer> Writers => DataContext.Writers;
+
+        public DbSet<Entity.FilmingLocation> FilmingLocations => DataContext.FilmingLocations;
 
         public DataStore(DataContext context) : base(context) { }
     }

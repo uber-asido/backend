@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Uber.Module.Geocoding.Abstraction.Service;
 using Uber.Module.Geocoding.Abstraction.Model;
 using Uber.Module.Geocoding.Abstraction.Store;
+using System.Collections.Generic;
 
 namespace Uber.Module.Geocoding.Service
 {
@@ -21,14 +22,24 @@ namespace Uber.Module.Geocoding.Service
         public IQueryable<Address> Query() => geocodeStore.Query();
         public IQueryable<Address> QuerySingle(Guid key) => geocodeStore.QuerySingle(key);
 
-        public async Task<Address> Resolve(string unformattedAddress)
+        public Task<Address> Find(Guid key)
         {
-            var address = await geocodeStore.Find(unformattedAddress);
+            throw new NotImplementedException();
+        }
+
+        public Task<IList<Address>> Find(IEnumerable<Guid> keys)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Address> Geocode(string location)
+        {
+            var address = await geocodeStore.Find(location);
 
             if (address == null)
             {
-                var geocode = await geocodeProvider.Geocode(unformattedAddress);
-                address = await geocodeStore.Create(unformattedAddress, new Address
+                var geocode = await geocodeProvider.Geocode(location);
+                address = await geocodeStore.Create(location, new Address
                 {
                     Key = Guid.NewGuid(),
                     FormattedAddress = geocode.FormattedAddress,

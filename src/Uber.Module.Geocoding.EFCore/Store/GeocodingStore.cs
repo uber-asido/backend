@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Uber.Module.Geocoding.Abstraction.Model;
@@ -17,6 +19,9 @@ namespace Uber.Module.Geocoding.EFCore.Store
         {
             throw new NotImplementedException();
         }
+
+        public Task<Address> Find(Guid key) => QuerySingle(key).SingleOrDefaultAsync();
+        public Task<List<Address>> Find(IEnumerable<Guid> keys) => Query().Where(e => keys.Contains(e.Key)).ToListAsync();
 
         public Task<Address> Find(string unformattedAddress)
         {

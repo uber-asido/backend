@@ -23,12 +23,11 @@ namespace Uber.Module.Geocoding.Test
                 .Setup(e => e.Geocode(It.IsAny<string>()))
                 .Returns((string address) =>
                 {
-                    var random = new Random();
                     var geocode = new Geocode
                     {
                         FormattedAddress = $"Mocked formatted address '{address}'",
-                        Latitude = random.NextDouble(),
-                        Longitude = random.NextDouble()
+                        Latitude = 1,
+                        Longitude = 1
                     };
                     return Task.FromResult(geocode);
                 });

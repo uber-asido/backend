@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Uber.Module.Geocoding.Abstraction.Model;
+using Uber.Module.Movie.Abstraction.Model;
 using Uber.Module.Movie.Abstraction.Store;
 
 namespace Uber.Module.Movie.EFCore.Store
@@ -23,11 +24,10 @@ namespace Uber.Module.Movie.EFCore.Store
                              Key = movie.Key,
                              Title = movie.Title,
                              ReleaseYear = movie.ReleaseYear,
-                             FunFacts = movie.FunFacts,
                              Actors = (from actorRef in db.MovieActors
                                        join actor in db.Actors on actorRef.ActorKey equals actor.Key
                                        where actorRef.MovieKey == movie.Key
-                                       select new Abstraction.Model.Actor
+                                       select new Actor
                                        {
                                            Key = actor.Key,
                                            FullName = actor.FullName
@@ -35,18 +35,22 @@ namespace Uber.Module.Movie.EFCore.Store
                              Distributors = (from distributorRef in db.MovieDistributors
                                              join distributor in db.Distributors on distributorRef.DistributorKey equals distributor.Key
                                              where distributorRef.MovieKey == movie.Key
-                                             select new Abstraction.Model.Distributor
+                                             select new Distributor
                                              {
                                                  Key = distributor.Key,
                                                  Name = distributor.Name
                                              }).ToList(),
-                             FilmingAddresses = (from addressRef in db.MovieFilmingAddresses
-                                                 where addressRef.MovieKey == movie.Key
-                                                 select new Address { Key = addressRef.AddressKey }).ToList(),
+                             FilmingLocations = (from locationRef in db.FilmingLocations
+                                                 where locationRef.MovieKey == movie.Key
+                                                 select new FilmingLocation
+                                                 {
+                                                     AddressKey = locationRef.AddressKey,
+                                                     FunFact = locationRef.FunFact
+                                                 }).ToList(),
                              ProductionCompanies = (from companyRef in db.MovieProductionCompanies
                                                     join company in db.ProductionCompanies on companyRef.ProductionCompanyKey equals company.Key
                                                     where companyRef.MovieKey == movie.Key
-                                                    select new Abstraction.Model.ProductionCompany
+                                                    select new ProductionCompany
                                                     {
                                                         Key = company.Key,
                                                         Name = company.Name
@@ -54,7 +58,7 @@ namespace Uber.Module.Movie.EFCore.Store
                              Writers = (from writerRef in db.MovieWriters
                                         join writer in db.Writers on writerRef.WriterKey equals writer.Key
                                         where writerRef.MovieKey == movie.Key
-                                        select new Abstraction.Model.Writer
+                                        select new Writer
                                         {
                                             Key = writer.Key,
                                             FullName = writer.FullName
@@ -62,130 +66,161 @@ namespace Uber.Module.Movie.EFCore.Store
                          };
         }
 
-        public IQueryable<Abstraction.Model.Movie> Query() => movieQuery;
-        public IQueryable<Abstraction.Model.Movie> QuerySingle(Guid key) => movieQuery.Where(e => e.Key == key);
+        public Task<Abstraction.Model.Movie> Find(Guid key) => movieQuery.SingleOrDefaultAsync(e => e.Key == key);
 
-        public async Task<Abstraction.Model.Movie> Create(Abstraction.Model.Movie movie)
+        public async Task<Abstraction.Model.Movie> Merge(Abstraction.Model.Movie movieNew)
         {
-            db.Insert(new Entity.Movie
-            {
-                Key = movie.Key,
-                Title = movie.Title,
-                ReleaseYear = movie.ReleaseYear,
-                FunFacts = movie.FunFacts.ToArray()
-            });
+            var movieOld = await movieQuery.SingleOrDefaultAsync(e => e.Title == movieNew.Title && e.ReleaseYear == movieNew.ReleaseYear);
 
-            if (movie.Actors.Any())
+            if (movieOld == null)
             {
-                var actorNames = movie.Actors.Select(e => e.FullName);
-                var existingActors = await db.Actors.Where(e => actorNames.Contains(e.FullName)).ToListAsync();
-
-                foreach (var actor in movie.Actors)
+                movieOld = new Abstraction.Model.Movie
                 {
-                    var entity = existingActors.SingleOrDefault(e => e.FullName == actor.FullName);
+                    Key = movieNew.Key != default(Guid) ? movieNew.Key : Guid.NewGuid(),
+                    Title = movieNew.Title,
+                    ReleaseYear = movieNew.ReleaseYear,
+                    Actors = new List<Actor>(),
+                    Distributors = new List<Distributor>(),
+                    FilmingLocations = new List<FilmingLocation>(),
+                    ProductionCompanies = new List<ProductionCompany>(),
+                    Writers = new List<Writer>()
+                };
+
+                db.Insert(new Entity.Movie
+                {
+                    Key = movieOld.Key,
+                    Title = movieOld.Title,
+                    ReleaseYear = movieOld.ReleaseYear
+                });
+            }
+
+            if (movieNew.Actors.Any())
+            {
+                var names = movieNew.Actors.Select(e => e.FullName);
+                var existingActors = await db.Actors.Where(e => names.Contains(e.FullName)).ToListAsync();
+
+                foreach (var name in names)
+                {
+                    if (movieOld.Actors.Any(e => e.FullName == name))
+                        continue;
+
+                    var entity = existingActors.SingleOrDefault(e => e.FullName == name);
 
                     if (entity == null)
                     {
-                        entity = new Abstraction.Model.Actor
+                        entity = new Actor
                         {
                             Key = Guid.NewGuid(),
-                            FullName = actor.FullName
+                            FullName = name
                         };
                         db.Insert(entity);
                     }
 
-                    db.Insert(new Entity.MovieActor { MovieKey = movie.Key, ActorKey = entity.Key });
-                    actor.Key = entity.Key;
+                    db.Insert(new Entity.MovieActor { MovieKey = movieNew.Key, ActorKey = entity.Key });
                 }
             }
 
-            if (movie.Distributors.Any())
+            if (movieNew.Distributors.Any())
             {
-                var distributorNames = movie.Distributors.Select(e => e.Name);
-                var existingDistributors = await db.Distributors.Where(e => distributorNames.Contains(e.Name)).ToListAsync();
+                var names = movieNew.Distributors.Select(e => e.Name);
+                var existingDistributors = await db.Distributors.Where(e => names.Contains(e.Name)).ToListAsync();
 
-                foreach (var distributor in movie.Distributors)
+                foreach (var name in names)
                 {
-                    var entity = existingDistributors.SingleOrDefault(e => e.Name == distributor.Name);
+                    if (movieOld.Distributors.Any(e => e.Name == name))
+                        continue;
+
+                    var entity = existingDistributors.SingleOrDefault(e => e.Name == name);
 
                     if (entity == null)
                     {
-                        entity = new Abstraction.Model.Distributor
+                        entity = new Distributor
                         {
                             Key = Guid.NewGuid(),
-                            Name = distributor.Name
+                            Name = name
                         };
                         db.Insert(entity);
                     }
 
-                    db.Insert(new Entity.MovieDistributor { MovieKey = movie.Key, DistributorKey = entity.Key });
-                    distributor.Key = entity.Key;
+                    db.Insert(new Entity.MovieDistributor { MovieKey = movieNew.Key, DistributorKey = entity.Key });
                 }
             }
 
-            if (movie.FilmingAddresses.Any())
+            if (movieNew.FilmingLocations.Any())
             {
                 // Addresses are in a geocoding module and they have to be pre-filled by the callee.
-                if (movie.FilmingAddresses.All(e => e.Key == default(Guid)))
-                    throw new ArgumentException("The addresses don't have keys set.", nameof(movie.FilmingAddresses));
+                if (movieNew.FilmingLocations.All(e => e.AddressKey == default(Guid)))
+                    throw new ArgumentException("The addresses don't have keys set.", nameof(movieNew.FilmingLocations));
 
-                foreach (var address in movie.FilmingAddresses)
+                foreach (var location in movieNew.FilmingLocations)
                 {
-                    db.Insert(new Entity.MovieFilmingAddress { MovieKey = movie.Key, AddressKey = address.Key });
+                    if (movieOld.FilmingLocations.Any(e => e.AddressKey == location.AddressKey))
+                        continue;
+
+                    db.Insert(new Entity.FilmingLocation
+                    {
+                        MovieKey = movieNew.Key,
+                        AddressKey = location.AddressKey,
+                        FunFact = location.FunFact
+                    });
                 }
             }
 
-            if (movie.ProductionCompanies.Any())
+            if (movieNew.ProductionCompanies.Any())
             {
-                var companyNames = movie.ProductionCompanies.Select(e => e.Name);
-                var existingCompanies = await db.ProductionCompanies.Where(e => companyNames.Contains(e.Name)).ToListAsync();
+                var names = movieNew.ProductionCompanies.Select(e => e.Name);
+                var existingCompanies = await db.ProductionCompanies.Where(e => names.Contains(e.Name)).ToListAsync();
 
-                foreach (var company in movie.ProductionCompanies)
+                foreach (var name in names)
                 {
-                    var entity = existingCompanies.SingleOrDefault(e => e.Name == company.Name);
+                    if (movieOld.ProductionCompanies.Any(e => e.Name == name))
+                        continue;
+
+                    var entity = existingCompanies.SingleOrDefault(e => e.Name == name);
 
                     if (entity == null)
                     {
-                        entity = new Abstraction.Model.ProductionCompany
+                        entity = new ProductionCompany
                         {
                             Key = Guid.NewGuid(),
-                            Name = company.Name
+                            Name = name
                         };
                         db.Insert(entity);
                     }
 
-                    db.Insert(new Entity.MovieProductionCompany { MovieKey = movie.Key, ProductionCompanyKey = entity.Key });
-                    company.Key = entity.Key;
+                    db.Insert(new Entity.MovieProductionCompany { MovieKey = movieNew.Key, ProductionCompanyKey = entity.Key });
                 }
             }
 
-            if (movie.Writers.Any())
+            if (movieNew.Writers.Any())
             {
-                var writerNames = movie.Writers.Select(e => e.FullName);
-                var existingWriters = await db.Writers.Where(e => writerNames.Contains(e.FullName)).ToListAsync();
+                var names = movieNew.Writers.Select(e => e.FullName);
+                var existingWriters = await db.Writers.Where(e => names.Contains(e.FullName)).ToListAsync();
 
-                foreach (var writer in movie.Writers)
+                foreach (var name in names)
                 {
-                    var entity = existingWriters.SingleOrDefault(e => e.FullName == writer.FullName);
+                    if (movieOld.Writers.Any(e => e.FullName == name))
+                        continue;
+
+                    var entity = existingWriters.SingleOrDefault(e => e.FullName == name);
 
                     if (entity == null)
                     {
-                        entity = new Abstraction.Model.Writer
+                        entity = new Writer
                         {
                             Key = Guid.NewGuid(),
-                            FullName = writer.FullName
+                            FullName = name
                         };
                         db.Insert(entity);
                     }
 
-                    db.Insert(new Entity.MovieWriter { MovieKey = movie.Key, WriterKey = entity.Key });
-                    writer.Key = entity.Key;
+                    db.Insert(new Entity.MovieWriter { MovieKey = movieNew.Key, WriterKey = entity.Key });
                 }
             }
 
             await db.Commit();
 
-            return movie;
+            return await Find(movieNew.Key);
         }
     }
 }

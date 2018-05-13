@@ -21,7 +21,7 @@ namespace Uber.Module.Geocoding.Test.Service
         {
             GeocodingService.QuerySingle(Guid.NewGuid()).Should().BeEmpty();
 
-            var address = await GeocodingService.Resolve("1 Microsoft Way, Redmond, WA 98052, USA");
+            var address = await GeocodingService.Geocode("1 Microsoft Way, Redmond, WA 98052, USA");
             GeocodingService.QuerySingle(address.Key).Should().HaveCount(1);
         }
     }

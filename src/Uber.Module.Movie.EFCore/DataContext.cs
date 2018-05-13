@@ -5,9 +5,9 @@ namespace Uber.Module.Movie.EFCore
     public class DataContext : DbContext
     {
         public virtual DbSet<Entity.Movie> Movies { get; set; }
+
         public virtual DbSet<Entity.MovieActor> MovieActors { get; set; }
         public virtual DbSet<Entity.MovieDistributor> MovieDistributors { get; set; }
-        public virtual DbSet<Entity.MovieFilmingAddress> MovieFilmingAddresses { get; set; }
         public virtual DbSet<Entity.MovieProductionCompany> MovieProductionCompanies { get; set; }
         public virtual DbSet<Entity.MovieWriter> MovieWriters { get; set; }
 
@@ -15,7 +15,9 @@ namespace Uber.Module.Movie.EFCore
         public virtual DbSet<Abstraction.Model.Distributor> Distributors { get; set; }
         public virtual DbSet<Abstraction.Model.ProductionCompany> ProductionCompanies { get; set; }
         public virtual DbSet<Abstraction.Model.Writer> Writers { get; set; }
-        
+
+        public virtual DbSet<Entity.FilmingLocation> FilmingLocations { get; set; }
+
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -28,7 +30,6 @@ namespace Uber.Module.Movie.EFCore
                 config.Property(e => e.Key).HasColumnName("key");
                 config.Property(e => e.Title).HasColumnName("title");
                 config.Property(e => e.ReleaseYear).HasColumnName("release_year");
-                config.Property(e => e.FunFacts).HasColumnName("fun_facts");
                 config.HasKey(e => e.Key);
             });
 
@@ -48,12 +49,13 @@ namespace Uber.Module.Movie.EFCore
                 config.HasKey(e => new { e.DistributorKey, e.MovieKey });
             });
 
-            modelBuilder.Entity<Entity.MovieFilmingAddress>(config =>
+            modelBuilder.Entity<Entity.FilmingLocation>(config =>
             {
-                config.ToTable("movie_filming_address");
+                config.ToTable("filming_location");
                 config.Property(e => e.AddressKey).HasColumnName("address_key");
                 config.Property(e => e.MovieKey).HasColumnName("movie_key");
-                config.HasKey(e => new { e.AddressKey, e.MovieKey });
+                config.Property(e => e.FunFact).HasColumnName("fun_fact");
+                config.HasKey(e => new { e.MovieKey, e.AddressKey });
             });
 
             modelBuilder.Entity<Entity.MovieProductionCompany>(config =>

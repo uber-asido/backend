@@ -6,9 +6,7 @@ namespace Uber.Module.Movie.Abstraction.Store
 {
     public interface IMovieStore
     {
-        IQueryable<Model.Movie> Query();
-        IQueryable<Model.Movie> QuerySingle(Guid key);
-
-        Task<Model.Movie> Create(Model.Movie movie);
+        Task<Model.Movie> Find(Guid key);
+        Task<Model.Movie> Merge(Model.Movie movie);
     }
 }

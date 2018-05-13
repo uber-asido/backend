@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
+using Uber.Module.Geocoding.Abstraction.Service;
 using Uber.Module.Movie.Abstraction.Service;
 
 namespace Uber.Module.Movie.Test
@@ -7,6 +8,7 @@ namespace Uber.Module.Movie.Test
     public class MovieTestBase : IDisposable
     {
         public readonly IMovieService MovieSerice;
+        public readonly IGeocodingService GeocodingService;
 
         private readonly IServiceScope scope;
 
@@ -14,6 +16,7 @@ namespace Uber.Module.Movie.Test
         {
             scope = fixture.RootServiceProvider.CreateScope();
             MovieSerice = scope.ServiceProvider.GetRequiredService<IMovieService>();
+            GeocodingService = scope.ServiceProvider.GetRequiredService<IGeocodingService>();
         }
 
         public void Dispose()
