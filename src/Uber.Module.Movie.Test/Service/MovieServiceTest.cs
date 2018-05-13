@@ -34,7 +34,7 @@ namespace Uber.Module.Movie.Test.Service
         }
 
         [Fact]
-        public async Task CanCreate()
+        public async Task CanMerge()
         {
             var movie = new Abstraction.Model.Movie
             {
