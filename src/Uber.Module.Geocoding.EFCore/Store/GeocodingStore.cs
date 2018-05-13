@@ -18,7 +18,12 @@ namespace Uber.Module.Geocoding.EFCore.Store
             throw new NotImplementedException();
         }
 
-        public Task<Address> Create(Address address)
+        public Task<Address> Find(string unformattedAddress)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Address> Create(string unformattedAddress, Address address)
         {
             throw new NotImplementedException();
         }

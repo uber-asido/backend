@@ -10,6 +10,7 @@ namespace Uber.Module.Geocoding.Abstraction.Store
         IQueryable<Address> Query();
         IQueryable<Address> QuerySingle(Guid key);
 
-        Task<Address> Create(Address address);
+        Task<Address> Find(string unformattedAddress);
+        Task<Address> Create(string unformattedAddress, Address address);
     }
 }
