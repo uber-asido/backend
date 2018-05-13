@@ -8,6 +8,13 @@ namespace Uber.Module.Geocoding.Manager
 {
     public class GeocodingManager : IGeocodingManager
     {
+        private readonly IGeocodeProvider geocodeProvider;
+
+        public GeocodingManager(IGeocodeProvider geocodeProvider)
+        {
+            this.geocodeProvider = geocodeProvider;
+        }
+
         public IQueryable<Address> Query()
         {
             throw new NotImplementedException();
