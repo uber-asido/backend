@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Uber.Module.Movie.Abstraction.Manager
+namespace Uber.Module.Movie.Abstraction.Service
 {
-    public interface IMovieManager
+    public interface IMovieService
     {
         IQueryable<Model.Movie> Query();
         IQueryable<Model.Movie> QuerySingle(Guid key);

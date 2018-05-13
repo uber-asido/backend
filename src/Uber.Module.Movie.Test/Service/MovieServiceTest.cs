@@ -7,23 +7,23 @@ using Uber.Module.Geocoding.Abstraction.Model;
 using Uber.Module.Movie.Abstraction.Model;
 using Xunit;
 
-namespace Uber.Module.Movie.Test.Manager
+namespace Uber.Module.Movie.Test.Service
 {
     [Collection(MovieTestCollection.Name)]
-    public class MovieManagerTest : MovieTestBase
+    public class MovieServiceTest : MovieTestBase
     {
-        public MovieManagerTest(MovieFixture fixture) : base(fixture) { }
+        public MovieServiceTest(MovieFixture fixture) : base(fixture) { }
 
         [Fact]
         public void CanQuery()
         {
-            MovieManager.Query().Should().NotBeNull();
+            MovieSerice.Query().Should().NotBeNull();
         }
 
         [Fact]
         public async Task CanQuerySingle()
         {
-            MovieManager.QuerySingle(Guid.NewGuid()).Should().BeEmpty();
+            MovieSerice.QuerySingle(Guid.NewGuid()).Should().BeEmpty();
 
             var movie = new Abstraction.Model.Movie
             {
@@ -37,8 +37,8 @@ namespace Uber.Module.Movie.Test.Manager
                 ProductionCompanies = new List<ProductionCompany>(),
                 Writers = new List<Writer>()
             };
-            var found = await MovieManager.Create(movie);
-            MovieManager.QuerySingle(movie.Key).Should().HaveCount(1);
+            var found = await MovieSerice.Create(movie);
+            MovieSerice.QuerySingle(movie.Key).Should().HaveCount(1);
         }
 
         [Fact]
@@ -81,9 +81,9 @@ namespace Uber.Module.Movie.Test.Manager
                     new Writer { FullName = "Test writer 2" }
                 }
             };
-            await MovieManager.Create(movie);
+            await MovieSerice.Create(movie);
 
-            var found = MovieManager.QuerySingle(movie.Key).SingleOrDefault();
+            var found = MovieSerice.QuerySingle(movie.Key).SingleOrDefault();
             found.Should().NotBeNull();
             found.Title.Should().Be(movie.Title);
             found.ReleaseYear.Should().Be(movie.ReleaseYear);

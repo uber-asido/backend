@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Uber.Module.Geocoding.Abstraction.Manager
+namespace Uber.Module.Geocoding.Abstraction.Service
 {
     public class Geocode
     {

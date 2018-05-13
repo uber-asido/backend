@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Uber.Module.Movie.Abstraction.Manager;
+using Uber.Module.Movie.Abstraction.Service;
 using Uber.Module.Movie.Abstraction.Store;
 
-namespace Uber.Module.Movie.Manager
+namespace Uber.Module.Movie.Service
 {
-    public class MovieManager : IMovieManager
+    public class MovieService : IMovieService
     {
         private readonly IMovieStore movieStore;
 
-        public MovieManager(IMovieStore movieStore)
+        public MovieService(IMovieStore movieStore)
         {
             this.movieStore = movieStore;
         }

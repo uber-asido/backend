@@ -1,18 +1,18 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Uber.Module.Geocoding.Abstraction.Manager;
+using Uber.Module.Geocoding.Abstraction.Service;
 
 namespace Uber.Module.Geocoding.Test
 {
-    public class GeocodingServiceTest
+    public class GeocodingTestBase
     {
-        public readonly IGeocodingManager GeocodingManager;
+        public readonly IGeocodingService GeocodingService;
 
         private readonly IServiceScope scope;
 
-        public GeocodingServiceTest(GeocodingFixture fixture)
+        public GeocodingTestBase(GeocodingFixture fixture)
         {
             scope = fixture.RootServiceProvider.CreateScope();
-            GeocodingManager = scope.ServiceProvider.GetRequiredService<IGeocodingManager>();
+            GeocodingService = scope.ServiceProvider.GetRequiredService<IGeocodingService>();
         }
 
         public void Dispose()

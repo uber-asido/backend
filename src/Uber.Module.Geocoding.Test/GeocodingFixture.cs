@@ -4,7 +4,7 @@ using Moq;
 using System;
 using System.Threading.Tasks;
 using Uber.Core.Test;
-using Uber.Module.Geocoding.Abstraction.Manager;
+using Uber.Module.Geocoding.Abstraction.Service;
 using Uber.Module.Geocoding.EFCore;
 using Xunit;
 

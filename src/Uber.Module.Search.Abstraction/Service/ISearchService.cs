@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Uber.Module.Search.Abstraction.Model;
 
-namespace Uber.Module.Search.Abstraction.Manager
+namespace Uber.Module.Search.Abstraction.Service
 {
-    public interface ISearchManager
+    public interface ISearchService
     {
         IQueryable<SearchItem> Query();
         IQueryable<SearchItem> QuerySingle(Guid key);

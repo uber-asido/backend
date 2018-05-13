@@ -4,27 +4,27 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Uber.Core.OData;
-using Uber.Module.Search.Abstraction.Manager;
+using Uber.Module.Search.Abstraction.Service;
 using Uber.Module.Search.Abstraction.Model;
 
 namespace Uber.Module.Search.Api.OData
 {
     public class SearchItemController : UberODataController
     {
-        private readonly ISearchManager searchManager;
+        private readonly ISearchService searchService;
 
-        public SearchItemController(ISearchManager searchManager)
+        public SearchItemController(ISearchService searchService)
         {
-            this.searchManager = searchManager;
+            this.searchService = searchService;
         }
 
         [EnableQuery]
         [HttpGet]
-        public IQueryable<SearchItem> Get() => searchManager.Query();
+        public IQueryable<SearchItem> Get() => searchService.Query();
 
         [EnableQuery]
         [HttpGet]
-        public IQueryable<SearchItem> Get([FromODataUri] Guid key) => searchManager.QuerySingle(key);
+        public IQueryable<SearchItem> Get([FromODataUri] Guid key) => searchService.QuerySingle(key);
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] SearchItem model)
@@ -32,7 +32,7 @@ namespace Uber.Module.Search.Api.OData
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var result = await searchManager.Create(model);
+            var result = await searchService.Create(model);
             return Created(result);
         }
     }

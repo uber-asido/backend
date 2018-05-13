@@ -1,19 +1,19 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using Uber.Module.Search.Abstraction.Manager;
+using Uber.Module.Search.Abstraction.Service;
 
 namespace Uber.Module.Search.Test
 {
     public class SearchTestBase : IDisposable
     {
-        public readonly ISearchManager SearchManager;
+        public readonly ISearchService SearchService;
 
         private readonly IServiceScope scope;
 
         public SearchTestBase(SearchFixture fixture)
         {
             scope = fixture.RootServiceProvider.CreateScope();
-            SearchManager = scope.ServiceProvider.GetRequiredService<ISearchManager>();
+            SearchService = scope.ServiceProvider.GetRequiredService<ISearchService>();
         }
 
         public void Dispose()

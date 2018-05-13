@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Uber.Module.Geocoding.Abstraction.Manager;
+using Uber.Module.Geocoding.Abstraction.Service;
 using Uber.Module.Geocoding.Abstraction.Model;
 
-namespace Uber.Module.Geocoding.Manager
+namespace Uber.Module.Geocoding.Service
 {
-    public class GeocodingManager : IGeocodingManager
+    public class GeocodingService : IGeocodingService
     {
         private readonly IGeocodeProvider geocodeProvider;
 
-        public GeocodingManager(IGeocodeProvider geocodeProvider)
+        public GeocodingService(IGeocodeProvider geocodeProvider)
         {
             this.geocodeProvider = geocodeProvider;
         }

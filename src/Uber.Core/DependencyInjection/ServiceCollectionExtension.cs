@@ -7,14 +7,14 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtension
     {
-        public static IServiceCollection AddManager<TManager, TImplementation>(this IServiceCollection services, ServiceLifetime lifetime = ServiceLifetime.Scoped)
-            where TManager : class
-            where TImplementation : class, TManager
+        public static IServiceCollection AddService<TService, TImplementation>(this IServiceCollection services, ServiceLifetime lifetime = ServiceLifetime.Scoped)
+            where TService : class
+            where TImplementation : class, TService
         {
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            services.Add(ServiceDescriptor.Describe(typeof(TManager), typeof(TImplementation), lifetime));
+            services.Add(ServiceDescriptor.Describe(typeof(TService), typeof(TImplementation), lifetime));
             return services;
         }
 

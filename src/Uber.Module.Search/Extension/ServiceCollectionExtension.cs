@@ -1,7 +1,7 @@
 ﻿using System;
 using Uber.Module.Search.Abstraction;
-using Uber.Module.Search.Abstraction.Manager;
-using Uber.Module.Search.Manager;
+using Uber.Module.Search.Abstraction.Service;
+using Uber.Module.Search.Service;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -20,7 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddSearch(this IServiceCollection services, Action<ISearchBuilder> configureAction)
         {
             services
-                .AddManager<ISearchManager, SearchManager>();
+                .AddService<ISearchService, SearchService>();
 
             var builder = new SearchBuilder(services);
             configureAction(builder);

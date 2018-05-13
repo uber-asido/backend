@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Uber.Module.Search.Abstraction.Manager;
+using Uber.Module.Search.Abstraction.Service;
 using Uber.Module.Search.Abstraction.Model;
 using Uber.Module.Search.Abstraction.Store;
 
-namespace Uber.Module.Search.Manager
+namespace Uber.Module.Search.Service
 {
-    public class SearchManager : ISearchManager
+    public class SearchService : ISearchService
     {
         private readonly ISearchItemStore searchStore;
 
-        public SearchManager(ISearchItemStore searchStore)
+        public SearchService(ISearchItemStore searchStore)
         {
             this.searchStore = searchStore;
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using Uber.Module.Movie.Abstraction;
-using Uber.Module.Movie.Abstraction.Manager;
-using Uber.Module.Movie.Manager;
+using Uber.Module.Movie.Abstraction.Service;
+using Uber.Module.Movie.Service;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -20,7 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddMovie(this IServiceCollection services, Action<IMovieBuilder> configureAction)
         {
             services
-                .AddManager<IMovieManager, MovieManager>();
+                .AddService<IMovieService, MovieService>();
 
             var builder = new MovieBuilder(services);
             configureAction(builder);

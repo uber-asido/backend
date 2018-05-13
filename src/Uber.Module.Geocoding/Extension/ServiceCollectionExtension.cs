@@ -1,7 +1,7 @@
 ﻿using System;
 using Uber.Module.Geocoding.Abstraction;
-using Uber.Module.Geocoding.Abstraction.Manager;
-using Uber.Module.Geocoding.Manager;
+using Uber.Module.Geocoding.Abstraction.Service;
+using Uber.Module.Geocoding.Service;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -20,7 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddGeocoding(this IServiceCollection services, Action<IGeocodingBuilder> configureAction)
         {
             services
-                .AddManager<IGeocodingManager, GeocodingManager>();
+                .AddService<IGeocodingService, GeocodingService>();
 
             var builder = new GeocodingBuilder(services);
             configureAction(builder);

@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Uber.Module.Geocoding.Abstraction.Model;
 
-namespace Uber.Module.Geocoding.Abstraction.Manager
+namespace Uber.Module.Geocoding.Abstraction.Service
 {
-    public interface IGeocodingManager
+    public interface IGeocodingService
     {
         IQueryable<Address> Query();
         IQueryable<Address> QuerySingle(Guid key);

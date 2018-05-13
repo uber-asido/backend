@@ -5,27 +5,27 @@ using System.Threading.Tasks;
 using Uber.Module.Search.Abstraction.Model;
 using Xunit;
 
-namespace Uber.Module.Search.Test.Manager
+namespace Uber.Module.Search.Test.Service
 {
     [Collection(SearchTestCollection.Name)]
-    public class SearchManagerTest : SearchTestBase
+    public class SearchServiceTest : SearchTestBase
     {
-        public SearchManagerTest(SearchFixture fixture) : base(fixture) { }
+        public SearchServiceTest(SearchFixture fixture) : base(fixture) { }
 
         [Fact]
         public void CanQuery()
         {
-            SearchManager.Query().Should().NotBeNull();
+            SearchService.Query().Should().NotBeNull();
         }
 
         [Fact]
         public async Task CanQuerySingle()
         {
-            SearchManager.QuerySingle(Guid.NewGuid()).Should().BeEmpty();
+            SearchService.QuerySingle(Guid.NewGuid()).Should().BeEmpty();
 
             var item = new SearchItem { Key = Guid.NewGuid(), Text = "foobar", Type = SearchItemType.Organization };
-            await SearchManager.Create(item);
-            SearchManager.QuerySingle(item.Key).Should().HaveCount(1);
+            await SearchService.Create(item);
+            SearchService.QuerySingle(item.Key).Should().HaveCount(1);
         }
 
         [Fact]
@@ -34,11 +34,11 @@ namespace Uber.Module.Search.Test.Manager
             var item1 = new SearchItem { Key = Guid.NewGuid(), Text = "first", Type = SearchItemType.Organization };
             var item2 = new SearchItem { Key = Guid.NewGuid(), Text = "second", Type = SearchItemType.Person };
 
-            await SearchManager.Create(item1);
-            await SearchManager.Create(item2);
+            await SearchService.Create(item1);
+            await SearchService.Create(item2);
 
-            var foundItem1 = SearchManager.QuerySingle(item1.Key).SingleOrDefault();
-            var foundItem2 = SearchManager.QuerySingle(item2.Key).SingleOrDefault();
+            var foundItem1 = SearchService.QuerySingle(item1.Key).SingleOrDefault();
+            var foundItem2 = SearchService.QuerySingle(item2.Key).SingleOrDefault();
 
             foreach (var pair in new[] { (item1, foundItem1), (item2, foundItem2) })
             {
