@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Uber.Core.OData\Uber.Core.OData.csproj" />
-    <ProjectReference Include="..\Uber.Module.Search\Uber.Module.Search.csproj" />
+    <ProjectReference Include="..\Uber.Module.Search.Abstraction\Uber.Module.Search.Abstraction.csproj" />
   </ItemGroup>
 
 </Project>

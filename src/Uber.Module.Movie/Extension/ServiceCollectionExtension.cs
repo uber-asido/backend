@@ -20,7 +20,6 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddMovie(this IServiceCollection services, Action<IMovieBuilder> configureAction)
         {
             services
-                .AddScoped<MovieManager>()
                 .AddManager<IMovieManager, MovieManager>();
 
             var builder = new MovieBuilder(services);

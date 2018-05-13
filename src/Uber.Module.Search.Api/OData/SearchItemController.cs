@@ -4,16 +4,16 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Uber.Core.OData;
+using Uber.Module.Search.Abstraction.Manager;
 using Uber.Module.Search.Abstraction.Model;
-using Uber.Module.Search.Manager;
 
 namespace Uber.Module.Search.Api.OData
 {
     public class SearchItemController : UberODataController
     {
-        private readonly SearchManager searchManager;
+        private readonly ISearchManager searchManager;
 
-        public SearchItemController(SearchManager searchManager)
+        public SearchItemController(ISearchManager searchManager)
         {
             this.searchManager = searchManager;
         }

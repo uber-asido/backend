@@ -20,7 +20,6 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddSearch(this IServiceCollection services, Action<ISearchBuilder> configureAction)
         {
             services
-                .AddScoped<SearchManager>()
                 .AddManager<ISearchManager, SearchManager>();
 
             var builder = new SearchBuilder(services);

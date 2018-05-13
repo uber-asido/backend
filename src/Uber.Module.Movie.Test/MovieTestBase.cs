@@ -1,19 +1,19 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using Uber.Module.Movie.Manager;
+using Uber.Module.Movie.Abstraction.Manager;
 
 namespace Uber.Module.Movie.Test
 {
     public class MovieTestBase : IDisposable
     {
-        public readonly MovieManager MovieManager;
+        public readonly IMovieManager MovieManager;
 
         private readonly IServiceScope scope;
 
         public MovieTestBase(MovieFixture fixture)
         {
             scope = fixture.RootServiceProvider.CreateScope();
-            MovieManager = scope.ServiceProvider.GetRequiredService<MovieManager>();
+            MovieManager = scope.ServiceProvider.GetRequiredService<IMovieManager>();
         }
 
         public void Dispose()
