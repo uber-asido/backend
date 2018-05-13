@@ -18,8 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Uber.Module.Geocoding.EFCore\Uber.Module.Geocoding.EFCore.csproj" />
+    <ProjectReference Include="..\Uber.Module.Geocoding\Uber.Module.Geocoding.csproj" />
     <ProjectReference Include="..\Uber.Module.Search.Api\Uber.Module.Search.Api.csproj" />
     <ProjectReference Include="..\Uber.Module.Search.EFCore\Uber.Module.Search.EFCore.csproj" />
+    <ProjectReference Include="..\Uber.Module.Search\Uber.Module.Search.csproj" />
   </ItemGroup>
 
 </Project>

@@ -9,7 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net;
-using Uber.Module.Search.EFCore;
+using Geocoding = Uber.Module.Geocoding;
+using Search = Uber.Module.Search;
 
 namespace Uber.Server.Gateway
 {
@@ -22,16 +23,20 @@ namespace Uber.Server.Gateway
             Configuration = configuration;
         }
 
-
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            var searchConnectionString = new ConnectionString(Configuration.GetConnectionString("Search"));
+            var connectionStringGeocoding = new Geocoding.EFCore.ConnectionString(Configuration.GetConnectionString("Geocoding"));
+            var connectionStringSearch = new Search.EFCore.ConnectionString(Configuration.GetConnectionString("Search"));
 
-            services.AddSingleton(searchConnectionString);
+            services.AddSingleton(connectionStringGeocoding);
+            services.AddSingleton(connectionStringSearch);
+
             services.AddInstaller();
-            services.AddSearch(builder => builder.UseEFCoreStores(options => options.UseNpgsql(searchConnectionString.Value)));
+
+            services.AddGeocoding(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionStringGeocoding.Value)));
+            services.AddSearch(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionStringSearch.Value)));
 
             services
                 .AddMvc()

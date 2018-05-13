@@ -8,7 +8,7 @@ using Uber.Module.Movie.EFCore.Store;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class FilmMovieBuilderExtension
+    public static class MovieBuilderExtension
     {
         public static IMovieBuilder UseEFCoreStores(this IMovieBuilder builder, Action<DbContextOptionsBuilder> optionsAction)
         {

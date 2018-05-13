@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Migration\Script0001 - Initial.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Migration\Script0001 - Initial.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Uber.Core.EFCore\Uber.Core.EFCore.csproj" />
+    <ProjectReference Include="..\Uber.Core\Uber.Core.csproj" />
+    <ProjectReference Include="..\Uber.Module.Geocoding.Abstraction\Uber.Module.Geocoding.Abstraction.csproj" />
+  </ItemGroup>
+
+</Project>
