@@ -61,6 +61,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uber.Module.Geocoding.EFCor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uber.Module.Geocoding.Test", "src\Uber.Module.Geocoding.Test\Uber.Module.Geocoding.Test.csproj", "{5000920D-0D0B-43A9-818F-709F93CABEA9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uber.Module.Geocoding.Google", "src\Uber.Module.Geocoding.Google\Uber.Module.Geocoding.Google.csproj", "{6FBC1E11-E721-4841-A991-B6CB6D4E8C69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,6 +157,10 @@ Global
 		{5000920D-0D0B-43A9-818F-709F93CABEA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5000920D-0D0B-43A9-818F-709F93CABEA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5000920D-0D0B-43A9-818F-709F93CABEA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FBC1E11-E721-4841-A991-B6CB6D4E8C69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FBC1E11-E721-4841-A991-B6CB6D4E8C69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FBC1E11-E721-4841-A991-B6CB6D4E8C69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FBC1E11-E721-4841-A991-B6CB6D4E8C69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -186,6 +192,7 @@ Global
 		{7B1F920A-67FB-4D2E-8933-05225CF5081E} = {663AF71F-D0FC-4894-BFDC-2DAA976860B4}
 		{4816BBE0-D355-46D1-8991-3CAE1B94B1E5} = {663AF71F-D0FC-4894-BFDC-2DAA976860B4}
 		{5000920D-0D0B-43A9-818F-709F93CABEA9} = {663AF71F-D0FC-4894-BFDC-2DAA976860B4}
+		{6FBC1E11-E721-4841-A991-B6CB6D4E8C69} = {663AF71F-D0FC-4894-BFDC-2DAA976860B4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CF48F1F0-2E96-4C39-A317-BE51D77C92C0}
