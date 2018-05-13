@@ -7,11 +7,7 @@ namespace Uber.Module.Search.EFCore
     {
         public virtual DbSet<SearchItem> SearchItems { get; set; }
 
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
-        {
-            ChangeTracker.AutoDetectChangesEnabled = false;
-            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-        }
+        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

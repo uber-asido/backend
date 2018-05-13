@@ -13,6 +13,9 @@ namespace Uber.Core.EFCore
         public DataStoreBase(TDataContext dataContext)
         {
             DataContext = dataContext;
+
+            DataContext.ChangeTracker.AutoDetectChangesEnabled = false;
+            DataContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public void Insert(object entity) => DataContext.Entry(entity).State = EntityState.Added;

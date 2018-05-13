@@ -16,11 +16,7 @@ namespace Uber.Module.Movie.EFCore
         public virtual DbSet<Abstraction.Model.ProductionCompany> ProductionCompanies { get; set; }
         public virtual DbSet<Abstraction.Model.Writer> Writers { get; set; }
         
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
-        {
-            ChangeTracker.AutoDetectChangesEnabled = false;
-            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-        }
+        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
