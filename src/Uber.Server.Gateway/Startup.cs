@@ -36,6 +36,7 @@ namespace Uber.Server.Gateway
             services.AddInstaller();
 
             services.AddGeocoding(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionStringGeocoding.Value)));
+            services.AddGeocodingGoogle(Configuration.GetSection("Google")["ApiKey"]);
             services.AddSearch(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionStringSearch.Value)));
 
             services
