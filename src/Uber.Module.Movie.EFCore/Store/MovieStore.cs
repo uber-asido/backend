@@ -76,7 +76,7 @@ namespace Uber.Module.Movie.EFCore.Store
             {
                 movieOld = new Abstraction.Model.Movie
                 {
-                    Key = movieNew.Key != default(Guid) ? movieNew.Key : Guid.NewGuid(),
+                    Key = Guid.NewGuid(),
                     Title = movieNew.Title,
                     ReleaseYear = movieNew.ReleaseYear,
                     Actors = new List<Actor>(),
@@ -116,7 +116,7 @@ namespace Uber.Module.Movie.EFCore.Store
                         db.Insert(entity);
                     }
 
-                    db.Insert(new Entity.MovieActor { MovieKey = movieNew.Key, ActorKey = entity.Key });
+                    db.Insert(new Entity.MovieActor { MovieKey = movieOld.Key, ActorKey = entity.Key });
                 }
             }
 
@@ -142,7 +142,7 @@ namespace Uber.Module.Movie.EFCore.Store
                         db.Insert(entity);
                     }
 
-                    db.Insert(new Entity.MovieDistributor { MovieKey = movieNew.Key, DistributorKey = entity.Key });
+                    db.Insert(new Entity.MovieDistributor { MovieKey = movieOld.Key, DistributorKey = entity.Key });
                 }
             }
 
@@ -159,7 +159,7 @@ namespace Uber.Module.Movie.EFCore.Store
 
                     db.Insert(new Entity.FilmingLocation
                     {
-                        MovieKey = movieNew.Key,
+                        MovieKey = movieOld.Key,
                         AddressKey = location.AddressKey,
                         FunFact = location.FunFact
                     });
@@ -188,7 +188,7 @@ namespace Uber.Module.Movie.EFCore.Store
                         db.Insert(entity);
                     }
 
-                    db.Insert(new Entity.MovieProductionCompany { MovieKey = movieNew.Key, ProductionCompanyKey = entity.Key });
+                    db.Insert(new Entity.MovieProductionCompany { MovieKey = movieOld.Key, ProductionCompanyKey = entity.Key });
                 }
             }
 
@@ -214,13 +214,13 @@ namespace Uber.Module.Movie.EFCore.Store
                         db.Insert(entity);
                     }
 
-                    db.Insert(new Entity.MovieWriter { MovieKey = movieNew.Key, WriterKey = entity.Key });
+                    db.Insert(new Entity.MovieWriter { MovieKey = movieOld.Key, WriterKey = entity.Key });
                 }
             }
 
             await db.Commit();
 
-            return await Find(movieNew.Key);
+            return await Find(movieOld.Key);
         }
     }
 }

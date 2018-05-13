@@ -28,9 +28,6 @@ namespace Uber.Module.Movie.Service
 
         public async Task<Abstraction.Model.Movie> Merge(Abstraction.Model.Movie movie)
         {
-            if (movie.Key == default(Guid))
-                movie.Key = Guid.NewGuid();
-
             var movieNew = await movieStore.Merge(movie);
             await ResolveLocations(movieNew);
 

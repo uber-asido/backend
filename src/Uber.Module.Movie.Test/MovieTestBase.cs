@@ -7,7 +7,7 @@ namespace Uber.Module.Movie.Test
 {
     public class MovieTestBase : IDisposable
     {
-        public readonly IMovieService MovieSerice;
+        public readonly IMovieService MovieService;
         public readonly IGeocodingService GeocodingService;
 
         private readonly IServiceScope scope;
@@ -15,7 +15,7 @@ namespace Uber.Module.Movie.Test
         public MovieTestBase(MovieFixture fixture)
         {
             scope = fixture.RootServiceProvider.CreateScope();
-            MovieSerice = scope.ServiceProvider.GetRequiredService<IMovieService>();
+            MovieService = scope.ServiceProvider.GetRequiredService<IMovieService>();
             GeocodingService = scope.ServiceProvider.GetRequiredService<IGeocodingService>();
         }
 
