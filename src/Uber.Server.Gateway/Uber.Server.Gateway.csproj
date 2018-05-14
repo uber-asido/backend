@@ -18,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Uber.Module.File.Api\Uber.Module.File.Api.csproj" />
+    <ProjectReference Include="..\Uber.Module.File.EFCore\Uber.Module.File.EFCore.csproj" />
+    <ProjectReference Include="..\Uber.Module.File\Uber.Module.File.csproj" />
     <ProjectReference Include="..\Uber.Module.Geocoding.EFCore\Uber.Module.Geocoding.EFCore.csproj" />
     <ProjectReference Include="..\Uber.Module.Geocoding.Google\Uber.Module.Geocoding.Google.csproj" />
     <ProjectReference Include="..\Uber.Module.Geocoding\Uber.Module.Geocoding.csproj" />

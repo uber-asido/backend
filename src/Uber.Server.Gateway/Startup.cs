@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net;
+using File = Uber.Module.File;
 using Geocoding = Uber.Module.Geocoding;
 using Search = Uber.Module.Search;
 
@@ -27,14 +28,17 @@ namespace Uber.Server.Gateway
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionStringFile = new File.EFCore.ConnectionString(Configuration.GetConnectionString("File"));
             var connectionStringGeocoding = new Geocoding.EFCore.ConnectionString(Configuration.GetConnectionString("Geocoding"));
             var connectionStringSearch = new Search.EFCore.ConnectionString(Configuration.GetConnectionString("Search"));
 
+            services.AddSingleton(connectionStringFile);
             services.AddSingleton(connectionStringGeocoding);
             services.AddSingleton(connectionStringSearch);
 
             services.AddInstaller();
 
+            services.AddFile(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionStringFile.Value)));
             services.AddGeocoding(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionStringGeocoding.Value)));
             services.AddGeocodingGoogle(Configuration.GetSection("Google")["ApiKey"]);
             services.AddSearch(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionStringSearch.Value)));

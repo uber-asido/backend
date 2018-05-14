@@ -1,0 +1,10 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Uber.Module.File.FileProcessor
+{
+    internal class CsvProcessor : IFileProcessor
+    {
+    }
+}

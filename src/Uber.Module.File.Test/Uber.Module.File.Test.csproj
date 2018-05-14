@@ -15,6 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Uber.Core.Test\Uber.Core.Test.csproj" />
+    <ProjectReference Include="..\Uber.Module.File.EFCore\Uber.Module.File.EFCore.csproj" />
     <ProjectReference Include="..\Uber.Module.File\Uber.Module.File.csproj" />
   </ItemGroup>
 

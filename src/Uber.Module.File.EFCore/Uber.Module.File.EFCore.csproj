@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Migration\Script0001 - Initial.sql" />
+    <None Remove="Migration\Script0002 - File data.sql" />
+    <None Remove="Migration\Script0003 - Upload history pk name.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Migration\Script0003 - Upload history pk name.sql" />
+    <EmbeddedResource Include="Migration\Script0002 - File data.sql" />
+    <EmbeddedResource Include="Migration\Script0001 - Initial.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.0-rc1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Uber.Core.EFCore\Uber.Core.EFCore.csproj" />
+    <ProjectReference Include="..\Uber.Core\Uber.Core.csproj" />
+    <ProjectReference Include="..\Uber.Module.File.Abstraction\Uber.Module.File.Abstraction.csproj" />
+  </ItemGroup>
+
+</Project>

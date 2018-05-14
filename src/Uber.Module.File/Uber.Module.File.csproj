@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Uber.Core\Uber.Core.csproj" />
     <ProjectReference Include="..\Uber.Module.File.Abstraction\Uber.Module.File.Abstraction.csproj" />
   </ItemGroup>
 

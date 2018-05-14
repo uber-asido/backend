@@ -55,13 +55,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uber.Module.Search.Test", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uber.Module.Search.Api", "src\Uber.Module.Search.Api\Uber.Module.Search.Api.csproj", "{CAEAE966-F4A9-4892-B535-AE9EAA293D29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uber.Module.Geocoding", "src\Uber.Module.Geocoding\Uber.Module.Geocoding.csproj", "{7B1F920A-67FB-4D2E-8933-05225CF5081E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uber.Module.Geocoding", "src\Uber.Module.Geocoding\Uber.Module.Geocoding.csproj", "{7B1F920A-67FB-4D2E-8933-05225CF5081E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uber.Module.Geocoding.EFCore", "src\Uber.Module.Geocoding.EFCore\Uber.Module.Geocoding.EFCore.csproj", "{4816BBE0-D355-46D1-8991-3CAE1B94B1E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uber.Module.Geocoding.EFCore", "src\Uber.Module.Geocoding.EFCore\Uber.Module.Geocoding.EFCore.csproj", "{4816BBE0-D355-46D1-8991-3CAE1B94B1E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uber.Module.Geocoding.Test", "src\Uber.Module.Geocoding.Test\Uber.Module.Geocoding.Test.csproj", "{5000920D-0D0B-43A9-818F-709F93CABEA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uber.Module.Geocoding.Test", "src\Uber.Module.Geocoding.Test\Uber.Module.Geocoding.Test.csproj", "{5000920D-0D0B-43A9-818F-709F93CABEA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uber.Module.Geocoding.Google", "src\Uber.Module.Geocoding.Google\Uber.Module.Geocoding.Google.csproj", "{6FBC1E11-E721-4841-A991-B6CB6D4E8C69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uber.Module.Geocoding.Google", "src\Uber.Module.Geocoding.Google\Uber.Module.Geocoding.Google.csproj", "{6FBC1E11-E721-4841-A991-B6CB6D4E8C69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uber.Module.File.EFCore", "src\Uber.Module.File.EFCore\Uber.Module.File.EFCore.csproj", "{83E0017B-2CE1-4407-84E2-9E75654847F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uber.Module.File.Api", "src\Uber.Module.File.Api\Uber.Module.File.Api.csproj", "{D482DC85-0F00-44F2-87AA-63FD803AB66D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -161,6 +165,14 @@ Global
 		{6FBC1E11-E721-4841-A991-B6CB6D4E8C69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FBC1E11-E721-4841-A991-B6CB6D4E8C69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FBC1E11-E721-4841-A991-B6CB6D4E8C69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83E0017B-2CE1-4407-84E2-9E75654847F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83E0017B-2CE1-4407-84E2-9E75654847F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83E0017B-2CE1-4407-84E2-9E75654847F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83E0017B-2CE1-4407-84E2-9E75654847F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D482DC85-0F00-44F2-87AA-63FD803AB66D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D482DC85-0F00-44F2-87AA-63FD803AB66D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D482DC85-0F00-44F2-87AA-63FD803AB66D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D482DC85-0F00-44F2-87AA-63FD803AB66D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -193,6 +205,8 @@ Global
 		{4816BBE0-D355-46D1-8991-3CAE1B94B1E5} = {663AF71F-D0FC-4894-BFDC-2DAA976860B4}
 		{5000920D-0D0B-43A9-818F-709F93CABEA9} = {663AF71F-D0FC-4894-BFDC-2DAA976860B4}
 		{6FBC1E11-E721-4841-A991-B6CB6D4E8C69} = {663AF71F-D0FC-4894-BFDC-2DAA976860B4}
+		{83E0017B-2CE1-4407-84E2-9E75654847F7} = {A0625341-AFDF-43D4-8186-24FA963FF0CC}
+		{D482DC85-0F00-44F2-87AA-63FD803AB66D} = {A0625341-AFDF-43D4-8186-24FA963FF0CC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CF48F1F0-2E96-4C39-A317-BE51D77C92C0}
