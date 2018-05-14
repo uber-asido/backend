@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Uber.Core.Test;
+using Uber.Core.Test.Mock;
 using Uber.Module.Geocoding.Abstraction.Service;
 using Uber.Module.Movie.EFCore;
-using Uber.Module.Movie.Test.Mock;
 using Xunit;
 
 namespace Uber.Module.Movie.Test

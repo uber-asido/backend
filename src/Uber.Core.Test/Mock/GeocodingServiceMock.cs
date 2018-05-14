@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Uber.Module.Geocoding.Abstraction.Model;
 using Uber.Module.Geocoding.Abstraction.Service;
 
-namespace Uber.Module.Movie.Test.Mock
+namespace Uber.Core.Test.Mock
 {
     public class GeocodingServiceMock : IGeocodingService
     {
@@ -20,7 +20,7 @@ namespace Uber.Module.Movie.Test.Mock
         public Task<Address> Geocode(string location)
         {
             var address = store.SingleOrDefault(e => e.FormattedAddress == location);
-            
+
             if (address == null)
             {
                 address = new Address
