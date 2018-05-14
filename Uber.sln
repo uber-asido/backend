@@ -63,9 +63,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uber.Module.Geocoding.Test"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uber.Module.Geocoding.Google", "src\Uber.Module.Geocoding.Google\Uber.Module.Geocoding.Google.csproj", "{6FBC1E11-E721-4841-A991-B6CB6D4E8C69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uber.Module.File.EFCore", "src\Uber.Module.File.EFCore\Uber.Module.File.EFCore.csproj", "{83E0017B-2CE1-4407-84E2-9E75654847F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uber.Module.File.EFCore", "src\Uber.Module.File.EFCore\Uber.Module.File.EFCore.csproj", "{83E0017B-2CE1-4407-84E2-9E75654847F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uber.Module.File.Api", "src\Uber.Module.File.Api\Uber.Module.File.Api.csproj", "{D482DC85-0F00-44F2-87AA-63FD803AB66D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uber.Module.File.Api", "src\Uber.Module.File.Api\Uber.Module.File.Api.csproj", "{D482DC85-0F00-44F2-87AA-63FD803AB66D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uber.Core.Hangfire.Server", "src\Uber.Core.Hangfire.Server\Uber.Core.Hangfire.Server.csproj", "{6D59849A-76AE-493B-A9B8-11B126E5BCBE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -173,6 +175,10 @@ Global
 		{D482DC85-0F00-44F2-87AA-63FD803AB66D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D482DC85-0F00-44F2-87AA-63FD803AB66D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D482DC85-0F00-44F2-87AA-63FD803AB66D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D59849A-76AE-493B-A9B8-11B126E5BCBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D59849A-76AE-493B-A9B8-11B126E5BCBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D59849A-76AE-493B-A9B8-11B126E5BCBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D59849A-76AE-493B-A9B8-11B126E5BCBE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -207,6 +213,7 @@ Global
 		{6FBC1E11-E721-4841-A991-B6CB6D4E8C69} = {663AF71F-D0FC-4894-BFDC-2DAA976860B4}
 		{83E0017B-2CE1-4407-84E2-9E75654847F7} = {A0625341-AFDF-43D4-8186-24FA963FF0CC}
 		{D482DC85-0F00-44F2-87AA-63FD803AB66D} = {A0625341-AFDF-43D4-8186-24FA963FF0CC}
+		{6D59849A-76AE-493B-A9B8-11B126E5BCBE} = {64C4B424-B974-4208-870F-70A50891AC57}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CF48F1F0-2E96-4C39-A317-BE51D77C92C0}

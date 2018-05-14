@@ -4,9 +4,8 @@ namespace Uber.Module.File.Abstraction.Model
 {
     public enum UploadStatus
     {
-        Ongoing = 1,
-        Success,
-        Error
+        Pending = 1,
+        Done
     }
 
     public class UploadHistory
@@ -14,7 +13,7 @@ namespace Uber.Module.File.Abstraction.Model
         public Guid Key { get; set; }
         public string Filename { get; set; }
         public UploadStatus Status { get; set; }
-        public string Error { get; set; }
         public DateTimeOffset Timestamp { get; set; }
+        public string[] Errors { get; set; }
     }
 }

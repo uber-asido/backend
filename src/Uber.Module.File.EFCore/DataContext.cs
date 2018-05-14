@@ -21,7 +21,7 @@ namespace Uber.Module.File.EFCore
                 config.Property(e => e.Key).HasColumnName("key");
                 config.Property(e => e.Filename).HasColumnName("filename");
                 config.Property(e => e.Status).HasColumnName("status");
-                config.Property(e => e.Error).HasColumnName("error");
+                config.Property(e => e.Errors).HasColumnName("errors");
                 config.Property(e => e.Timestamp).HasColumnName("timestamp");
                 config.HasKey(e => e.Key);
             });

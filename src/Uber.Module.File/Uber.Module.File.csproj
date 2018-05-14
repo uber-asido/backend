@@ -5,8 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="7.1.0" />
+    <PackageReference Include="HangFire.Core" Version="1.6.19" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Uber.Core\Uber.Core.csproj" />
     <ProjectReference Include="..\Uber.Module.File.Abstraction\Uber.Module.File.Abstraction.csproj" />
+    <ProjectReference Include="..\Uber.Module.Geocoding.Abstraction\Uber.Module.Geocoding.Abstraction.csproj" />
+    <ProjectReference Include="..\Uber.Module.Movie.Abstraction\Uber.Module.Movie.Abstraction.csproj" />
   </ItemGroup>
 
 </Project>

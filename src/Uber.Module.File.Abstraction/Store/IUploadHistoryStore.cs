@@ -14,5 +14,6 @@ namespace Uber.Module.File.Abstraction.Store
         Task<byte[]> FindFileData(Guid uploadHistoryKey);
 
         Task<UploadHistory> Create(UploadHistory history, byte[] fileData);
+        Task<UploadHistory> Update(UploadHistory history);
     }
 }

@@ -1,4 +1,6 @@
 ﻿using FluentValidation.AspNetCore;
+using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -43,6 +45,12 @@ namespace Uber.Server.Gateway
             services.AddGeocodingGoogle(Configuration.GetSection("Google")["ApiKey"]);
             services.AddSearch(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionStringSearch.Value)));
 
+            services.AddHangfireActivators();
+            services.AddHangfire(configuration =>
+            {
+                configuration.UseStorage(new PostgreSqlStorage(Configuration.GetConnectionString("Hangfire")));
+            });
+
             services
                 .AddMvc()
                 .AddFluentValidation();
@@ -80,6 +88,8 @@ namespace Uber.Server.Gateway
                 routeBuilder.Select().Expand().Filter().OrderBy().MaxTop(1000).Count();
                 routeBuilder.MapODataServiceRoute("ODataRoute", "odata", odataBuilder.GetEdmModel());
             });
+
+            app.UseHangfireServer();
         }
     }
 }

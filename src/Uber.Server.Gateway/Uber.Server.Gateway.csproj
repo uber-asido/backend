@@ -11,6 +11,8 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="7.5.2" />
     <PackageReference Include="Grace.AspNetCore.Hosting" Version="6.3.0" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.6.19" />
+    <PackageReference Include="Hangfire.PostgreSql" Version="1.4.8.2" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.0-rc1-final" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.1.0-rc1-final" />
@@ -18,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Uber.Core.Hangfire.Server\Uber.Core.Hangfire.Server.csproj" />
     <ProjectReference Include="..\Uber.Module.File.Api\Uber.Module.File.Api.csproj" />
     <ProjectReference Include="..\Uber.Module.File.EFCore\Uber.Module.File.EFCore.csproj" />
     <ProjectReference Include="..\Uber.Module.File\Uber.Module.File.csproj" />

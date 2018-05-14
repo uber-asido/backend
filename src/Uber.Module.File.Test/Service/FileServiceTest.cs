@@ -29,38 +29,46 @@ Title,Release Year,Locations,Fun Facts,Production Company,Distributor,Director,W
         {
             FileService.QueryHistorySingle(Guid.NewGuid()).Should().BeEmpty();
 
-            var result = await FileService.ScheduleForProcessing(new Abstraction.Service.File("test.csv", csvData));
+            var result = await FileService.ScheduleForProcessing(new Abstraction.Service.File("file.csv", csvData));
             result.Succeeded.Should().BeTrue();
             FileService.QueryHistorySingle(result.Result.Key).Should().HaveCount(1);
         }
 
         [Fact]
+        public async Task ScheduleForProcessingFailsOnUnsupportedFile()
+        {
+            var result = await FileService.ScheduleForProcessing(new Abstraction.Service.File("file.blah", csvData));
+            result.Succeeded.Should().BeFalse();
+            result.Errors.Should().HaveCount(1);
+        }
+
+        [Fact]
         public async Task CanScheduleAndFinishProcessing()
         {
-            var result = await FileService.ScheduleForProcessing(new Abstraction.Service.File("test.csv", csvData));
+            var result = await FileService.ScheduleForProcessing(new Abstraction.Service.File("file.csv", csvData));
             result.Succeeded.Should().BeTrue();
 
             var history = result.Result;
             history.Key.Should().NotBe(default(Guid));
-            history.Status.Should().Be(UploadStatus.Ongoing);
+            history.Status.Should().Be(UploadStatus.Pending);
             history.Filename.Should().Be("test.csv");
-            history.Error.Should().BeNull();
+            history.Errors.Should().BeEmpty();
             history.Timestamp.Should().BeCloseTo(DateTimeOffset.UtcNow, 1000);
 
             await WaitForProcessingFinish(history.Key);
 
             var found = await FileService.FindHistory(history.Key);
             found.Key.Should().Be(history.Key);
-            found.Status.Should().Be(UploadStatus.Success);
+            found.Status.Should().Be(UploadStatus.Done);
             found.Filename.Should().Be(history.Filename);
-            found.Error.Should().BeNull();
+            found.Errors.Should().BeEmpty();
             history.Timestamp.Should().Be(history.Timestamp);
         }
 
         private Task WaitForProcessingFinish(Guid historyKey) => WaitFor(async () =>
             {
                 var h = await FileService.FindHistory(historyKey);
-                return h.Status != UploadStatus.Ongoing;
+                return h.Status == UploadStatus.Done;
             });
 
         private async Task WaitFor(Func<Task<bool>> action)

@@ -35,5 +35,11 @@ namespace Uber.Module.File.EFCore.Store
 
             return history;
         }
+
+        public async Task<UploadHistory> Update(UploadHistory history)
+        {
+            await db.UpdateAndCommit(history);
+            return history;
+        }
     }
 }

@@ -20,7 +20,8 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddFile(this IServiceCollection services, Action<IFileBuilder> configureAction)
         {
             services
-                .AddService<IFileService, FileService>();
+                .AddService<IFileService, FileService>()
+                .AddService<FileService, FileService>(); // Concrete implementation for background jobs.
 
             var builder = new FileBuilder(services);
             configureAction(builder);
