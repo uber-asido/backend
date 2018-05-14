@@ -17,6 +17,8 @@ namespace Uber.Module.Movie.Test
             services.AddSingleton<IGeocodingService>(new GeocodingServiceMock());
             services.AddMovie(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionString.Value)));
         }
+
+        protected override void Configure() { }
     }
 
     [CollectionDefinition(Name)]

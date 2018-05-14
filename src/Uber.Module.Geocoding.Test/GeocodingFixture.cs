@@ -32,6 +32,8 @@ namespace Uber.Module.Geocoding.Test
                 });
             services.AddSingleton(geocodeProviderMock.Object);
         }
+
+        protected override void Configure() { }
     }
 
     [CollectionDefinition(Name)]

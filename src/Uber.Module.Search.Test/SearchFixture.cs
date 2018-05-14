@@ -14,6 +14,8 @@ namespace Uber.Module.Search.Test
             services.AddSingleton(connectionString);
             services.AddSearch(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionString.Value)));
         }
+
+        protected override void Configure() { }
     }
 
     [CollectionDefinition(Name)]

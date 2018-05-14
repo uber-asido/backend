@@ -8,7 +8,6 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddHangfireServer(this IServiceCollection services, string connectionString)
         {
             services.AddSingleton<JobActivator, Uber.Core.Hangfire.Server.Compatibility.JobActivator>();
-
             services.AddHangfire(configuration =>
             {
                 configuration.UseStorage(new PostgreSqlStorage(connectionString));

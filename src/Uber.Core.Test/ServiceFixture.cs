@@ -16,6 +16,7 @@ namespace Uber.Core.Test
             services.AddInstaller();
             ConfigureServices(services);
             RootServiceProvider = new DependencyInjectionContainer().Populate(services);
+            Configure();
 
             using (var scope = RootServiceProvider.CreateScope())
             {
@@ -25,5 +26,6 @@ namespace Uber.Core.Test
         }
 
         protected abstract void ConfigureServices(IServiceCollection services);
+        protected abstract void Configure();
     }
 }

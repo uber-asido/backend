@@ -14,8 +14,9 @@ namespace Uber.Module.File.Test
 {
     public class FileFixture : ServiceFixture, IDisposable
     {
-        //private BackgroundJobServer jobServer;
-        
+        private IServiceScope scope;
+        private BackgroundJobServer jobServer;
+
         protected override void ConfigureServices(IServiceCollection services)
         {
             var connectionString = new ConnectionString("Server=172.27.243.9;Port=5432;Database=uber_file_test;User Id=uber;Password=x;");
@@ -26,9 +27,19 @@ namespace Uber.Module.File.Test
             services.AddHangfireServer("Server=172.27.243.9;Port=5432;Database=uber_hangfire_test;User Id=hangfire;Password=x;");
         }
 
+        protected override void Configure()
+        {
+            scope = RootServiceProvider.CreateScope();
+            jobServer = new BackgroundJobServer(
+                new BackgroundJobServerOptions(),
+                scope.ServiceProvider.GetRequiredService<JobStorage>());
+        }
+
         public void Dispose()
         {
-            //jobServer.Dispose();
+            jobServer.SendStop();
+            jobServer.Dispose();
+            scope.Dispose();
         }
     }
 
