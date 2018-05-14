@@ -12,7 +12,7 @@ namespace Uber.Module.Geocoding.Abstraction.Service
         IQueryable<Address> QuerySingle(Guid key);
 
         Task<Address> Find(Guid key);
-        Task<IList<Address>> Find(IEnumerable<Guid> keys);
+        Task<List<Address>> Find(IEnumerable<Guid> keys);
 
         Task<Address> Geocode(string location);
     }

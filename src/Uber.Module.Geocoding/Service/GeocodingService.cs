@@ -22,15 +22,8 @@ namespace Uber.Module.Geocoding.Service
         public IQueryable<Address> Query() => geocodeStore.Query();
         public IQueryable<Address> QuerySingle(Guid key) => geocodeStore.QuerySingle(key);
 
-        public Task<Address> Find(Guid key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<Address>> Find(IEnumerable<Guid> keys)
-        {
-            throw new NotImplementedException();
-        }
+        public Task<Address> Find(Guid key) => geocodeStore.Find(key);
+        public Task<List<Address>> Find(IEnumerable<Guid> keys) => geocodeStore.Find(keys);
 
         public async Task<Address> Geocode(string location)
         {
