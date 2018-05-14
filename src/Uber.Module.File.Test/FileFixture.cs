@@ -7,13 +7,14 @@ using Uber.Core.Test;
 using Uber.Core.Test.Mock;
 using Uber.Module.File.EFCore;
 using Uber.Module.Geocoding.Abstraction.Service;
+using Uber.Module.Movie.Abstraction.Service;
 using Xunit;
 
 namespace Uber.Module.File.Test
 {
     public class FileFixture : ServiceFixture, IDisposable
     {
-        private BackgroundJobServer jobServer;
+        //private BackgroundJobServer jobServer;
         
         protected override void ConfigureServices(IServiceCollection services)
         {
@@ -21,15 +22,13 @@ namespace Uber.Module.File.Test
             services.AddSingleton(connectionString);
             services.AddFile(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionString.Value)));
             services.AddSingleton<IGeocodingService>(new GeocodingServiceMock());
-
-            services.AddHangfireActivators();
-            JobStorage.Current = new PostgreSqlStorage("Server=172.27.243.9;Port=5432;Database=uber_hangfire_test;User Id=hangfire;Password=x;");
-            jobServer = new BackgroundJobServer();
+            services.AddSingleton<IMovieService>(new MovieServiceMock());
+            services.AddHangfireServer("Server=172.27.243.9;Port=5432;Database=uber_hangfire_test;User Id=hangfire;Password=x;");
         }
 
         public void Dispose()
         {
-            jobServer.Dispose();
+            //jobServer.Dispose();
         }
     }
 

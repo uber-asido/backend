@@ -45,13 +45,14 @@ Title,Release Year,Locations,Fun Facts,Production Company,Distributor,Director,W
         [Fact]
         public async Task CanScheduleAndFinishProcessing()
         {
-            var result = await FileService.ScheduleForProcessing(new Abstraction.Service.File("file.csv", csvData));
+            var file = new Abstraction.Service.File("file.csv", csvData);
+            var result = await FileService.ScheduleForProcessing(file);
             result.Succeeded.Should().BeTrue();
 
             var history = result.Result;
             history.Key.Should().NotBe(default(Guid));
             history.Status.Should().Be(UploadStatus.Pending);
-            history.Filename.Should().Be("test.csv");
+            history.Filename.Should().Be(file.Filename);
             history.Errors.Should().BeEmpty();
             history.Timestamp.Should().BeCloseTo(DateTimeOffset.UtcNow, 1000);
 

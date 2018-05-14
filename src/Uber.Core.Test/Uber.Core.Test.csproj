@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Uber.Core\Uber.Core.csproj" />
     <ProjectReference Include="..\Uber.Module.Geocoding.Abstraction\Uber.Module.Geocoding.Abstraction.csproj" />
+    <ProjectReference Include="..\Uber.Module.Movie.Abstraction\Uber.Module.Movie.Abstraction.csproj" />
   </ItemGroup>
 
 </Project>

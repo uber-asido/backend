@@ -45,7 +45,8 @@ namespace Uber.Module.File.Service
                 Key = Guid.NewGuid(),
                 Filename = file.Filename,
                 Status = UploadStatus.Pending,
-                Timestamp = DateTimeOffset.UtcNow
+                Timestamp = DateTimeOffset.UtcNow,
+                Errors = new string[0]
             };
             await historyStore.Create(history, file.Data);
 

@@ -45,11 +45,7 @@ namespace Uber.Server.Gateway
             services.AddGeocodingGoogle(Configuration.GetSection("Google")["ApiKey"]);
             services.AddSearch(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionStringSearch.Value)));
 
-            services.AddHangfireActivators();
-            services.AddHangfire(configuration =>
-            {
-                configuration.UseStorage(new PostgreSqlStorage(Configuration.GetConnectionString("Hangfire")));
-            });
+            services.AddHangfireServer(Configuration.GetConnectionString("Hangfire"));
 
             services
                 .AddMvc()
