@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using System;
-using System.Text;
 using System.Threading.Tasks;
 using Uber.Module.File.Abstraction.Model;
 using Xunit;
@@ -10,11 +9,7 @@ namespace Uber.Module.File.Test.Service
     [Collection(FileTestCollection.Name)]
     public class FileServiceTest : FileTestBase
     {
-        private static readonly byte[] csvData = Encoding.UTF8.GetBytes(@"
-Title,Release Year,Locations,Fun Facts,Production Company,Distributor,Director,Writer,Actor 1,Actor 2,Actor 3
-180,2011,Epic Roasthouse (399 Embarcadero),,SPI Cinemas,,Jayendra,""Umarji Anuradha, Jayendra, Aarthi Sriram, &Suba "",Siddarth,Nithya Menon,Priya Anand
-180, 2011, Mason & California Streets(Nob Hill),, SPI Cinemas,, Jayendra, ""Umarji Anuradha, Jayendra, Aarthi Sriram, & Suba "", Siddarth, Nithya Menon, Priya Anand
-");
+        private static readonly byte[] csvData = EmbeddedResource.GetBytes("Film_Locations_in_San_Francisco.csv");
 
         public FileServiceTest(FileFixture fixture) : base(fixture) { }
 

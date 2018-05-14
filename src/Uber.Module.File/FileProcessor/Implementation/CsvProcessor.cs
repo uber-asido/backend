@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Uber.Module.Movie.Abstraction.Model;
 
 namespace Uber.Module.File.FileProcessor
 {
@@ -69,23 +70,30 @@ namespace Uber.Module.File.FileProcessor
                 }
                 else
                 {
-                    movie = new Movie.Abstraction.Model.Movie();
+                    movie = new Movie.Abstraction.Model.Movie
+                    {
+                        Actors = new List<Actor>(),
+                        Distributors = new List<Distributor>(),
+                        FilmingLocations = new List<FilmingLocation>(),
+                        ProductionCompanies = new List<ProductionCompany>(),
+                        Writers = new List<Writer>()
+                    };
                     movieMap.Add(row.Title, movie);
                 }
 
                 movie.ReleaseYear = row.ReleaseYear;
-                movie.FilmingLocations.Add(new Movie.Abstraction.Model.FilmingLocation { FormattedAddress = row.Location, FunFact = row.FunFact });
-                movie.ProductionCompanies.Add(new Movie.Abstraction.Model.ProductionCompany { Name = row.ProductionCompany });
-                movie.Distributors.Add(new Movie.Abstraction.Model.Distributor { Name = row.Distributor });
+                movie.FilmingLocations.Add(new FilmingLocation { FormattedAddress = row.Location, FunFact = row.FunFact });
+                movie.ProductionCompanies.Add(new ProductionCompany { Name = row.ProductionCompany });
+                movie.Distributors.Add(new Distributor { Name = row.Distributor });
                 // TODO: Implement directors entity.
                 //movie.Directors.AddRange(ParseNames(row.Directors).Select(name => new Movie.Abstraction.Model.Actor { FullName = name }));
-                foreach (var writer in ParseNames(row.Writers).Select(name => new Movie.Abstraction.Model.Writer { FullName = row.Writers }))
+                foreach (var writer in ParseNames(row.Writers).Select(name => new Writer { FullName = name }))
                     movie.Writers.Add(writer);
 
                 foreach (var name in new[] { row.Actor1, row.Actor2, row.Actor3 })
                 {
                     if (!string.IsNullOrEmpty(name))
-                        movie.Actors.Add(new Movie.Abstraction.Model.Actor { FullName = row.Actor1 });
+                        movie.Actors.Add(new Actor { FullName = row.Actor1 });
                 }
             }
 

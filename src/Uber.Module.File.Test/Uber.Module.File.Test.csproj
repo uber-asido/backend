@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Film_Locations_in_San_Francisco.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.3.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
     <PackageReference Include="xunit" Version="2.3.1" />
@@ -15,8 +19,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Film_Locations_in_San_Francisco.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Uber.Core.Hangfire.Server\Uber.Core.Hangfire.Server.csproj" />
     <ProjectReference Include="..\Uber.Core.Test\Uber.Core.Test.csproj" />
+    <ProjectReference Include="..\Uber.Core\Uber.Core.csproj" />
     <ProjectReference Include="..\Uber.Module.File.EFCore\Uber.Module.File.EFCore.csproj" />
     <ProjectReference Include="..\Uber.Module.File\Uber.Module.File.csproj" />
   </ItemGroup>
