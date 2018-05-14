@@ -27,7 +27,12 @@ namespace Uber.Server.Gateway
                 .UseGrace()
                 .UseApplicationInsights()
                 .UseStartup<Startup>()
-                .ConfigureAppConfiguration((host, config) => config.AddJsonFile("AppSettings.User.json", optional: true, reloadOnChange: true))
+                .ConfigureAppConfiguration((host, config) => 
+                    {
+                        config.AddJsonFile("AppSettings.json", optional: false, reloadOnChange: true);
+                        config.AddJsonFile($"AppSettings.{host.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                        config.AddJsonFile("AppSettings.User.json", optional: true, reloadOnChange: true);
+                    })
                 .Build();
     }
 }
