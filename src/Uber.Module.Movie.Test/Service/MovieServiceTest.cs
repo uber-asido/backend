@@ -20,7 +20,6 @@ namespace Uber.Module.Movie.Test.Service
 
             var movie = new Abstraction.Model.Movie
             {
-                Key = Guid.NewGuid(),
                 Title = Guid.NewGuid().ToString(),
                 ReleaseYear = 2018,
                 Actors = new List<Actor>(),
@@ -29,8 +28,8 @@ namespace Uber.Module.Movie.Test.Service
                 ProductionCompanies = new List<ProductionCompany>(),
                 Writers = new List<Writer>()
             };
-            await MovieService.Merge(movie);
-            (await MovieService.Find(movie.Key)).Should().NotBeNull();
+            var merged = await MovieService.Merge(movie);
+            (await MovieService.Find(merged.Key)).Should().NotBeNull();
         }
 
         [Fact]
@@ -38,7 +37,6 @@ namespace Uber.Module.Movie.Test.Service
         {
             var movie = new Abstraction.Model.Movie
             {
-                Key = Guid.NewGuid(),
                 Title = Guid.NewGuid().ToString(),
                 ReleaseYear = 2018,
                 Actors = new[]
@@ -69,7 +67,7 @@ namespace Uber.Module.Movie.Test.Service
             };
 
             var merged = await MovieService.Merge(movie);
-            var found = await MovieService.Find(movie.Key);
+            var found = await MovieService.Find(merged.Key);
 
             foreach (var m in new[] { merged, found })
             {

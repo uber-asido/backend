@@ -12,7 +12,7 @@ namespace Uber.Module.Movie.Test
     {
         protected override void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = new ConnectionString("Server=localhost;Port=5432;Database=uber_movie_test;User Id=uber;Password=x;");
+            var connectionString = new ConnectionString("Server=192.168.110.130;Port=5432;Database=uber_movie_test;User Id=uber;Password=x;");
             services.AddSingleton(connectionString);
             services.AddSingleton<IGeocodingService>(new GeocodingServiceMock());
             services.AddMovie(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionString.Value)));
