@@ -4,17 +4,20 @@ using System.Threading.Tasks;
 using Uber.Module.Geocoding.Abstraction.Service;
 using Uber.Module.Movie.Abstraction.Service;
 using Uber.Module.Movie.Abstraction.Store;
+using Uber.Module.Search.Abstraction.Service;
 
 namespace Uber.Module.Movie.Service
 {
     public class MovieService : IMovieService
     {
         private readonly IGeocodingService geocodingService;
+        private readonly ISearchService searchService;
         private readonly IMovieStore movieStore;
 
-        public MovieService(IGeocodingService geocodingService, IMovieStore movieStore)
+        public MovieService(IGeocodingService geocodingService, ISearchService searchService, IMovieStore movieStore)
         {
             this.geocodingService = geocodingService;
+            this.searchService = searchService;
             this.movieStore = movieStore;
         }
 

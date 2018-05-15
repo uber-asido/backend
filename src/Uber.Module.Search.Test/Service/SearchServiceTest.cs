@@ -51,5 +51,56 @@ namespace Uber.Module.Search.Test.Service
                 foundItem.Type.Should().Be(item.Type);
             }
         }
+
+        [Fact]
+        public async Task CanMerge()
+        {
+            var item1 = new SearchItem { Key = Guid.NewGuid(), Text = Guid.NewGuid().ToString("N"), Type = SearchItemType.Person };
+            var item2 = new SearchItem { Key = Guid.NewGuid(), Text = Guid.NewGuid().ToString("N"), Type = SearchItemType.Person };
+
+            await SearchService.Create(item1);
+            var merged = await SearchService.Merge(new[] { item1, item2 });
+
+            merged.Should().HaveCount(1);
+            merged[0].Key.Should().Be(item2.Key);
+            merged[0].Text.Should().Be(item2.Text);
+            merged[0].Type.Should().Be(item2.Type);
+
+            (await SearchService.Find(item1.Key)).Should().NotBeNull();
+            (await SearchService.Find(item2.Key)).Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task MergesWhenTypeDiffers()
+        {
+            var item1 = new SearchItem { Key = Guid.NewGuid(), Text = Guid.NewGuid().ToString("N"), Type = SearchItemType.Person };
+            var item2 = new SearchItem { Key = Guid.NewGuid(), Text = item1.Text, Type = SearchItemType.Organization };
+
+            await SearchService.Create(item1);
+            var merged = await SearchService.Merge(new[] { item1, item2 });
+
+            merged.Should().HaveCount(1);
+            merged[0].Key.Should().Be(item2.Key);
+            merged[0].Text.Should().Be(item2.Text);
+            merged[0].Type.Should().Be(item2.Type);
+
+            (await SearchService.Find(item1.Key)).Should().NotBeNull();
+            (await SearchService.Find(item2.Key)).Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task DoesntMergeWhenTextAndTypeMatches()
+        {
+            var item1 = new SearchItem { Key = Guid.NewGuid(), Text = Guid.NewGuid().ToString("N"), Type = SearchItemType.Person };
+            var item2 = new SearchItem { Key = Guid.NewGuid(), Text = item1.Text, Type = item1.Type };
+
+            await SearchService.Create(item1);
+            var merged = await SearchService.Merge(new[] { item1, item2 });
+
+            merged.Should().HaveCount(0);
+
+            (await SearchService.Find(item1.Key)).Should().NotBeNull();
+            (await SearchService.Find(item2.Key)).Should().BeNull();
+        }
     }
 }

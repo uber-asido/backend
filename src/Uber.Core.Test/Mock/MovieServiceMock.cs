@@ -9,12 +9,12 @@ namespace Uber.Core.Test.Mock
 {
     public class MovieServiceMock : IMovieService
     {
-        private readonly List<Movie> movies = new List<Movie>();
+        private readonly List<Movie> store = new List<Movie>();
 
         public Task<Movie> Find(Guid key)
         {
             lock (this)
-                return Task.FromResult(movies.SingleOrDefault(e => e.Key == key));
+                return Task.FromResult(store.SingleOrDefault(e => e.Key == key));
         }
 
         public Task<Movie> Merge(Movie movie)
@@ -24,15 +24,15 @@ namespace Uber.Core.Test.Mock
                 movie.Key = Guid.NewGuid();
 
                 lock (this)
-                    movies.Add(movie);
+                    store.Add(movie);
             }
             else
             {
                 lock (this)
                 {
-                    var existing = movies.SingleOrDefault(e => e.Key == movie.Key);
+                    var existing = store.SingleOrDefault(e => e.Key == movie.Key);
                     if (existing == null)
-                        movies.Add(movie);
+                        store.Add(movie);
                 }
             }
 

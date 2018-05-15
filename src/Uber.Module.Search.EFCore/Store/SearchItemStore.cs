@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Uber.Module.Search.Abstraction.Model;
@@ -18,6 +20,11 @@ namespace Uber.Module.Search.EFCore.Store
         public IQueryable<SearchItem> Query() => db.SearchItems;
         public IQueryable<SearchItem> QuerySingle(Guid key) => db.SearchItems.Where(e => e.Key == key);
 
-        public Task Create(SearchItem search) => db.InsertAndCommit(search);
+        public Task<SearchItem> Find(Guid key) => QuerySingle(key).SingleOrDefaultAsync();
+        public Task<List<SearchItem>> Find(IEnumerable<string> texts, IEnumerable<SearchItemType> types) =>
+            Query().Where(e => texts.Contains(e.Text) && types.Contains(e.Type)).ToListAsync();
+
+        public Task Insert(SearchItem search) => db.InsertAndCommit(search);
+        public Task Insert(IEnumerable<SearchItem> searches) => db.InsertAndCommit(searches);
     }
 }
