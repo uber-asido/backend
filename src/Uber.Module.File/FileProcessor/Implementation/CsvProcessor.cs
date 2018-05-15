@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -105,7 +106,7 @@ namespace Uber.Module.File.FileProcessor
         private IEnumerable<string> ParseNames(string name)
         {
             return name
-                .Split(',', '&')
+                .Split(new[] { ",", "&", " and " }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(e => e.Trim())
                 .Where(e => e.Length > 0);
         }
