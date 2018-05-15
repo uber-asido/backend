@@ -1,6 +1,7 @@
 ﻿using System;
 using Uber.Module.File.Abstraction;
 using Uber.Module.File.Abstraction.Service;
+using Uber.Module.File.BackgroundJob;
 using Uber.Module.File.Service;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -21,7 +22,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services
                 .AddService<IFileService, FileService>()
-                .AddService<FileService, FileService>(); // Concrete implementation for background jobs.
+                .AddService<FileService, FileService>() // Concrete implementation for background jobs.
+                .AddBackgroundJob<FileJob>();
 
             var builder = new FileBuilder(services);
             configureAction(builder);
