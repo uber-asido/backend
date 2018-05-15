@@ -14,6 +14,13 @@ namespace Uber.Core.OData
             Builder = builder;
         }
 
+        public ActionConfiguration Action(string name)
+        {
+            var action = Builder.Action(name);
+            action.Namespace = Namespace;
+            return action;
+        }
+
         public EntitySetConfiguration<TEntity> AddEntitySet<TEntity>()
             where TEntity : class
         {

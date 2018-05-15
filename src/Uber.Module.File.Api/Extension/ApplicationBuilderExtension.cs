@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNetCore.Builder;
+using System.IO;
 using Uber.Core.OData;
 using Uber.Module.File.Abstraction.Model;
 
@@ -13,6 +14,10 @@ public static class ApplicationBuilderExtension
 
             var uploadHistory = builder.AddEntitySet<UploadHistory>();
             uploadHistory.EntityType.HasKey(e => e.Key);
+
+            var uploadFile = builder.Action("UploadFile");
+            uploadFile.Parameter<Stream>("file");
+            uploadFile.ReturnsFromEntitySet<UploadHistory>(nameof(UploadHistory));
         });
 
         return app;

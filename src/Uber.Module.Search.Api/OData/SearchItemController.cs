@@ -30,7 +30,7 @@ namespace Uber.Module.Search.Api.OData
         public async Task<IActionResult> Post([FromBody] SearchItem model)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return ODataBadRequest();
 
             var result = await searchService.Create(model);
             return Created(result);
