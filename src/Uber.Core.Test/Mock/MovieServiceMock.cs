@@ -11,20 +11,29 @@ namespace Uber.Core.Test.Mock
     {
         private readonly List<Movie> movies = new List<Movie>();
 
-        public Task<Movie> Find(Guid key) => Task.FromResult(movies.SingleOrDefault(e => e.Key == key));
+        public Task<Movie> Find(Guid key)
+        {
+            lock (this)
+                return Task.FromResult(movies.SingleOrDefault(e => e.Key == key));
+        }
 
         public Task<Movie> Merge(Movie movie)
         {
             if (movie.Key == default(Guid))
             {
                 movie.Key = Guid.NewGuid();
-                movies.Add(movie);
+
+                lock (this)
+                    movies.Add(movie);
             }
             else
             {
-                var existing = Find(movie.Key);
-                if (existing == null)
-                    movies.Add(movie);
+                lock (this)
+                {
+                    var existing = movies.SingleOrDefault(e => e.Key == movie.Key);
+                    if (existing == null)
+                        movies.Add(movie);
+                }
             }
 
             return Task.FromResult(movie);
