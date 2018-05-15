@@ -51,6 +51,8 @@ namespace Uber.Server.Gateway
 
             services.AddHangfireServer(Configuration.GetConnectionString("Hangfire"));
 
+            services.AddCors();
+
             services
                 .AddMvc()
                 .AddFluentValidation();
