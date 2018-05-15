@@ -9,7 +9,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IApplicationBuilder UseSearchApi(this IApplicationBuilder app, ODataModelBuilder odataBuilder)
         {
-            odataBuilder.AddNamespace("MovieSearch", builder =>
+            odataBuilder.AddNamespace("Search", builder =>
             {
                 builder.AddEnumType<SearchItemType>();
 

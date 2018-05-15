@@ -13,6 +13,7 @@ using System;
 using System.Net;
 using File = Uber.Module.File;
 using Geocoding = Uber.Module.Geocoding;
+using Movie = Uber.Module.Movie;
 using Search = Uber.Module.Search;
 
 namespace Uber.Server.Gateway
@@ -32,10 +33,12 @@ namespace Uber.Server.Gateway
         {
             var connectionStringFile = new File.EFCore.ConnectionString(Configuration.GetConnectionString("File"));
             var connectionStringGeocoding = new Geocoding.EFCore.ConnectionString(Configuration.GetConnectionString("Geocoding"));
+            var connectionStringMovie = new Movie.EFCore.ConnectionString(Configuration.GetConnectionString("Movie"));
             var connectionStringSearch = new Search.EFCore.ConnectionString(Configuration.GetConnectionString("Search"));
 
             services.AddSingleton(connectionStringFile);
             services.AddSingleton(connectionStringGeocoding);
+            services.AddSingleton(connectionStringMovie);
             services.AddSingleton(connectionStringSearch);
 
             services.AddInstaller();
@@ -43,6 +46,7 @@ namespace Uber.Server.Gateway
             services.AddFile(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionStringFile.Value)));
             services.AddGeocoding(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionStringGeocoding.Value)));
             services.AddGeocodingGoogle(Configuration.GetSection("Google")["ApiKey"]);
+            services.AddMovie(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionStringMovie.Value)));
             services.AddSearch(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionStringSearch.Value)));
 
             services.AddHangfireServer(Configuration.GetConnectionString("Hangfire"));
@@ -80,6 +84,7 @@ namespace Uber.Server.Gateway
                 odataBuilder.EnableLowerCamelCase(NameResolverOptions.ProcessDataMemberAttributePropertyNames | NameResolverOptions.ProcessExplicitPropertyNames | NameResolverOptions.ProcessReflectedPropertyNames);
 
                 app.UseSearchApi(odataBuilder);
+                app.UseMovieApi(odataBuilder);
 
                 routeBuilder.Select().Expand().Filter().OrderBy().MaxTop(1000).Count();
                 routeBuilder.MapODataServiceRoute("ODataRoute", "odata", odataBuilder.GetEdmModel());

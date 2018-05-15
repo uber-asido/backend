@@ -25,6 +25,9 @@
     <ProjectReference Include="..\Uber.Module.Geocoding.EFCore\Uber.Module.Geocoding.EFCore.csproj" />
     <ProjectReference Include="..\Uber.Module.Geocoding.Google\Uber.Module.Geocoding.Google.csproj" />
     <ProjectReference Include="..\Uber.Module.Geocoding\Uber.Module.Geocoding.csproj" />
+    <ProjectReference Include="..\Uber.Module.Movie.Api\Uber.Module.Movie.Api.csproj" />
+    <ProjectReference Include="..\Uber.Module.Movie.EFCore\Uber.Module.Movie.EFCore.csproj" />
+    <ProjectReference Include="..\Uber.Module.Movie\Uber.Module.Movie.csproj" />
     <ProjectReference Include="..\Uber.Module.Search.Api\Uber.Module.Search.Api.csproj" />
     <ProjectReference Include="..\Uber.Module.Search.EFCore\Uber.Module.Search.EFCore.csproj" />
     <ProjectReference Include="..\Uber.Module.Search\Uber.Module.Search.csproj" />

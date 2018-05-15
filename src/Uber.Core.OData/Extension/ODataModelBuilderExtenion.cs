@@ -22,6 +22,15 @@ namespace Uber.Core.OData
             return entitySet;
         }
 
+        public EntityTypeConfiguration<TEntity> AddEntityType<TEntity>()
+            where TEntity : class
+        {
+            var entityType = Builder.EntityType<TEntity>();
+            entityType.Namespace = Namespace;
+            entityType.Name = typeof(TEntity).Name;
+            return entityType;
+        }
+
         public EnumTypeConfiguration<TEnum> AddEnumType<TEnum>()
         {
             var enumType = Builder.EnumType<TEnum>();

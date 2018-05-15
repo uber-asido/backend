@@ -42,9 +42,20 @@ namespace Uber.Module.Movie.Service
             var keys = movie.FilmingLocations.Select(e => e.AddressKey);
             var addresses = await geocodingService.Find(keys);
 
-            foreach (var location in movie.FilmingLocations)
+            foreach (var location in movie.FilmingLocations.ToList())
             {
-                var address = addresses.Single(e => e.Key == location.AddressKey);
+                var address = addresses.SingleOrDefault(e => e.Key == location.AddressKey);
+                if (address == null)
+                {
+                    // Geocode service doesn't have such address - ignore.
+                    // TODO: Figure what to do with them:
+                    //  o Resolve geocode from unformatted address again?
+                    //  o Remove the location from the movie?
+
+                    movie.FilmingLocations.Remove(location);
+                    continue;
+                }
+
                 location.FormattedAddress = address.FormattedAddress;
                 location.Latitude = address.Latitude;
                 location.Longitude = address.Longitude;
