@@ -7,9 +7,11 @@
   <ItemGroup>
     <None Remove="Migration\Script0001 - Initial.sql" />
     <None Remove="Migration\Script0002 - SearchItem text index.sql" />
+    <None Remove="Migration\Script0003 - Indexes.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Migration\Script0003 - Indexes.sql" />
     <EmbeddedResource Include="Migration\Script0002 - SearchItem text index.sql" />
     <EmbeddedResource Include="Migration\Script0001 - Initial.sql" />
   </ItemGroup>

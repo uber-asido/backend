@@ -10,9 +10,11 @@
     <None Remove="Migration\Script0003 - Filming location.sql" />
     <None Remove="Migration\Script0004 - Filming location key.sql" />
     <None Remove="Migration\Script0005 - Movie director.sql" />
+    <None Remove="Migration\Script0006 - Indexes.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Migration\Script0006 - Indexes.sql" />
     <EmbeddedResource Include="Migration\Script0005 - Movie director.sql" />
     <EmbeddedResource Include="Migration\Script0004 - Filming location key.sql" />
     <EmbeddedResource Include="Migration\Script0003 - Filming location.sql" />
