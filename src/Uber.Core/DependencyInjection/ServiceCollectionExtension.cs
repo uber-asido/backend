@@ -7,6 +7,16 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtension
     {
+        public static IServiceCollection AddBackgroundJob<TService>(this IServiceCollection services)
+            where TService : class
+        {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
+
+            services.AddScoped<TService>();
+            return services;
+        }
+
         public static IServiceCollection AddService<TService, TImplementation>(this IServiceCollection services, ServiceLifetime lifetime = ServiceLifetime.Scoped)
             where TService : class
             where TImplementation : class, TService
