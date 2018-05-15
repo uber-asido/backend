@@ -83,8 +83,9 @@ namespace Uber.Server.Gateway
                 var odataBuilder = new ODataConventionModelBuilder(app.ApplicationServices);
                 odataBuilder.EnableLowerCamelCase(NameResolverOptions.ProcessDataMemberAttributePropertyNames | NameResolverOptions.ProcessExplicitPropertyNames | NameResolverOptions.ProcessReflectedPropertyNames);
 
-                app.UseSearchApi(odataBuilder);
+                app.UseFileApi(odataBuilder);
                 app.UseMovieApi(odataBuilder);
+                app.UseSearchApi(odataBuilder);
 
                 routeBuilder.Select().Expand().Filter().OrderBy().MaxTop(1000).Count();
                 routeBuilder.MapODataServiceRoute("ODataRoute", "odata", odataBuilder.GetEdmModel());

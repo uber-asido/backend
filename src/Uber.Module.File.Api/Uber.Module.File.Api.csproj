@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Uber.Core.OData\Uber.Core.OData.csproj" />
+    <ProjectReference Include="..\Uber.Module.File.Abstraction\Uber.Module.File.Abstraction.csproj" />
+  </ItemGroup>
+
 </Project>
