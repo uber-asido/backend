@@ -74,6 +74,7 @@ namespace Uber.Module.File.FileProcessor
                     movie = new Movie.Abstraction.Model.Movie
                     {
                         Actors = new List<Actor>(),
+                        Directors = new List<Director>(),
                         Distributors = new List<Distributor>(),
                         FilmingLocations = new List<FilmingLocation>(),
                         ProductionCompanies = new List<ProductionCompany>(),
@@ -86,15 +87,23 @@ namespace Uber.Module.File.FileProcessor
                 movie.FilmingLocations.Add(new FilmingLocation { FormattedAddress = row.Location, FunFact = row.FunFact });
                 movie.ProductionCompanies.Add(new ProductionCompany { Name = row.ProductionCompany });
                 movie.Distributors.Add(new Distributor { Name = row.Distributor });
-                // TODO: Implement directors entity.
-                //movie.Directors.AddRange(ParseNames(row.Directors).Select(name => new Movie.Abstraction.Model.Actor { FullName = name }));
-                foreach (var writer in ParseNames(row.Writers).Select(name => new Writer { FullName = name }))
-                    movie.Writers.Add(writer);
+
+                foreach (var name in ParseNames(row.Directors))
+                {
+                    if (!movie.Directors.Any(e => e.FullName == name))
+                        movie.Directors.Add(new Director { FullName = name });
+                }
+
+                foreach (var name in ParseNames(row.Writers))
+                {
+                    if (!movie.Writers.Any(e => e.FullName == name))
+                        movie.Writers.Add(new Writer { FullName = name });
+                }
 
                 foreach (var name in new[] { row.Actor1, row.Actor2, row.Actor3 })
                 {
-                    if (!string.IsNullOrEmpty(name))
-                        movie.Actors.Add(new Actor { FullName = row.Actor1 });
+                    if (!string.IsNullOrEmpty(name) && !movie.Actors.Any(e => e.FullName == name))
+                        movie.Actors.Add(new Actor { FullName = name });
                 }
             }
 
