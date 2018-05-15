@@ -52,10 +52,11 @@ namespace Uber.Module.Movie.EFCore
             modelBuilder.Entity<Entity.FilmingLocation>(config =>
             {
                 config.ToTable("filming_location");
+                config.Property(e => e.Key).HasColumnName("key");
                 config.Property(e => e.AddressKey).HasColumnName("address_key");
                 config.Property(e => e.MovieKey).HasColumnName("movie_key");
                 config.Property(e => e.FunFact).HasColumnName("fun_fact");
-                config.HasKey(e => new { e.MovieKey, e.AddressKey });
+                config.HasKey(e => e.Key);
             });
 
             modelBuilder.Entity<Entity.MovieProductionCompany>(config =>

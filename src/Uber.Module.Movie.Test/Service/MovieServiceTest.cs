@@ -51,8 +51,8 @@ namespace Uber.Module.Movie.Test.Service
                 },
                 FilmingLocations = new[]
                 {
-                    new FilmingLocation { AddressKey = (await GeocodingService.Geocode("Test address 1")).Key, FunFact = "Fun fact 1" },
-                    new FilmingLocation { AddressKey = (await GeocodingService.Geocode("Test address 2")).Key, FunFact = "Fun fact 2" }
+                    new FilmingLocation { Key = Guid.NewGuid(), AddressKey = (await GeocodingService.Geocode("Test address 1")).Key, FunFact = "Fun fact 1" },
+                    new FilmingLocation { Key = Guid.NewGuid(), AddressKey = (await GeocodingService.Geocode("Test address 2")).Key, FunFact = "Fun fact 2" }
                 },
                 ProductionCompanies = new[]
                 {
@@ -84,6 +84,7 @@ namespace Uber.Module.Movie.Test.Service
                 m.Distributors.Select(e => e.Name).Should().BeEquivalentTo(new[] { "Test distributor 1", "Test distributor 2" });
 
                 m.FilmingLocations.Should().HaveCount(2);
+                m.FilmingLocations.Select(e => e.Key).Should().BeEquivalentTo(movie.FilmingLocations.Select(e => e.Key));
                 m.FilmingLocations.Select(e => e.AddressKey).Should().BeEquivalentTo(movie.FilmingLocations.Select(e => e.AddressKey));
                 m.FilmingLocations.Select(e => e.Latitude).Should().BeEquivalentTo(new[] { 1.0, 1.0 });
                 m.FilmingLocations.Select(e => e.Longitude).Should().BeEquivalentTo(new[] { 1.0, 1.0 });
@@ -119,8 +120,8 @@ namespace Uber.Module.Movie.Test.Service
                 },
                 FilmingLocations = new[]
                 {
-                    new FilmingLocation { AddressKey = (await GeocodingService.Geocode("Test address 1")).Key, FunFact = "Fun fact 1" },
-                    new FilmingLocation { AddressKey = (await GeocodingService.Geocode("Test address 2")).Key, FunFact = "Fun fact 2" }
+                    new FilmingLocation { Key = Guid.NewGuid(), AddressKey = (await GeocodingService.Geocode("Test address 1")).Key, FunFact = "Fun fact 1" },
+                    new FilmingLocation { Key = Guid.NewGuid(), AddressKey = (await GeocodingService.Geocode("Test address 2")).Key, FunFact = "Fun fact 2" }
                 },
                 ProductionCompanies = new[]
                 {
@@ -150,8 +151,8 @@ namespace Uber.Module.Movie.Test.Service
                 },
                 FilmingLocations = new[]
                 {
-                    new FilmingLocation { AddressKey = (await GeocodingService.Geocode("Test address 2")).Key, FunFact = "Fun fact 2" },
-                    new FilmingLocation { AddressKey = (await GeocodingService.Geocode("Test address 3")).Key, FunFact = "Fun fact 3" }
+                    new FilmingLocation { Key = Guid.NewGuid(), AddressKey = (await GeocodingService.Geocode("Test address 2")).Key, FunFact = "Fun fact 2" },
+                    new FilmingLocation { Key = Guid.NewGuid(), AddressKey = (await GeocodingService.Geocode("Test address 3")).Key, FunFact = "Fun fact 3" }
                 },
                 ProductionCompanies = new[]
                 {
@@ -185,6 +186,7 @@ namespace Uber.Module.Movie.Test.Service
                 m.Distributors.Select(e => e.Name).Should().BeEquivalentTo(new[] { "Test distributor 1", "Test distributor 2", "Test distributor 3" });
 
                 m.FilmingLocations.Should().HaveCount(3);
+                m.FilmingLocations.Select(e => e.Key).Should().BeEquivalentTo(movie1.FilmingLocations.Select(e => e.Key).Concat(new[] { movie2.FilmingLocations[1].Key }));
                 m.FilmingLocations.Select(e => e.AddressKey).Should().BeEquivalentTo(merged2.FilmingLocations.Select(e => e.AddressKey));
                 m.FilmingLocations.Select(e => e.Latitude).Should().BeEquivalentTo(new[] { 1.0, 1.0, 1.0 });
                 m.FilmingLocations.Select(e => e.Longitude).Should().BeEquivalentTo(new[] { 1.0, 1.0, 1.0 });

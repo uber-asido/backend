@@ -8,9 +8,11 @@
     <None Remove="Migration\Script0001 - Initial.sql" />
     <None Remove="Migration\Script0002 - Remove foreign keys.sql" />
     <None Remove="Migration\Script0003 - Filming location.sql" />
+    <None Remove="Migration\Script0004 - Filming location key.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Migration\Script0004 - Filming location key.sql" />
     <EmbeddedResource Include="Migration\Script0003 - Filming location.sql" />
     <EmbeddedResource Include="Migration\Script0002 - Remove foreign keys.sql" />
     <EmbeddedResource Include="Migration\Script0001 - Initial.sql" />

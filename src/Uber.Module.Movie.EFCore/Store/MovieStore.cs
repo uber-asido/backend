@@ -44,6 +44,7 @@ namespace Uber.Module.Movie.EFCore.Store
                                                  where locationRef.MovieKey == movie.Key
                                                  select new FilmingLocation
                                                  {
+                                                     Key = locationRef.Key,
                                                      AddressKey = locationRef.AddressKey,
                                                      FunFact = locationRef.FunFact
                                                  }).ToList(),
@@ -159,6 +160,7 @@ namespace Uber.Module.Movie.EFCore.Store
 
                     db.Insert(new Entity.FilmingLocation
                     {
+                        Key = location.Key,
                         MovieKey = movieOld.Key,
                         AddressKey = location.AddressKey,
                         FunFact = location.FunFact
