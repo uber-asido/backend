@@ -26,7 +26,7 @@ namespace Uber.Module.File.Test.Service
 
             var result = await FileService.ScheduleForProcessing(new Abstraction.Service.File("file.csv", csvData));
             result.Succeeded.Should().BeTrue();
-            FileService.QueryHistorySingle(result.Result.Key).Should().HaveCount(1);
+            FileService.QueryHistorySingle(result.Value.Key).Should().HaveCount(1);
         }
 
         [Fact]
@@ -44,7 +44,7 @@ namespace Uber.Module.File.Test.Service
             var result = await FileService.ScheduleForProcessing(file);
             result.Succeeded.Should().BeTrue();
 
-            var history = result.Result;
+            var history = result.Value;
             history.Key.Should().NotBe(default(Guid));
             history.Status.Should().Be(UploadStatus.Pending);
             history.Filename.Should().Be(file.Filename);

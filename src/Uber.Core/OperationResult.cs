@@ -23,13 +23,13 @@ namespace Uber.Core
 
     public class OperationResult<TResult> : OperationResult
     {
-        public readonly TResult Result;
+        public readonly TResult Value;
 
         private OperationResult() { }
 
-        public OperationResult(TResult result)
+        public OperationResult(TResult value)
         {
-            Result = result;
+            Value = value;
             Errors = new string[0];
         }
 
