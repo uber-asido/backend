@@ -32,6 +32,14 @@ namespace Uber.Module.Movie.EFCore.Store
                                            Key = actor.Key,
                                            FullName = actor.FullName
                                        }).ToList(),
+                             Directors = (from directorRef in db.MovieDirectors
+                                          join director in db.Directors on directorRef.DirectorKey equals director.Key
+                                          where directorRef.MovieKey == movie.Key
+                                          select new Director
+                                          {
+                                              Key = director.Key,
+                                              FullName = director.FullName
+                                          }).ToList(),
                              Distributors = (from distributorRef in db.MovieDistributors
                                              join distributor in db.Distributors on distributorRef.DistributorKey equals distributor.Key
                                              where distributorRef.MovieKey == movie.Key
@@ -81,6 +89,7 @@ namespace Uber.Module.Movie.EFCore.Store
                     Title = movieNew.Title,
                     ReleaseYear = movieNew.ReleaseYear,
                     Actors = new List<Actor>(),
+                    Directors = new List<Director>(),
                     Distributors = new List<Distributor>(),
                     FilmingLocations = new List<FilmingLocation>(),
                     ProductionCompanies = new List<ProductionCompany>(),
@@ -118,6 +127,32 @@ namespace Uber.Module.Movie.EFCore.Store
                     }
 
                     db.Insert(new Entity.MovieActor { MovieKey = movieOld.Key, ActorKey = entity.Key });
+                }
+            }
+
+            if (movieNew.Directors.Any())
+            {
+                var names = movieNew.Directors.Select(e => e.FullName);
+                var existingDirectors = await db.Directors.Where(e => names.Contains(e.FullName)).ToListAsync();
+
+                foreach (var name in names)
+                {
+                    if (movieOld.Directors.Any(e => e.FullName == name))
+                        continue;
+
+                    var entity = existingDirectors.SingleOrDefault(e => e.FullName == name);
+
+                    if (entity == null)
+                    {
+                        entity = new Director
+                        {
+                            Key = Guid.NewGuid(),
+                            FullName = name
+                        };
+                        db.Insert(entity);
+                    }
+
+                    db.Insert(new Entity.MovieDirector { MovieKey = movieOld.Key, DirectorKey = entity.Key });
                 }
             }
 

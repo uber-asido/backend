@@ -23,6 +23,7 @@ namespace Uber.Module.Movie.Test.Service
                 Title = Guid.NewGuid().ToString(),
                 ReleaseYear = 2018,
                 Actors = new List<Actor>(),
+                Directors = new List<Director>(),
                 Distributors = new List<Distributor>(),
                 FilmingLocations = new List<FilmingLocation>(),
                 ProductionCompanies = new List<ProductionCompany>(),
@@ -43,6 +44,11 @@ namespace Uber.Module.Movie.Test.Service
                 {
                     new Actor { FullName = "Test actor 1" },
                     new Actor { FullName = "Test actor 2" }
+                },
+                Directors = new[]
+                {
+                    new Director { FullName = "Test director 1" },
+                    new Director { FullName = "Test director 2" }
                 },
                 Distributors = new[]
                 {
@@ -79,6 +85,10 @@ namespace Uber.Module.Movie.Test.Service
                 m.Actors.Select(e => e.Key).All(key => key != default(Guid)).Should().BeTrue();
                 m.Actors.Select(e => e.FullName).Should().BeEquivalentTo(new[] { "Test actor 1", "Test actor 2" });
 
+                m.Directors.Should().HaveCount(2);
+                m.Directors.Select(e => e.Key).All(key => key != default(Guid)).Should().BeTrue();
+                m.Directors.Select(e => e.FullName).Should().BeEquivalentTo(new[] { "Test director 1", "Test director 2" });
+
                 m.Distributors.Should().HaveCount(2);
                 m.Distributors.Select(e => e.Key).All(key => key != default(Guid)).Should().BeTrue();
                 m.Distributors.Select(e => e.Name).Should().BeEquivalentTo(new[] { "Test distributor 1", "Test distributor 2" });
@@ -113,6 +123,11 @@ namespace Uber.Module.Movie.Test.Service
                     new Actor { FullName = "Test actor 1" },
                     new Actor { FullName = "Test actor 2" }
                 },
+                Directors = new[]
+                {
+                    new Director { FullName = "Test director 1" },
+                    new Director { FullName = "Test director 2" }
+                },
                 Distributors = new[]
                 {
                     new Distributor { Name = "Test distributor 1" },
@@ -143,6 +158,11 @@ namespace Uber.Module.Movie.Test.Service
                 {
                     new Actor { FullName = "Test actor 2" },
                     new Actor { FullName = "Test actor 3" }
+                },
+                Directors = new[]
+                {
+                    new Director { FullName = "Test director 2" },
+                    new Director { FullName = "Test director 3" }
                 },
                 Distributors = new[]
                 {
@@ -180,6 +200,10 @@ namespace Uber.Module.Movie.Test.Service
                 m.Actors.Should().HaveCount(3);
                 m.Actors.Select(e => e.Key).All(key => key != default(Guid)).Should().BeTrue();
                 m.Actors.Select(e => e.FullName).Should().BeEquivalentTo(new[] { "Test actor 1", "Test actor 2", "Test actor 3" });
+
+                m.Directors.Should().HaveCount(3);
+                m.Directors.Select(e => e.Key).All(key => key != default(Guid)).Should().BeTrue();
+                m.Directors.Select(e => e.FullName).Should().BeEquivalentTo(new[] { "Test director 1", "Test director 2", "Test director 3" });
 
                 m.Distributors.Should().HaveCount(3);
                 m.Distributors.Select(e => e.Key).All(key => key != default(Guid)).Should().BeTrue();

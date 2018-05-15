@@ -7,11 +7,13 @@ namespace Uber.Module.Movie.EFCore
         public virtual DbSet<Entity.Movie> Movies { get; set; }
 
         public virtual DbSet<Entity.MovieActor> MovieActors { get; set; }
+        public virtual DbSet<Entity.MovieDirector> MovieDirectors { get; set; }
         public virtual DbSet<Entity.MovieDistributor> MovieDistributors { get; set; }
         public virtual DbSet<Entity.MovieProductionCompany> MovieProductionCompanies { get; set; }
         public virtual DbSet<Entity.MovieWriter> MovieWriters { get; set; }
 
         public virtual DbSet<Abstraction.Model.Actor> Actors { get; set; }
+        public virtual DbSet<Abstraction.Model.Director> Directors { get; set; }
         public virtual DbSet<Abstraction.Model.Distributor> Distributors { get; set; }
         public virtual DbSet<Abstraction.Model.ProductionCompany> ProductionCompanies { get; set; }
         public virtual DbSet<Abstraction.Model.Writer> Writers { get; set; }
@@ -39,6 +41,14 @@ namespace Uber.Module.Movie.EFCore
                 config.Property(e => e.ActorKey).HasColumnName("actor_key");
                 config.Property(e => e.MovieKey).HasColumnName("movie_key");
                 config.HasKey(e => new { e.ActorKey, e.MovieKey });
+            });
+
+            modelBuilder.Entity<Entity.MovieDirector>(config =>
+            {
+                config.ToTable("movie_director");
+                config.Property(e => e.MovieKey).HasColumnName("movie_key");
+                config.Property(e => e.DirectorKey).HasColumnName("director_key");
+                config.HasKey(e => new { e.MovieKey, e.DirectorKey });
             });
 
             modelBuilder.Entity<Entity.MovieDistributor>(config =>
@@ -78,6 +88,14 @@ namespace Uber.Module.Movie.EFCore
             modelBuilder.Entity<Abstraction.Model.Actor>(config =>
             {
                 config.ToTable("actor");
+                config.Property(e => e.Key).HasColumnName("key");
+                config.Property(e => e.FullName).HasColumnName("full_name");
+                config.HasKey(e => e.Key);
+            });
+
+            modelBuilder.Entity<Abstraction.Model.Director>(config =>
+            {
+                config.ToTable("director");
                 config.Property(e => e.Key).HasColumnName("key");
                 config.Property(e => e.FullName).HasColumnName("full_name");
                 config.HasKey(e => e.Key);

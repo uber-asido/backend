@@ -8,11 +8,13 @@ namespace Uber.Module.Movie.EFCore
         public DbSet<Entity.Movie> Movies => DataContext.Movies;
 
         public DbSet<Entity.MovieActor> MovieActors => DataContext.MovieActors;
+        public DbSet<Entity.MovieDirector> MovieDirectors => DataContext.MovieDirectors;
         public DbSet<Entity.MovieDistributor> MovieDistributors => DataContext.MovieDistributors;
         public DbSet<Entity.MovieProductionCompany> MovieProductionCompanies => DataContext.MovieProductionCompanies;
         public DbSet<Entity.MovieWriter> MovieWriters => DataContext.MovieWriters;
 
         public DbSet<Abstraction.Model.Actor> Actors => DataContext.Actors;
+        public DbSet<Abstraction.Model.Director> Directors => DataContext.Directors;
         public DbSet<Abstraction.Model.Distributor> Distributors => DataContext.Distributors;
         public DbSet<Abstraction.Model.ProductionCompany> ProductionCompanies => DataContext.ProductionCompanies;
         public DbSet<Abstraction.Model.Writer> Writers => DataContext.Writers;

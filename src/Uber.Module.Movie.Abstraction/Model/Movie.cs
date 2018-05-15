@@ -11,6 +11,7 @@ namespace Uber.Module.Movie.Abstraction.Model
         public IList<FilmingLocation> FilmingLocations { get; set; }
         public IList<ProductionCompany> ProductionCompanies { get; set; }
         public IList<Distributor> Distributors { get; set; }
+        public IList<Director> Directors { get; set; }
         public IList<Writer> Writers { get; set; }
         public IList<Actor> Actors { get; set; }
     }
