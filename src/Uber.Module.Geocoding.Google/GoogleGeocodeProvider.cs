@@ -25,9 +25,9 @@ namespace Uber.Module.Geocoding.Google
                 var content = await response.Content.ReadAsStringAsync();
                 var json = JsonConvert.DeserializeObject<GeocodeResponse>(content);
 
-                if (json.Status == "ZERO_RESULTS")
+                if (json.Status == "ZERO_RESULTS" || json.Status == "OVER_QUERY_LIMIT")
                     return null;
-                
+
                 if (json.Status != "OK")
                     throw new Exception($"Failed to query location. Status={json.Status}. Location={location}");
 
