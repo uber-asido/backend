@@ -85,9 +85,11 @@ namespace Uber.Module.File.FileProcessor
                 }
 
                 movie.ReleaseYear = row.ReleaseYear;
-                movie.FilmingLocations.Add(new FilmingLocation { FormattedAddress = row.Location, FunFact = row.FunFact });
                 movie.ProductionCompanies.Add(new ProductionCompany { Name = row.ProductionCompany });
                 movie.Distributors.Add(new Distributor { Name = row.Distributor });
+
+                if (!string.IsNullOrWhiteSpace(row.Location))
+                    movie.FilmingLocations.Add(new FilmingLocation { FormattedAddress = row.Location, FunFact = row.FunFact });
 
                 foreach (var name in ParseNames(row.Directors))
                 {

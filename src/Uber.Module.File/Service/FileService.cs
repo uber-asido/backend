@@ -68,7 +68,7 @@ namespace Uber.Module.File.Service
 
                 var data = await historyStore.FindFileData(uploadHistoryKey);
                 var parseResult = processor.Parse(data);
-                var movies = parseResult.Movies;
+                var movies = parseResult.Movies.Where(e => e.FilmingLocations.Any());
                 var mergeTasks = new List<Task>();
 
                 foreach (var movie in movies)
