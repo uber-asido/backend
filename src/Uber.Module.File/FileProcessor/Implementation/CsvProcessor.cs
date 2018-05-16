@@ -73,6 +73,7 @@ namespace Uber.Module.File.FileProcessor
                 {
                     movie = new Movie.Abstraction.Model.Movie
                     {
+                        Title = row.Title,
                         Actors = new List<Actor>(),
                         Directors = new List<Director>(),
                         Distributors = new List<Distributor>(),
@@ -80,7 +81,7 @@ namespace Uber.Module.File.FileProcessor
                         ProductionCompanies = new List<ProductionCompany>(),
                         Writers = new List<Writer>()
                     };
-                    movieMap.Add(row.Title, movie);
+                    movieMap.Add(movie.Title, movie);
                 }
 
                 movie.ReleaseYear = row.ReleaseYear;
