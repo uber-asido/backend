@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,5 +29,9 @@ namespace Uber.Module.Movie.EFCore.Store
         }
 
         public Task<List<FilmingLocation>> Find() => locationQuery.ToListAsync();
+        public Task<List<FilmingLocation>> Find(IEnumerable<Guid> movieKeys) =>
+            locationQuery
+            .Where(e => movieKeys.Contains(e.MovieKey))
+            .ToListAsync();
     }
 }

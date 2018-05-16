@@ -60,19 +60,12 @@ namespace Uber.Module.Movie.Service
             foreach (var company in movie.ProductionCompanies)
                 items.Add(new SearchItem { Text = company.Name, Type = SearchItemType.Organization });
 
-            return searchService.Merge(items);
+            return searchService.Merge(movie.Key, items);
         }
 
         private async Task ResolveLocations(Abstraction.Model.Movie movie)
         {
             await filmingLocationService.ResolveLocations(movie.FilmingLocations);
-
-            // Remove what couldn't be resolved.
-            foreach (var location in movie.FilmingLocations.ToList())
-            {
-                if (location.FormattedAddress == null)
-                    movie.FilmingLocations.Remove(location);
-            }
         }
     }
 }

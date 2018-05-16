@@ -9,37 +9,70 @@ namespace Uber.Core.Test.Mock
 {
     public class SearchServiceMock : ISearchService
     {
-        private readonly List<SearchItem> store = new List<SearchItem>();
+        private readonly List<SearchItem> searchStore = new List<SearchItem>();
+        private readonly Dictionary<SearchItem, List<Guid>> targetStore = new Dictionary<SearchItem, List<Guid>>();
 
         public IQueryable<SearchItem> Query()
         {
             lock (this)
-                return store.ToList().AsQueryable();
+                return searchStore.ToList().AsQueryable();
         }
 
         public IQueryable<SearchItem> QuerySingle(Guid key)
         {
             lock (this)
-                return store.ToList().Where(e => e.Key == key).AsQueryable();
+                return searchStore.ToList().Where(e => e.Key == key).AsQueryable();
         }
 
         public Task<SearchItem> Find(Guid key)
         {
             lock (this)
-                return Task.FromResult(store.ToList().SingleOrDefault(e => e.Key == key));
+                return Task.FromResult(searchStore.ToList().SingleOrDefault(e => e.Key == key));
         }
 
-        public Task<SearchItem> Create(SearchItem search)
+        public Task<List<Guid>> FindTargets(Guid searchItemKey)
         {
-            if (search.Key == default(Guid))
-                search.Key = Guid.NewGuid();
+            lock (this)
+            {
+                var searchItem = searchStore.SingleOrDefault(e => e.Key == searchItemKey);
+                if (searchItem == null)
+                    return Task.FromResult(new List<Guid>());
 
-            store.Add(search);
+                if (targetStore.TryGetValue(searchItem, out var targets))
+                    return Task.FromResult(targets);
+            }
 
-            return Task.FromResult(search);
+            return Task.FromResult(new List<Guid>());
         }
-        
-        public Task<List<SearchItem>> Merge(IEnumerable<SearchItem> items)
+
+        public Task<List<Guid>> FindTargets(string freeText)
+        {
+            freeText = freeText.ToLower();
+
+            lock (this)
+            {
+                var searchItems = searchStore.Where(e => e.Text.ToLower().Contains(freeText));
+                if (!searchItems.Any())
+                    return Task.FromResult(new List<Guid>());
+
+                var targets = new List<Guid>();
+                foreach (var item in searchItems)
+                {
+                    if (targetStore.TryGetValue(item, out var t))
+                        targets.AddRange(t);
+                }
+                targets = targets.Distinct().ToList();
+                return Task.FromResult(targets);
+            }
+        }
+
+        public async Task<SearchItem> Merge(Guid targetKey, SearchItem item)
+        {
+            var result = await Merge(targetKey, new[] { item });
+            return result.SingleOrDefault();
+        }
+
+        public Task<List<SearchItem>> Merge(Guid targetKey, IEnumerable<SearchItem> items)
         {
             var inserted = new List<SearchItem>();
 
@@ -47,13 +80,29 @@ namespace Uber.Core.Test.Mock
             {
                 foreach (var item in items)
                 {
-                    if (!store.Any(e => e.Text == item.Text && e.Type == item.Type))
+                    var existingItem = searchStore.SingleOrDefault(e => e.Text == item.Text && e.Type == item.Type);
+
+                    if (existingItem == null)
                     {
                         if (item.Key == default(Guid))
                             item.Key = Guid.NewGuid();
 
-                        store.Add(item);
+                        searchStore.Add(item);
+                        targetStore.Add(item, new List<Guid> { targetKey });
+
                         inserted.Add(item);
+                    }
+                    else
+                    {
+                        if (targetStore.TryGetValue(existingItem, out var targets))
+                        {
+                            if (!targets.Contains(targetKey))
+                                targets.Add(targetKey);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("Search item present, but target is not.");
+                        }
                     }
                 }
             }

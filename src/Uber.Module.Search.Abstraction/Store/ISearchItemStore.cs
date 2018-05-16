@@ -13,6 +13,7 @@ namespace Uber.Module.Search.Abstraction.Store
 
         Task<SearchItem> Find(Guid key);
         Task<List<SearchItem>> Find(IEnumerable<string> texts, IEnumerable<SearchItemType> types);
+        Task<List<SearchItem>> FindFullText(string freeText);
 
         Task Insert(SearchItem search);
         Task Insert(IEnumerable<SearchItem> searches);

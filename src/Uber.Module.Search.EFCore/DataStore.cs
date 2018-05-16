@@ -7,6 +7,7 @@ namespace Uber.Module.Search.EFCore
     public class DataStore : DataStoreBase<DataContext>
     {
         public DbSet<SearchItem> SearchItems => DataContext.SearchItems;
+        public DbSet<SearchItemTarget> SearchItemTargets => DataContext.SearchItemTargets;
 
         public DataStore(DataContext context) : base(context) { }
     }

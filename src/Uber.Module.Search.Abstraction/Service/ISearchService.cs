@@ -13,7 +13,10 @@ namespace Uber.Module.Search.Abstraction.Service
 
         Task<SearchItem> Find(Guid key);
 
-        Task<SearchItem> Create(SearchItem search);
-        Task<List<SearchItem>> Merge(IEnumerable<SearchItem> items);
+        Task<List<Guid>> FindTargets(Guid searchItemKey);
+        Task<List<Guid>> FindTargets(string freeText);
+
+        Task<SearchItem> Merge(Guid targetKey, SearchItem items);
+        Task<List<SearchItem>> Merge(Guid targetKey, IEnumerable<SearchItem> items);
     }
 }

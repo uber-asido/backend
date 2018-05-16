@@ -32,16 +32,5 @@ namespace Uber.Module.Search.Api.OData
 
             return Ok(search);
         }
-
-
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] SearchItem model)
-        {
-            if (!ModelState.IsValid)
-                return ODataBadRequest();
-
-            var result = await searchService.Create(model);
-            return Created(result);
-        }
     }
 }
