@@ -5,6 +5,7 @@ namespace Uber.Module.Movie.Abstraction.Model
     public class FilmingLocation
     {
         public Guid Key { get; set; }
+        public Guid MovieKey { get; set; }
         public Guid AddressKey { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }

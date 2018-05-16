@@ -20,6 +20,8 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddMovie(this IServiceCollection services, Action<IMovieBuilder> configureAction)
         {
             services
+                .AddService<FilmingLocationService, FilmingLocationService>() // Concrete implementation for movie service.
+                .AddService<IFilmingLocationService, FilmingLocationService>()
                 .AddService<IMovieService, MovieService>();
 
             var builder = new MovieBuilder(services);

@@ -95,6 +95,8 @@ namespace Uber.Module.Movie.Test.Service
 
                 m.FilmingLocations.Should().HaveCount(2);
                 m.FilmingLocations.Select(e => e.Key).Should().BeEquivalentTo(movie.FilmingLocations.Select(e => e.Key));
+                m.FilmingLocations.Select(e => e.MovieKey).All(key => key != default(Guid)).Should().BeTrue();
+                m.FilmingLocations.Select(e => e.MovieKey).Should().BeEquivalentTo(merged.FilmingLocations.Select(e => e.MovieKey));
                 m.FilmingLocations.Select(e => e.AddressKey).Should().BeEquivalentTo(movie.FilmingLocations.Select(e => e.AddressKey));
                 m.FilmingLocations.Select(e => e.Latitude).Should().BeEquivalentTo(new[] { 1.0, 1.0 });
                 m.FilmingLocations.Select(e => e.Longitude).Should().BeEquivalentTo(new[] { 1.0, 1.0 });

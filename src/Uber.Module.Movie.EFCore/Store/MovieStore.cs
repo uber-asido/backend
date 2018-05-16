@@ -8,7 +8,7 @@ using Uber.Module.Movie.Abstraction.Store;
 
 namespace Uber.Module.Movie.EFCore.Store
 {
-    public class MovieStore : IMovieStore
+    internal class MovieStore : IMovieStore
     {
         private readonly DataStore db;
 
@@ -53,6 +53,7 @@ namespace Uber.Module.Movie.EFCore.Store
                                                  select new FilmingLocation
                                                  {
                                                      Key = locationRef.Key,
+                                                     MovieKey = locationRef.MovieKey,
                                                      AddressKey = locationRef.AddressKey,
                                                      FunFact = locationRef.FunFact
                                                  }).ToList(),

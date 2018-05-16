@@ -10,15 +10,15 @@ using Uber.Module.Search.Abstraction.Service;
 
 namespace Uber.Module.Movie.Service
 {
-    public class MovieService : IMovieService
+    internal class MovieService : IMovieService
     {
-        private readonly IGeocodingService geocodingService;
+        private readonly FilmingLocationService filmingLocationService;
         private readonly ISearchService searchService;
         private readonly IMovieStore movieStore;
 
-        public MovieService(IGeocodingService geocodingService, ISearchService searchService, IMovieStore movieStore)
+        public MovieService(FilmingLocationService filmingLocationService, ISearchService searchService, IMovieStore movieStore)
         {
-            this.geocodingService = geocodingService;
+            this.filmingLocationService = filmingLocationService;
             this.searchService = searchService;
             this.movieStore = movieStore;
         }
@@ -35,39 +35,10 @@ namespace Uber.Module.Movie.Service
         {
             var movieNew = await movieStore.Merge(movie);
 
-            await Task.WhenAll(
-                ResolveLocations(movieNew),
-                CreateSearchEntries(movieNew));
+            await ResolveLocations(movieNew);
+            await CreateSearchEntries(movieNew);
 
             return movieNew;
-        }
-
-        private async Task ResolveLocations(Abstraction.Model.Movie movie)
-        {
-            if (!movie.FilmingLocations.Any())
-                return;
-
-            var keys = movie.FilmingLocations.Select(e => e.AddressKey);
-            var addresses = await geocodingService.Find(keys);
-
-            foreach (var location in movie.FilmingLocations.ToList())
-            {
-                var address = addresses.SingleOrDefault(e => e.Key == location.AddressKey);
-                if (address == null)
-                {
-                    // Geocode service doesn't have such address - ignore.
-                    // TODO: Figure what to do with them:
-                    //  o Resolve geocode from unformatted address again?
-                    //  o Remove the location from the movie?
-
-                    movie.FilmingLocations.Remove(location);
-                    continue;
-                }
-
-                location.FormattedAddress = address.FormattedAddress;
-                location.Latitude = address.Latitude;
-                location.Longitude = address.Longitude;
-            }
         }
 
         private Task CreateSearchEntries(Abstraction.Model.Movie movie)
@@ -90,6 +61,18 @@ namespace Uber.Module.Movie.Service
                 items.Add(new SearchItem { Text = company.Name, Type = SearchItemType.Organization });
 
             return searchService.Merge(items);
+        }
+
+        private async Task ResolveLocations(Abstraction.Model.Movie movie)
+        {
+            await filmingLocationService.ResolveLocations(movie.FilmingLocations);
+
+            // Remove what couldn't be resolved.
+            foreach (var location in movie.FilmingLocations.ToList())
+            {
+                if (location.FormattedAddress == null)
+                    movie.FilmingLocations.Remove(location);
+            }
         }
     }
 }
