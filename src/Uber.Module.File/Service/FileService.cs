@@ -69,29 +69,20 @@ namespace Uber.Module.File.Service
                 var data = await historyStore.FindFileData(uploadHistoryKey);
                 var parseResult = processor.Parse(data);
                 var movies = parseResult.Movies.Where(e => e.FilmingLocations.Any());
-                var mergeTasks = new List<Task>();
 
                 foreach (var movie in movies)
                 {
-                    var geocodeTasks = new List<Task>();
                     foreach (var location in movie.FilmingLocations)
                     {
-                        async Task doGeocode()
-                        {
-                            var geocode = await geocodingService.Geocode(location.FormattedAddress);
-                            location.AddressKey = geocode.Key;
-                            location.FormattedAddress = geocode.FormattedAddress;
-                            location.Latitude = geocode.Latitude;
-                            location.Longitude = geocode.Longitude;
-                        }
-                        geocodeTasks.Add(doGeocode());
+                        var geocode = await geocodingService.Geocode(location.FormattedAddress);
+                        location.AddressKey = geocode.Key;
+                        location.FormattedAddress = geocode.FormattedAddress;
+                        location.Latitude = geocode.Latitude;
+                        location.Longitude = geocode.Longitude;
                     }
-                    await Task.WhenAll(geocodeTasks);
 
-                    mergeTasks.Add(movieService.Merge(movie));
+                    await movieService.Merge(movie);
                 }
-
-                await Task.WhenAll(mergeTasks);
 
                 history.Status = UploadStatus.Done;
                 history.Errors = parseResult.Errors.ToArray();
