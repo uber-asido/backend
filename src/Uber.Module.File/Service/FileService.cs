@@ -75,11 +75,18 @@ namespace Uber.Module.File.Service
                     foreach (var location in movie.FilmingLocations)
                     {
                         var geocode = await geocodingService.Geocode(location.FormattedAddress);
+
+                        if (geocode == null)
+                            continue;
+
                         location.AddressKey = geocode.Key;
                         location.FormattedAddress = geocode.FormattedAddress;
                         location.Latitude = geocode.Latitude;
                         location.Longitude = geocode.Longitude;
                     }
+
+                    // Remove locations, that geocode service couldn't resolve.
+                    movie.FilmingLocations = movie.FilmingLocations.Where(e => e.AddressKey != default(Guid)).ToList();
 
                     await movieService.Merge(movie);
                 }

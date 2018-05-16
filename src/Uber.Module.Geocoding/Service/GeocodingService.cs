@@ -32,6 +32,9 @@ namespace Uber.Module.Geocoding.Service
             if (address == null)
             {
                 var geocode = await geocodeProvider.Geocode(location);
+                if (geocode == null)
+                    return null;
+
                 address = await geocodeStore.Create(location, new Address
                 {
                     Key = Guid.NewGuid(),
