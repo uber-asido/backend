@@ -8,9 +8,11 @@
     <None Remove="Migration\Script0001 - Initial.sql" />
     <None Remove="Migration\Script0002 - Location.sql" />
     <None Remove="Migration\Script0003 - Indexes.sql" />
+    <None Remove="Migration\Script0004 - LocationNotFound.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Migration\Script0004 - LocationNotFound.sql" />
     <EmbeddedResource Include="Migration\Script0003 - Indexes.sql" />
     <EmbeddedResource Include="Migration\Script0002 - Location.sql" />
     <EmbeddedResource Include="Migration\Script0001 - Initial.sql" />

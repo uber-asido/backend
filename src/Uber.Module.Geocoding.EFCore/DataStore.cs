@@ -9,6 +9,7 @@ namespace Uber.Module.Geocoding.EFCore
     {
         public DbSet<Address> Addresses => DataContext.Addresses;
         public DbSet<Location> Locations => DataContext.Locations;
+        public DbSet<LocationNotFound> LocationsNotFound => DataContext.LocationsNotFound;
 
         public DataStore(DataContext context) : base(context) { }
     }

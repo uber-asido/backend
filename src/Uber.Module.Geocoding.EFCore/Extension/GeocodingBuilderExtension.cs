@@ -16,7 +16,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddInstallerStep<Migrate>()
                 .AddDbContext<DataContext>(optionsAction)
                 .AddDataStore<DataStore, DataContext>()
-                .AddStore<IGeocodingStore, GeocodingStore>();
+                .AddStore<IGeocodingStore, GeocodingStore>()
+                .AddStore<INotFoundStore, NotFoundStore>();
 
             return builder;
         }

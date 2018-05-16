@@ -8,6 +8,7 @@ namespace Uber.Module.Geocoding.EFCore
     {
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
+        public virtual DbSet<LocationNotFound> LocationsNotFound { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
@@ -30,6 +31,14 @@ namespace Uber.Module.Geocoding.EFCore
                 config.ToTable("location");
                 config.Property(e => e.Key).HasColumnName("key");
                 config.Property(e => e.AddressKey).HasColumnName("address_key");
+                config.Property(e => e.UnformattedAddress).HasColumnName("unformatted_address");
+                config.HasKey(e => e.Key);
+            });
+
+            modelBuilder.Entity<LocationNotFound>(config =>
+            {
+                config.ToTable("location_not_found");
+                config.Property(e => e.Key).HasColumnName("key");
                 config.Property(e => e.UnformattedAddress).HasColumnName("unformatted_address");
                 config.HasKey(e => e.Key);
             });

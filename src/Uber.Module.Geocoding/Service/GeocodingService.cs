@@ -12,11 +12,13 @@ namespace Uber.Module.Geocoding.Service
     {
         private readonly IGeocodeProvider geocodeProvider;
         private readonly IGeocodingStore geocodeStore;
+        private readonly INotFoundStore notFoundStore;
 
-        public GeocodingService(IGeocodeProvider geocodeProvider, IGeocodingStore geocodeStore)
+        public GeocodingService(IGeocodeProvider geocodeProvider, IGeocodingStore geocodeStore, INotFoundStore notFoundStore)
         {
             this.geocodeProvider = geocodeProvider;
             this.geocodeStore = geocodeStore;
+            this.notFoundStore = notFoundStore;
         }
 
         public IQueryable<Address> Query() => geocodeStore.Query();
@@ -31,9 +33,15 @@ namespace Uber.Module.Geocoding.Service
 
             if (address == null)
             {
+                if (await notFoundStore.Find(location) != null)
+                    return null;
+
                 var geocode = await geocodeProvider.Geocode(location);
                 if (geocode == null)
+                {
+                    await notFoundStore.Insert(new LocationNotFound { Key = Guid.NewGuid(), UnformattedAddress = location });
                     return null;
+                }
 
                 address = await geocodeStore.Create(location, new Address
                 {
