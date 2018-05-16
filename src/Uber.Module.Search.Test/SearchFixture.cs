@@ -10,7 +10,7 @@ namespace Uber.Module.Search.Test
     {
         protected override void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = new ConnectionString("Server=172.27.243.9;Port=5432;Database=uber_search_test;User Id=uber;Password=x;");
+            var connectionString = new ConnectionString("Server=localhost;Port=5432;Database=uber_search_test;User Id=uber;Password=x;");
             services.AddSingleton(connectionString);
             services.AddSearch(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionString.Value)));
         }

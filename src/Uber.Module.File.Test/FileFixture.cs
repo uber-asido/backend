@@ -19,12 +19,12 @@ namespace Uber.Module.File.Test
 
         protected override void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = new ConnectionString("Server=172.27.243.9;Port=5432;Database=uber_file_test;User Id=uber;Password=x;");
+            var connectionString = new ConnectionString("Server=localhost;Port=5432;Database=uber_file_test;User Id=uber;Password=x;");
             services.AddSingleton(connectionString);
             services.AddFile(builder => builder.UseEFCoreStores(options => options.UseNpgsql(connectionString.Value)));
             services.AddSingleton<IGeocodingService>(new GeocodingServiceMock());
             services.AddSingleton<IMovieService>(new MovieServiceMock());
-            services.AddHangfireServer("Server=172.27.243.9;Port=5432;Database=uber_hangfire_test;User Id=hangfire;Password=x;");
+            services.AddHangfireServer("Server=localhost;Port=5432;Database=uber_hangfire_test;User Id=hangfire;Password=x;");
         }
 
         protected override void Configure()
