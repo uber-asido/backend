@@ -1,5 +1,4 @@
 ﻿alter table filming_location add column key uuid;
-update filming_location set key = gen_random_uuid();
 alter table filming_location alter column key set not null;
 
 alter table filming_location drop constraint pk_filming_location;
