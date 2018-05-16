@@ -22,6 +22,12 @@ namespace Uber.Module.File.Api.OData
         [ODataRoute("UploadFile")]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
+            if (file == null)
+            {
+                ModelState.AddModelError(nameof(file), "File must be provided");
+                return ODataBadRequest();
+            }
+
             var data = file.OpenReadStream().ReadToEnd();
             var result = await fileService.ScheduleForProcessing(new Abstraction.Service.File(file.FileName, data));
 
