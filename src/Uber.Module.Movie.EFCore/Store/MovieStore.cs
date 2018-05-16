@@ -79,7 +79,7 @@ namespace Uber.Module.Movie.EFCore.Store
 
         public async Task<Abstraction.Model.Movie> Merge(Abstraction.Model.Movie movieNew)
         {
-            var movieOld = await movieQuery.SingleOrDefaultAsync(e => e.Title == movieNew.Title && e.ReleaseYear == movieNew.ReleaseYear);
+            var movieOld = await movieQuery.FirstOrDefaultAsync(e => e.Title == movieNew.Title && e.ReleaseYear == movieNew.ReleaseYear);
 
             if (movieOld == null)
             {
@@ -114,7 +114,7 @@ namespace Uber.Module.Movie.EFCore.Store
                     if (movieOld.Actors.Any(e => e.FullName == name))
                         continue;
 
-                    var entity = existingActors.SingleOrDefault(e => e.FullName == name);
+                    var entity = existingActors.FirstOrDefault(e => e.FullName == name);
 
                     if (entity == null)
                     {
@@ -140,7 +140,7 @@ namespace Uber.Module.Movie.EFCore.Store
                     if (movieOld.Directors.Any(e => e.FullName == name))
                         continue;
 
-                    var entity = existingDirectors.SingleOrDefault(e => e.FullName == name);
+                    var entity = existingDirectors.FirstOrDefault(e => e.FullName == name);
 
                     if (entity == null)
                     {
@@ -166,7 +166,7 @@ namespace Uber.Module.Movie.EFCore.Store
                     if (movieOld.Distributors.Any(e => e.Name == name))
                         continue;
 
-                    var entity = existingDistributors.SingleOrDefault(e => e.Name == name);
+                    var entity = existingDistributors.FirstOrDefault(e => e.Name == name);
 
                     if (entity == null)
                     {
@@ -213,7 +213,7 @@ namespace Uber.Module.Movie.EFCore.Store
                     if (movieOld.ProductionCompanies.Any(e => e.Name == name))
                         continue;
 
-                    var entity = existingCompanies.SingleOrDefault(e => e.Name == name);
+                    var entity = existingCompanies.FirstOrDefault(e => e.Name == name);
 
                     if (entity == null)
                     {
@@ -239,7 +239,7 @@ namespace Uber.Module.Movie.EFCore.Store
                     if (movieOld.Writers.Any(e => e.FullName == name))
                         continue;
 
-                    var entity = existingWriters.SingleOrDefault(e => e.FullName == name);
+                    var entity = existingWriters.FirstOrDefault(e => e.FullName == name);
 
                     if (entity == null)
                     {
