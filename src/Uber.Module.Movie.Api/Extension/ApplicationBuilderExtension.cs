@@ -17,14 +17,14 @@ namespace Microsoft.Extensions.DependencyInjection
                 var distributor = builder.AddEntityType<Distributor>();
                 distributor.HasKey(e => e.Key);
 
-                var filmingLocation = builder.AddEntityType<FilmingLocation>();
-                filmingLocation.HasKey(e => e.Key);
-
                 var productionCompany = builder.AddEntityType<ProductionCompany>();
                 productionCompany.HasKey(e => e.Key);
 
                 var writer = builder.AddEntityType<Writer>();
                 writer.HasKey(e => e.Key);
+
+                var filmingLocation = builder.AddEntitySet<FilmingLocation>();
+                filmingLocation.EntityType.HasKey(e => e.Key);
 
                 var movie = builder.AddEntitySet<Movie>();
                 movie.EntityType.HasKey(e => e.Key);
