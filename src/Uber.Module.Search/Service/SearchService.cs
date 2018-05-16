@@ -47,6 +47,7 @@ namespace Uber.Module.Search.Service
                         item.Key = Guid.NewGuid();
 
                     toInsertSearch.Add(item);
+                    existingSearch.Add(item);
                 }
             }
 
