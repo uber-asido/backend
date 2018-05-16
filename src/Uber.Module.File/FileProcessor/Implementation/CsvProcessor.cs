@@ -58,6 +58,17 @@ namespace Uber.Module.File.FileProcessor
             {
                 i++;
 
+                row.Actor1 = row.Actor1.Trim();
+                row.Actor2 = row.Actor2.Trim();
+                row.Actor3 = row.Actor3.Trim();
+                row.Directors = row.Directors.Trim();
+                row.Distributor = row.Distributor.Trim();
+                row.FunFact = row.FunFact.Trim();
+                row.Location = row.Location.Trim();
+                row.ProductionCompany = row.ProductionCompany.Trim();
+                row.Title = row.Title.Trim();
+                row.Writers = row.Writers.Trim();
+
                 if (string.IsNullOrWhiteSpace(row.Title))
                 {
                     result.Errors.Add($"Row {i}: No movie title");
@@ -85,10 +96,14 @@ namespace Uber.Module.File.FileProcessor
                 }
 
                 movie.ReleaseYear = row.ReleaseYear;
-                movie.ProductionCompanies.Add(new ProductionCompany { Name = row.ProductionCompany });
-                movie.Distributors.Add(new Distributor { Name = row.Distributor });
 
-                if (!string.IsNullOrWhiteSpace(row.Location))
+                if (row.ProductionCompany.Length > 0 && !movie.ProductionCompanies.Any(e => e.Name == row.ProductionCompany))
+                    movie.ProductionCompanies.Add(new ProductionCompany { Name = row.ProductionCompany });
+
+                if (row.Distributor.Length > 0 && !movie.Distributors.Any(e => e.Name == row.Distributor))
+                    movie.Distributors.Add(new Distributor { Name = row.Distributor });
+
+                if (row.Location.Length > 0 && !movie.FilmingLocations.Any(e => e.FormattedAddress == row.Location))
                     movie.FilmingLocations.Add(new FilmingLocation { FormattedAddress = row.Location, FunFact = row.FunFact });
 
                 foreach (var name in ParseNames(row.Directors))
@@ -105,7 +120,7 @@ namespace Uber.Module.File.FileProcessor
 
                 foreach (var name in new[] { row.Actor1, row.Actor2, row.Actor3 })
                 {
-                    if (!string.IsNullOrEmpty(name) && !movie.Actors.Any(e => e.FullName == name))
+                    if (name.Length > 0 && !movie.Actors.Any(e => e.FullName == name))
                         movie.Actors.Add(new Actor { FullName = name });
                 }
             }
