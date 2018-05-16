@@ -24,7 +24,15 @@ namespace Uber.Module.Search.Api.OData
 
         [EnableQuery]
         [HttpGet]
-        public IQueryable<SearchItem> Get([FromODataUri] Guid key) => searchService.QuerySingle(key);
+        public async Task<IActionResult> Get([FromODataUri] Guid key)
+        {
+            var search = await searchService.Find(key);
+            if (search == null)
+                return NotFound();
+
+            return Ok(search);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] SearchItem model)
