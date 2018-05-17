@@ -83,7 +83,7 @@ namespace Uber.Server.Gateway
             app.UseMvc(routeBuilder =>
             {
                 var odataBuilder = new ODataConventionModelBuilder(app.ApplicationServices);
-                odataBuilder.EnableLowerCamelCase(NameResolverOptions.ProcessDataMemberAttributePropertyNames | NameResolverOptions.ProcessExplicitPropertyNames | NameResolverOptions.ProcessReflectedPropertyNames);
+                odataBuilder.EnableLowerCamelCase();
 
                 app.UseFileApi(odataBuilder);
                 app.UseMovieApi(odataBuilder);

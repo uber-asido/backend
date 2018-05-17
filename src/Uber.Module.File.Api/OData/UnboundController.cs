@@ -18,7 +18,7 @@ namespace Uber.Module.File.Api.OData
             this.fileService = fileService;
         }
 
-        [HttpPost()]
+        [HttpPost]
         [ODataRoute("UploadFile")]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
