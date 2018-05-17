@@ -25,7 +25,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 var filmingLocation = builder.AddEntitySet<FilmingLocation>();
                 filmingLocation.EntityType.HasKey(e => e.Key);
-
+                
                 var movie = builder.AddEntitySet<Movie>();
                 movie.EntityType.HasKey(e => e.Key);
                 movie.EntityType.ContainsMany(e => e.Actors).AutoExpand = true;
@@ -33,6 +33,10 @@ namespace Microsoft.Extensions.DependencyInjection
                 movie.EntityType.ContainsMany(e => e.FilmingLocations).AutoExpand = true;
                 movie.EntityType.ContainsMany(e => e.ProductionCompanies).AutoExpand = true;
                 movie.EntityType.ContainsMany(e => e.Writers).AutoExpand = true;
+
+                var filmingLocationSearchByFreeText = filmingLocation.EntityType.Collection.AddFunction("SearchByFreeText");
+                filmingLocationSearchByFreeText.Parameter<string>("text");
+                filmingLocationSearchByFreeText.ReturnsCollectionFromEntitySet<FilmingLocation>(nameof(FilmingLocation));
             });
 
             return app;

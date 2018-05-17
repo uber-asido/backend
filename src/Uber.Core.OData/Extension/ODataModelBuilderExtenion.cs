@@ -56,4 +56,27 @@ namespace Uber.Core.OData
             action(new UberODataModelBuilder(builder, @namespace));
         }
     }
+
+    public static class EntityCollectionConfigurationExtension
+    {
+        public static ActionConfiguration AddAction<TEntity>(this EntityCollectionConfiguration<TEntity> collection, string actionName)
+        {
+            if (string.IsNullOrWhiteSpace(actionName))
+                throw new ArgumentNullException(nameof(actionName));
+
+            var action = collection.Action(actionName);
+            action.Namespace = "Service";
+            return action;
+        }
+
+        public static FunctionConfiguration AddFunction<TEntity>(this EntityCollectionConfiguration<TEntity> collection, string functionName)
+        {
+            if (string.IsNullOrWhiteSpace(functionName))
+                throw new ArgumentNullException(nameof(functionName));
+
+            var function = collection.Function(functionName);
+            function.Namespace = "Service";
+            return function;
+        }
+    }
 }

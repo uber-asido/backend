@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNet.OData;
+using Microsoft.AspNet.OData.Routing;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Uber.Core.OData;
@@ -23,6 +25,13 @@ namespace Uber.Module.Movie.Api.OData
         {
             var locations = await filmingLocationService.Find();
             return locations.AsQueryable();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchByFreeText(string text)
+        {
+            var locations = await filmingLocationService.Find(text);
+            return Ok(locations);
         }
     }
 }
