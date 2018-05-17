@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNetCore.Builder;
+using System;
 using Uber.Core.OData;
 using Uber.Module.Movie.Abstraction.Model;
 
@@ -37,6 +38,10 @@ namespace Microsoft.Extensions.DependencyInjection
                 var filmingLocationSearchByFreeText = filmingLocation.EntityType.Collection.AddFunction("SearchByFreeText");
                 filmingLocationSearchByFreeText.Parameter<string>("text");
                 filmingLocationSearchByFreeText.ReturnsCollectionFromEntitySet<FilmingLocation>(nameof(FilmingLocation));
+
+                var filmingLocationSearchBySearchItem = filmingLocation.EntityType.Collection.AddFunction("SearchBySearchItem");
+                filmingLocationSearchBySearchItem.Parameter<Guid>("searchItemKey");
+                filmingLocationSearchBySearchItem.ReturnsCollectionFromEntitySet<FilmingLocation>(nameof(FilmingLocation));
             });
 
             return app;

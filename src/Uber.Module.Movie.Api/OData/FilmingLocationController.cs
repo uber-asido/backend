@@ -27,10 +27,19 @@ namespace Uber.Module.Movie.Api.OData
             return locations.AsQueryable();
         }
 
+        [EnableQuery]
         [HttpGet]
         public async Task<IActionResult> SearchByFreeText(string text)
         {
             var locations = await filmingLocationService.Find(text);
+            return Ok(locations);
+        }
+
+        [EnableQuery]
+        [HttpGet]
+        public async Task<IActionResult> SearchBySearchItem(Guid searchItemKey)
+        {
+            var locations = await filmingLocationService.Find(searchItemKey);
             return Ok(locations);
         }
     }
