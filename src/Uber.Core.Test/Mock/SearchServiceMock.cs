@@ -30,22 +30,22 @@ namespace Uber.Core.Test.Mock
                 return Task.FromResult(searchStore.ToList().SingleOrDefault(e => e.Key == key));
         }
 
-        public Task<List<Guid>> FindTargets(Guid searchItemKey)
+        public Task<IEnumerable<Guid>> FindTargets(Guid searchItemKey)
         {
             lock (this)
             {
                 var searchItem = searchStore.SingleOrDefault(e => e.Key == searchItemKey);
                 if (searchItem == null)
-                    return Task.FromResult(new List<Guid>());
+                    return Task.FromResult<IEnumerable<Guid>>(new List<Guid>());
 
                 if (targetStore.TryGetValue(searchItem, out var targets))
-                    return Task.FromResult(targets);
+                    return Task.FromResult<IEnumerable<Guid>>(targets);
             }
 
-            return Task.FromResult(new List<Guid>());
+            return Task.FromResult<IEnumerable<Guid>>(new List<Guid>());
         }
 
-        public Task<List<Guid>> FindTargets(string freeText)
+        public Task<IEnumerable<Guid>> FindTargets(string freeText)
         {
             freeText = freeText.ToLower();
 
@@ -53,7 +53,7 @@ namespace Uber.Core.Test.Mock
             {
                 var searchItems = searchStore.Where(e => e.Text.ToLower().Contains(freeText));
                 if (!searchItems.Any())
-                    return Task.FromResult(new List<Guid>());
+                    return Task.FromResult<IEnumerable<Guid>>(new List<Guid>());
 
                 var targets = new List<Guid>();
                 foreach (var item in searchItems)
@@ -62,7 +62,7 @@ namespace Uber.Core.Test.Mock
                         targets.AddRange(t);
                 }
                 targets = targets.Distinct().ToList();
-                return Task.FromResult(targets);
+                return Task.FromResult<IEnumerable<Guid>>(targets);
             }
         }
 

@@ -24,22 +24,26 @@ namespace Uber.Module.Search.Service
 
         public Task<SearchItem> Find(Guid key) => searchStore.Find(key);
 
-        public Task<List<Guid>> FindTargets(Guid searchItemKey) => targetStore.Find(searchItemKey);
+        public async Task<IEnumerable<Guid>> FindTargets(Guid searchItemKey)
+        {
+            var targets = await targetStore.Find(searchItemKey);
+            return targets.Select(e => e.TargetKey);
+        }
 
-        public async Task<List<Guid>> FindTargets(string freeText)
+        public async Task<IEnumerable<Guid>> FindTargets(string freeText)
         {
             var searchItems = await searchStore.FindFullText(freeText);
             if (!searchItems.Any())
                 return new List<Guid>();
 
             var targets = await targetStore.Find(searchItems.Select(e => e.Key));
-            return targets;
+            return targets.Select(e => e.TargetKey);
         }
 
         public async Task<SearchItem> Merge(Guid targetKey, SearchItem search)
         {
             var result = await Merge(targetKey, new[] { search });
-            return result.SingleOrDefault();
+            return result.Single();
         }
 
         public async Task<List<SearchItem>> Merge(Guid targetKey, IEnumerable<SearchItem> searches)
@@ -48,24 +52,45 @@ namespace Uber.Module.Search.Service
             var types = searches.Select(e => e.Type).Distinct();
 
             var existingSearch = await searchStore.Find(texts, types);
+            var existingTargets = await targetStore.Find(existingSearch.Select(e => e.Key));
             var toInsertSearch = new List<SearchItem>();
+            var toInsertTargets = new List<SearchItemTarget>();
+            var results = new List<SearchItem>();
 
             foreach (var item in searches)
             {
-                if (!existingSearch.Any(e => e.Text == item.Text && e.Type == item.Type))
+                var existing = existingSearch.FirstOrDefault(e => e.Text == item.Text && e.Type == item.Type);
+                if (existing == null)
                 {
                     if (item.Key == default(Guid))
                         item.Key = Guid.NewGuid();
 
                     toInsertSearch.Add(item);
                     existingSearch.Add(item);
+
+                    var target = new SearchItemTarget { SearchItemKey = item.Key, TargetKey = targetKey };
+                    toInsertTargets.Add(target);
+                    existingTargets.Add(target);
+
+                    results.Add(item);
+                }
+                else
+                {
+                    if (!existingTargets.Any(e => e.SearchItemKey == existing.Key && e.TargetKey == targetKey))
+                    {
+                        var target = new SearchItemTarget { SearchItemKey = existing.Key, TargetKey = targetKey };
+                        toInsertTargets.Add(target);
+                        existingTargets.Add(target);
+                    }
+
+                    results.Add(existing);
                 }
             }
 
-            // TODO: Populate search_item_target table.
+            await targetStore.Insert(toInsertTargets);
             await searchStore.Insert(toInsertSearch);
 
-            return toInsertSearch;
+            return results;
         }
     }
 }

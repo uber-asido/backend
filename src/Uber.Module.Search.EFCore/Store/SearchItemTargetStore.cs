@@ -17,22 +17,16 @@ namespace Uber.Module.Search.EFCore.Store
             this.db = db;
         }
 
-        public Task<List<Guid>> Find(Guid searchItemKey) =>
+        public Task<List<SearchItemTarget>> Find(Guid searchItemKey) =>
             db.SearchItemTargets
             .Where(e => e.SearchItemKey == searchItemKey)
-            .Select(e => e.TargetKey)
             .ToListAsync();
 
-        public Task<List<Guid>> Find(IEnumerable<Guid> searchItemKeys) =>
+        public Task<List<SearchItemTarget>> Find(IEnumerable<Guid> searchItemKeys) =>
             db.SearchItemTargets
             .Where(e => searchItemKeys.Contains(e.SearchItemKey))
-            .Select(e => e.TargetKey)
             .ToListAsync();
 
-        public async Task Insert(Guid targetKey, IEnumerable<Guid> searchItemKeys)
-        {
-            var entities = searchItemKeys.Select(key => new SearchItemTarget { SearchItemKey = key, TargetKey = targetKey });
-            await db.InsertAndCommit(entities);
-        }
+        public Task Insert(IEnumerable<SearchItemTarget> targets) => db.InsertAndCommit(targets);
     }
 }
