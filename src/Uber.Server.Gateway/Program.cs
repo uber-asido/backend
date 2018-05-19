@@ -32,6 +32,7 @@ namespace Uber.Server.Gateway
                         config.AddJsonFile("AppSettings.json", optional: false);
                         config.AddJsonFile($"AppSettings.{host.HostingEnvironment.EnvironmentName}.json", optional: false);
                         config.AddJsonFile("AppSettings.User.json", optional: true);
+                        config.AddEnvironmentVariables();
                     })
                 .Build();
     }
