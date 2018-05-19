@@ -33,7 +33,7 @@ Storage entities and database technology are strictly encapsulated in the store 
 
 ## Gateway
 
-The gateway server aggregates the modules into a monolith and exposes an [OData](http://www.odata.org/) API to the public. The architecture, however, is extremely flexible. Nothing stops from running each module on individual machines and make them communicate via REST or other form of RPC.
+The gateway server aggregates the modules into a monolith and exposes an [OData](http://www.odata.org/) API to the public. The architecture, however, is extremely flexible. Modules get dependencies via dependency injection. Since dependencies are referenced via abstractions, actual implementations can be either a reference to an instance within the same module or a even a reference to a client library, which communicates with the dependency on another machine via REST or other form of RPC. Such architecture allows to run each module on individual machines if there is a need with no dependee source code changes.
 
 ## OData API
 
@@ -96,7 +96,7 @@ GET | <a href="https://uber-asido.azurewebsites.net/odata/FilmingLocation/Servic
 
 Install [.NET Core 2.1 RC-1](https://www.microsoft.com/net/download).
 
-Overwrite the configuration file by creating a new file at `src/Uber.Server.Gateway/AppSettings.User.json`. In the file you have to provide database connection strings:
+Overwrite project configuration by creating a new file at `src/Uber.Server.Gateway/AppSettings.User.json`. In the file you have to provide database connection strings:
 ```json
 {
     "ConnectionStrings": {
@@ -152,7 +152,10 @@ dotnet build
 
 ### Test
 
-Every module of the service is covered by test cases. One annoyance, however, is that database connection strings are now hardcoded in the fixtures. If they don't match your configuration, then you have to modify them in the following files:
+Every module contains a test project. The current source code doesn't have complex logic, therefore most of the tests are integration tests. Modules are tested in isolation. If it has a dependency service from another module, `Uber.Core.Test` project provides mocked services.
+
+Test projects currently have one code smell - database connection strings are hardcoded in the fixtures. If they don't match your configuration, then modify them in the following files:
+
 ```
 src/Uber.Module.File.Test/FileFixture.cs
 src/Uber.Module.Geocoding.Test/GeocodingFixture.cs
@@ -160,10 +163,7 @@ src/Uber.Module.Movie.Test/MovieFixture.cs
 src/Uber.Module.Search.Test/SearchFixture.cs
 ```
 
-To run tests execute the following command from the root directory:
-```
-dotnet test
-```
+To run tests run `dotnet test` from the root directory.
 
 ### Run
 
