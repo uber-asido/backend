@@ -15,6 +15,9 @@ namespace Microsoft.Extensions.DependencyInjection
                 var actor = builder.AddEntityType<Actor>();
                 actor.HasKey(e => e.Key);
 
+                var director = builder.AddEntityType<Director>();
+                director.HasKey(e => e.Key);
+
                 var distributor = builder.AddEntityType<Distributor>();
                 distributor.HasKey(e => e.Key);
 
@@ -30,6 +33,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 var movie = builder.AddEntitySet<Movie>();
                 movie.EntityType.HasKey(e => e.Key);
                 movie.EntityType.ContainsMany(e => e.Actors).AutoExpand = true;
+                movie.EntityType.ContainsMany(e => e.Directors).AutoExpand = true;
                 movie.EntityType.ContainsMany(e => e.Distributors).AutoExpand = true;
                 movie.EntityType.ContainsMany(e => e.FilmingLocations).AutoExpand = true;
                 movie.EntityType.ContainsMany(e => e.ProductionCompanies).AutoExpand = true;
