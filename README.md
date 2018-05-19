@@ -90,5 +90,100 @@ GET | [/odata/SearchItem?$filter=contains(tolower(text), 'star')](http://localho
 GET | [/odata/SearchItem/$count](http://localhost:50518/odata/SearchItem/$count) | Count search items in the index.
 GET | [/odata/FilmingLocation/Service.SearchBySearchItem(searchItemKey=fb98aa60-624a-4c32-b9b4-5f3b0b2adbd8)](http://localhost:50518/odata/FilmingLocation/Service.SearchBySearchItem(searchItemKey=fb98aa60-624a-4c32-b9b4-5f3b0b2adbd8)) | Get filming locations for a movie, that is linked with a specific search item (such as selected autocompletion).
 
+## Run service
+
+### Prerequisites
+
+Install [.NET Core 2.1 RC-1](https://www.microsoft.com/net/download).
+
+Overwrite the configuration file by creating a new file at `src/Uber.Server.Gateway/AppSettings.User.json`. In the file you have to provide database connection strings:
+```json
+{
+    "ConnectionStrings": {
+        "File": "<PostgreSQL connection string>",
+        "Geocoding": "<PostgreSQL connection string>",
+        "Movie": "<PostgreSQL connection string>",
+        "Search": "<PostgreSQL connection string>",
+        "Hangfire": "<PostgreSQL connection string>"
+    }
+}
+```
+
+All connection strings can point either to the same database or separate database servers.
+
+#### Example
+
+Here is an example how to create the required databases.
+
+Login to psql `sudo -u postgres psql` and run the following script:
+
+```sql
+create role uber with createdb;
+alter role uber with password 'x';
+
+create database uber_file with owner uber;
+create database uber_geocoding with owner uber;
+create database uber_movie with owner uber;
+create database uber_search with owner uber;
+create database uber_hangfire with owner uber;
+```
+
+Afterwards save the following `AppSettings.User.json`:
+
+```json
+{
+    "ConnectionStrings": {
+        "File": "Server=localhost;Port=5432;Database=uber_file;User Id=uber;Password=x;",
+        "Geocoding": "Server=localhost;Port=5432;Database=uber_geocoding;User Id=uber;Password=x;",
+        "Movie": "Server=localhost;Port=5432;Database=uber_movie;User Id=uber;Password=x;",
+        "Search": "Server=localhost;Port=5432;Database=uber_search;User Id=uber;Password=x;",
+        "Hangfire": "Server=localhost;Port=5432;Database=uber_hangfire;User Id=uber;Password=x;"
+    }
+}
+```
+
+### Build
+
+```
+cd src/Uber.Server.Gateway
+dotnet restore
+dotnet build
+```
+
+### Test
+
+Every module of the service is covered by test cases. One annoyance, however, is that database connection strings are now hardcoded in the fixtures. If they don't match your configuration, then you have to modify them in the following files:
+```
+src/Uber.Module.File.Test/FileFixture.cs
+src/Uber.Module.Geocoding.Test/GeocodingFixture.cs
+src/Uber.Module.Movie.Test/MovieFixture.cs
+src/Uber.Module.Search.Test/SearchFixture.cs
+```
+
+To run tests execute the following command from the root directory:
+```
+dotnet test
+```
+
+### Run
+
+```
+dotnet run
+```
+
+Visit `http://localhost:50519/odata/$metadata` to print OData metadata.
+
+### Visual Studio
+
+You can also open the project in [Visual Studio](https://www.visualstudio.com/) on MacOS or Windows, so that you don't need to do **build**, **test** and **run** steps from a command line.
+
+### Docker
+
+Create a docker image: `docker build -t uber-backend .`
+
+Run docker image: `docker run -p 8080:80 uber-backend`
+
+**NOTE:** Docker builds a release build, which doesn't include `AppSettings.User.json` configuration. Docker builds require database connection strings to be setup in `AppSettings.Production.json` file.
+
 ## Related projects
 [SF Movies frontend](https://github.com/uber-asido/frontend)
