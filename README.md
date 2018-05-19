@@ -50,7 +50,7 @@ This service currently exposes 4 entity sets.
 | --- |
 | [/odata/UploadHistory](https://uber-asido.azurewebsites.net/odata/UploadHistory) | 
 | [/odata/FilmingLocation](https://uber-asido.azurewebsites.net/odata/FilmingLocation) |
-| [/odata/Movie](https://uber-asido.azurewebsites.net/odata/Movie(fa55cc41-09ce-4d59-a295-835219ca1cdd)) |
+| <a href="https://uber-asido.azurewebsites.net/odata/Movie(fa55cc41-09ce-4d59-a295-835219ca1cdd)">/odata/Movie</a> |
 | [/odata/SearchItem](https://uber-asido.azurewebsites.net/odata/SearchItem) |
 
 A complete service OData metadata can be found [here](https://uber-asido.azurewebsites.net/odata/$metadata).
@@ -75,8 +75,8 @@ This service exposes 2 bounded collection **functions** as well as 1 unbounded *
 
 Type | Endpoint | Parameters
 --- | --- | ---
-Function | [/odata/FilmingLocation/Service.SearchByFreeText](https://uber-asido.azurewebsites.net/odata/FilmingLocation/Service.SearchByFreeText(text='star')) | **string** text
-Function | [/odata/FilmingLocation/Service.SearchBySearchItem](https://uber-asido.azurewebsites.net/odata/FilmingLocation/Service.SearchBySearchItem(searchItemKey=c70c314f-6b50-4bf8-8654-4aad00642378)) | **uuid** searchItemKey
+Function | <a href="https://uber-asido.azurewebsites.net/odata/FilmingLocation/Service.SearchByFreeText(text='star')">/odata/FilmingLocation/Service.SearchByFreeText</a> | **string** text
+Function | <a href="https://uber-asido.azurewebsites.net/odata/FilmingLocation/Service.SearchBySearchItem(searchItemKey=c70c314f-6b50-4bf8-8654-4aad00642378)">/odata/FilmingLocation/Service.SearchBySearchItem</a> | **uuid** searchItemKey
 Action | /odata/UploadFile | **stream** file
 
 Query examples:
@@ -84,11 +84,11 @@ Query examples:
 Method | URL | Description
 --- | --- | ---
 GET | [/odata/UploadHistory](https://uber-asido.azurewebsites.net/odata/UploadHistory) | List entire upload history.
-GET | [/odata/Movie(70e60044-a664-4485-a32b-bba4b334a5d8)](https://uber-asido.azurewebsites.net/odata/Movie(70e60044-a664-4485-a32b-bba4b334a5d8)) | Get a specific movie.
-GET | [/odata/Movie(70e60044-a664-4485-a32b-bba4b334a5d8)?$select=title,releaseYear](https://uber-asido.azurewebsites.net/odata/Movie(70e60044-a664-4485-a32b-bba4b334a5d8)?$select=title,releaseYear) | Get title and release year of a specific movie.
-GET | [/odata/SearchItem?$filter=contains(tolower(text), 'star')](https://uber-asido.azurewebsites.net/odata/SearchItem?$filter=contains(tolower(text), 'star') | Get search results, where text contains substring `star`.
+GET | <a href="https://uber-asido.azurewebsites.net/odata/Movie(fa55cc41-09ce-4d59-a295-835219ca1cdd)">/odata/Movie(fa55cc41-09ce-4d59-a295-835219ca1cdd)</a> | Get a specific movie.
+GET | <a href="https://uber-asido.azurewebsites.net/odata/Movie(fa55cc41-09ce-4d59-a295-835219ca1cdd)?$select=title,releaseYear">/odata/Movie(fa55cc41-09ce-4d59-a295-835219ca1cdd)?$select=title,releaseYear</a> | Get title and release year of a specific movie.
+GET | <a href="https://uber-asido.azurewebsites.net/odata/SearchItem?$filter=contains(tolower(text), 'star')">/odata/SearchItem?$filter=contains(tolower(text), 'star'))</a> | Get search results, where text contains substring `star`.
 GET | [/odata/SearchItem/$count](https://uber-asido.azurewebsites.net/odata/SearchItem/$count) | Count search items in the index.
-GET | [/odata/FilmingLocation/Service.SearchBySearchItem(searchItemKey=fb98aa60-624a-4c32-b9b4-5f3b0b2adbd8)](https://uber-asido.azurewebsites.net/odata/FilmingLocation/Service.SearchBySearchItem(searchItemKey=fb98aa60-624a-4c32-b9b4-5f3b0b2adbd8)) | Get filming locations for a movie, that is linked with a specific search item (such as selected autocompletion).
+GET | <a href="https://uber-asido.azurewebsites.net/odata/FilmingLocation/Service.SearchBySearchItem(searchItemKey=c70c314f-6b50-4bf8-8654-4aad00642378)">/odata/FilmingLocation/Service.SearchBySearchItem(searchItemKey=c70c314f-6b50-4bf8-8654-4aad00642378)</a> | Get filming locations for a movie, that is linked with a specific search item (such as selected autocompletion).
 
 ## Run service
 
