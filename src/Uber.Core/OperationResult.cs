@@ -8,9 +8,9 @@ namespace Uber.Core
         public bool Succeeded => !Errors.Any();
         public IEnumerable<string> Errors { get; protected set; }
 
-        private protected OperationResult() { }
+        protected OperationResult() { }
 
-        private static OperationResult successResult = new OperationResult { Errors = new string[0] };
+        private static readonly OperationResult successResult = new OperationResult { Errors = new string[0] };
 
         public static OperationResult Success => successResult;
 
