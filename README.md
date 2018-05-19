@@ -48,12 +48,12 @@ This service currently exposes 4 entity sets.
 
 | Endpoint |
 | --- |
-| /odata/UploadHistory | 
-| /odata/FilmingLocation |
-| /odata/Movie |
-| /odata/SearchItem |
+| [/odata/UploadHistory](https://uber-asido.azurewebsites.net/odata/UploadHistory) | 
+| [/odata/FilmingLocation](https://uber-asido.azurewebsites.net/odata/FilmingLocation) |
+| [/odata/Movie](https://uber-asido.azurewebsites.net/odata/Movie(fa55cc41-09ce-4d59-a295-835219ca1cdd)) |
+| [/odata/SearchItem](https://uber-asido.azurewebsites.net/odata/SearchItem) |
 
-A complete service OData metadata can be found [here](http://localhost:50518/odata/$metadata).
+A complete service OData metadata can be found [here](https://uber-asido.azurewebsites.net/odata/$metadata).
 
 OData also has a concept of **functions** and **actions**. A function is a **GET** call, that has no side effects. An action is a **POST** request, usually with a side effect. **Functions** and **actions** can be bounded to a specific single entity, bounded to an entire collection, or unbounded (global). The scope influences a calling convention. For an unbounded method, one can simply issue:
 
@@ -75,20 +75,20 @@ This service exposes 2 bounded collection **functions** as well as 1 unbounded *
 
 Type | Endpoint | Parameters
 --- | --- | ---
-Function | /odata/FilmingLocation/Service.SearchByFreeText | **string** text
-Function | /odata/FilmingLocation/Service.SearchBySearchItem | **uuid** searchItemKey
+Function | [/odata/FilmingLocation/Service.SearchByFreeText](https://uber-asido.azurewebsites.net/odata/FilmingLocation/Service.SearchByFreeText(text='star')) | **string** text
+Function | [/odata/FilmingLocation/Service.SearchBySearchItem](https://uber-asido.azurewebsites.net/odata/FilmingLocation/Service.SearchBySearchItem(searchItemKey=c70c314f-6b50-4bf8-8654-4aad00642378)) | **uuid** searchItemKey
 Action | /odata/UploadFile | **stream** file
 
 Query examples:
 
 Method | URL | Description
 --- | --- | ---
-GET | [/odata/UploadHistory](http://localhost:50518/odata/UploadHistory) | List entire upload history.
-GET | [/odata/Movie(70e60044-a664-4485-a32b-bba4b334a5d8)](http://localhost:50518/odata/Movie(70e60044-a664-4485-a32b-bba4b334a5d8)) | Get a specific movie.
-GET | [/odata/Movie(70e60044-a664-4485-a32b-bba4b334a5d8)?$select=title,releaseYear](http://localhost:50518/odata/Movie(70e60044-a664-4485-a32b-bba4b334a5d8)?$select=title,releaseYear) | Get title and release year of a specific movie.
-GET | [/odata/SearchItem?$filter=contains(tolower(text), 'star')](http://localhost:50518/odata/SearchItem?$filter=contains(tolower(text), 'star') | Get search results, where text contains substring `star`.
-GET | [/odata/SearchItem/$count](http://localhost:50518/odata/SearchItem/$count) | Count search items in the index.
-GET | [/odata/FilmingLocation/Service.SearchBySearchItem(searchItemKey=fb98aa60-624a-4c32-b9b4-5f3b0b2adbd8)](http://localhost:50518/odata/FilmingLocation/Service.SearchBySearchItem(searchItemKey=fb98aa60-624a-4c32-b9b4-5f3b0b2adbd8)) | Get filming locations for a movie, that is linked with a specific search item (such as selected autocompletion).
+GET | [/odata/UploadHistory](https://uber-asido.azurewebsites.net/odata/UploadHistory) | List entire upload history.
+GET | [/odata/Movie(70e60044-a664-4485-a32b-bba4b334a5d8)](https://uber-asido.azurewebsites.net/odata/Movie(70e60044-a664-4485-a32b-bba4b334a5d8)) | Get a specific movie.
+GET | [/odata/Movie(70e60044-a664-4485-a32b-bba4b334a5d8)?$select=title,releaseYear](https://uber-asido.azurewebsites.net/odata/Movie(70e60044-a664-4485-a32b-bba4b334a5d8)?$select=title,releaseYear) | Get title and release year of a specific movie.
+GET | [/odata/SearchItem?$filter=contains(tolower(text), 'star')](https://uber-asido.azurewebsites.net/odata/SearchItem?$filter=contains(tolower(text), 'star') | Get search results, where text contains substring `star`.
+GET | [/odata/SearchItem/$count](https://uber-asido.azurewebsites.net/odata/SearchItem/$count) | Count search items in the index.
+GET | [/odata/FilmingLocation/Service.SearchBySearchItem(searchItemKey=fb98aa60-624a-4c32-b9b4-5f3b0b2adbd8)](https://uber-asido.azurewebsites.net/odata/FilmingLocation/Service.SearchBySearchItem(searchItemKey=fb98aa60-624a-4c32-b9b4-5f3b0b2adbd8)) | Get filming locations for a movie, that is linked with a specific search item (such as selected autocompletion).
 
 ## Run service
 
