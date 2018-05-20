@@ -8,11 +8,11 @@ The project is written in **C#** and uses **ASP.NET Core** - a cross-platform, h
 
 ![Service architecture](https://raw.githubusercontent.com/uber-asido/backend/8e81c22031143e80f349c10865465125a430d2ce/images/service-arch.png)
 
-The system is a monolith, but divided into 4 separate modules.
+The system is a monolith but divided into 4 separate modules.
 
 Module | Description
 --- | ---
-Movie | Movie module is the core module storing movie related information, such as movie metadata (title, release year), production company, distributor, director, writers and actors. It also stores information about shooting locations. The primary job of the module is to merge new incomming information about movies, communicate with the search module to index searchable information, and serve that information back when requested.
+Movie | Movie module is the core module storing movie related information, such as movie metadata (title, release year), production company, distributor, director, writers and actors. It also stores information about shooting locations. The primary job of the module is to merge new incoming information about movies, communicate with the search module to index searchable information, and serve that information back when requested.
 File | File module accepts files with movie data and is responsible for converting that data into what **Movie** module accepts. It uses **Geocoding** module to resolve location names to latitude & longitude coordinates. Currently accepted file format is CSV.
 Search | Search module, as the name implies, is a generic search engine that other modules can use to index certain information. It is able to perform full-text search as well as query information based on it's type. Search items are fast to query small objects perfect for implementing autocompletion.
 Geocoding | Geocoding module is a service able to resolve location strings, such as `Montgomery between Green and Broadway` to a structured address `Montgomery St & E Broadway, New York, NY 10002, USA, (40.7144612, -73.9853415)`. Currently it includes a [Google Geocoding API](https://developers.google.com/maps/documentation/geocoding/intro) provider, but is designed to support any form of resolution. All you need to do is implement `IGeocodeProvider`.
@@ -37,16 +37,16 @@ Importing data from files is usually an expensive operation and cannot be comple
 
 ## Gateway
 
-The gateway server aggregates the modules into a monolith and exposes an [OData](http://www.odata.org/) API to the public. The architecture, however, is extremely flexible. Modules get dependencies via dependency injection. Since dependencies are referenced via abstractions, actual implementations can be either a reference to an instance within the same module or a even a reference to a client library, which communicates with the dependency on another machine via REST or other form of RPC. Such architecture allows to run each module on individual machines if there is a need with no dependee source code changes.
+The gateway server aggregates the modules into a monolith and exposes an [OData](http://www.odata.org/) API to the public. The architecture, however, is extremely flexible. Modules get dependencies via dependency injection. Since dependencies are referenced via abstractions, actual implementations can be either a reference to an instance within the same module or even a reference to a client library, which communicates with the dependency on another machine via REST or other form of RPC. Such architecture allows to run each module on individual machines if there is a need with little source code changes.
 
 ## OData API
 
 [OData](http://www.odata.org/) API was mentioned several times in this document. For those not familiar with the term, it stands for **Open Data Protocol**. It is an [ISO/IEC approved](https://www.oasis-open.org/news/pr/iso-iec-jtc-1-approves-oasis-odata-standard-for-open-data-exchange), [OASIS standard](https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=odata) that defines a set of best practices for building and consuming RESTful APIs.
 
 It offers several advantages over a custom made REST API.
-* It is an open standard and ensures consistent and clean API. Server OData libraries are able to validate the API to make sure that the registered endpoints and entity collections comply with the standrd.
+* It is an open standard and ensures consistent and clean API. Server OData libraries are able to validate the API to make sure that the registered endpoints and entity collections comply with the standard.
 * It provides a machine-readable description of the data model of the API, called **OData metadata**. It enables the use of powerful generic client proxies and tools to consume the API. As an example, there are tools that can consume the metadata and generate API client code for dozens of programming language. On top of that, popular office suits, such as Microsoft Excel and LibreOffice Calc can use OData API as a data source.
-* It provides a standardized [query option syntax](http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part2-url-conventions.html), which allow clients to tailor the requests and their responses to their needs. Such as sepecify data filters, ordering, paging, property selection and transformation, etc.
+* It provides a standardized [query option syntax](http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part2-url-conventions.html), which allow clients to tailor the requests and their responses to their needs. Such as specify data filters, ordering, paging, property selection and transformation, etc.
 
 This service currently exposes 4 entity sets.
 
@@ -193,13 +193,21 @@ Run docker image: `docker run -p 8080:80 uber-backend`
 
 `Uber.Server.Gateway` has [Application Insights](https://azure.microsoft.com/en-us/services/application-insights/) configured, which collects a lot of runtime information, such as API response times, unhandled exceptions, various machine parameters, etc. It is able to notice and inform any unusual activity, such as increased latency, increased number of certain HTTP status codes.
 
+### Scalability
+
+Architecturally the service is very well able to scale horizontally. However, the current database write routines were not written with concurrency control in mind. As a result, it is very much possible to end up with duplicate data when writing the database in parallel. For example, geocoding module first tries to find a requested address in the local database before requesting Google API. When running concurrently, it is very possible that multiple instances will try to resolve the same location in parallel and both will insert identical data to the local database. The race condition can be mitigated in several ways:
+* Add a unique constraint at the database level. That will make the database server return a conflict error on duplicate insert. The application can handle such an error by either propagating the error all the way back to the client or by attempting to query an existing data in the database and continue the execution path as if the data was found at the very beginning.
+* *UPSERT* instead of *INSERT*. Even though semantically *UPSERT* is different from approach #1, for immutable data, such as geocoding information, it is practically the same.
+
+Mutable data additionally has to control concurrent updates. A typical approach is to use an entity tag (ETag), which acts as data version. Updating data requires etag to be passed by the client, which indicates the revision of the data it is modifying. A conflict occurs if the revision in the database differs from the passed one.
+
 ## To be done
 
 The project is straightforward and there were no technical trade-offs taken during the development. The only real trade-off was my time, which I didn't spare. I care about craftsmanship and so I invested time to perfect the interfaces and to create an architecture that scales. However, as with anything, there is always room to improve. Among those are:
 
 * Database connection strings for tests are now hardcoded in test project initializers. Ideally should move it to a config file.
 * Some obvious optimizations could be considered, such as caching filming location coordinates. Currently geocoding module is used to lookup and fill that information every time the data is queried.
-* The search module uses PostgreSQL as it's store. It works for now well and decouples the service from additional 3rd party software and libraries, but is not optimal if the searchable data grows. A specialized store, such as Apache Solr or Elasticsearch could do a much better job in terms of performance and query flexiblity.
+* The search module uses PostgreSQL as it's store. It works for now well and decouples the service from additional 3rd party software and libraries, but is not optimal if the searchable data grows. A specialized store, such as Apache Solr or Elasticsearch could do a much better job in terms of performance and query flexibility.
 
 However, none of the missing bits make the system less production-ready.
 
