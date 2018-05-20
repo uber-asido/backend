@@ -31,6 +31,10 @@ Abstractions can have multiple implementations. That is especially common for st
 
 Storage entities and database technology are strictly encapsulated in the store implementations, where even the service logic doesn't know how the data it asks to save is stored. It can be stored as simply as an in-memory object reference in a list, or as complicated as a normalized data in a dozen of tables somewhere in the cloud.
 
+## Background jobs
+
+Importing data from files is usually an expensive operation and cannot be completed in a single request context. As a result, an endpoint accepting files with movie data schedules a background job operation and responds to the client immediately after. Background jobs are executed using [Hangfire](https://www.hangfire.io/). Hangfire is a powerful library able to run jobs either in the same service process or offload to dedicated machines. The 2 scenarios don't require changing job implementations, but configuration only.
+
 ## Gateway
 
 The gateway server aggregates the modules into a monolith and exposes an [OData](http://www.odata.org/) API to the public. The architecture, however, is extremely flexible. Modules get dependencies via dependency injection. Since dependencies are referenced via abstractions, actual implementations can be either a reference to an instance within the same module or a even a reference to a client library, which communicates with the dependency on another machine via REST or other form of RPC. Such architecture allows to run each module on individual machines if there is a need with no dependee source code changes.
@@ -203,6 +207,9 @@ However, none of the missing bits make the system less production-ready.
 
 A web client using the API is available at:
 https://uber-frontend.azurewebsites.net/
+
+The web client also includes an admin section:
+https://uber-frontend.azurewebsites.net/admin
 
 [Source code](https://github.com/uber-asido/frontend)
 
