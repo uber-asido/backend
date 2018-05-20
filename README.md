@@ -191,10 +191,17 @@ Run docker image: `docker run -p 8080:80 uber-backend`
 
 ## To be done
 
+The project is straightforward and there were no technical trade-offs taken during the development. The only real trade-off was my time, which I didn't spare. I care about craftsmanship and so I invested time to perfect the interfaces and to create an architecture that scales. However, as with anything, there is always room to improve. Among those are:
+
 * Database connection strings for tests are now hardcoded in test project initializers. Ideally should move it to a config file.
 * Some obvious optimizations could be considered, such as caching filming location coordinates. Currently geocoding module is used to lookup and fill that information every time the data is queried.
+* The search module uses PostgreSQL as it's store. It works for now well and decouples the service from additional 3rd party software and libraries, but is not optimal if the searchable data grows. A specialized store, such as Apache Solr or Elasticsearch could do a much better job in terms of performance and query flexiblity.
+
+However, none of the missing bits make the system less production-ready.
 
 ## Author
+
+Arvydas Sidorenko
 
 [Resume](https://drive.google.com/open?id=1rp6DXQoXR7WZFy2ogMdRpWNTGJtF22EA)
 
