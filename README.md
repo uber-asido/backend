@@ -1,6 +1,6 @@
 # SF Movies backend
 
-This project is a backend system of movie filming locations. It provides an [OData](http://www.odata.org/) API allowing to search movies, their filming locations as well as to populate the database with new data.
+There are lots of free data available with movie filming locations. The service is a backend system, that provides an [OData](http://www.odata.org/) API allowing to search movies, their filming locations as well as to populate the database with new data.
 
 The project is written in **C#** and uses **ASP.NET Core** - a cross-platform, high-performance, open-source framework. Currently supported storage is **PosgreSQL**. The solution runs on Windows, MacOS and Linux.
 
@@ -184,6 +184,21 @@ Create a docker image: `docker build -t uber-backend .`
 Run docker image: `docker run -p 8080:80 uber-backend`
 
 **NOTE:** Docker builds a release build, which doesn't include `AppSettings.User.json` configuration. Docker builds require database connection strings to be setup in `AppSettings.Production.json` file.
+
+### Monitoring
+
+`Uber.Server.Gateway` has [Application Insights](https://azure.microsoft.com/en-us/services/application-insights/) configured, which collects a lot of runtime information, such as API response times, unhandled exceptions, various machine parameters, etc. It is able to notice and inform any unusual activity, such as increased latency, increased number of certain HTTP status codes.
+
+## To be done
+
+* Database connection strings for tests are now hardcoded in test project initializers. Ideally should move it to a config file.
+* Some obvious optimizations could be considered, such as caching filming location coordinates. Currently geocoding module is used to lookup and fill that information every time the data is queried.
+
+## Author
+
+[Resume](https://drive.google.com/open?id=1rp6DXQoXR7WZFy2ogMdRpWNTGJtF22EA)
+
+[LinkedIn](www.linkedin.com/in/arvydassidorenko)
 
 ## Related projects
 [SF Movies frontend](https://github.com/uber-asido/frontend)
