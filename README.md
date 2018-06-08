@@ -211,13 +211,5 @@ The project is straightforward and there were no technical trade-offs taken duri
 
 However, none of the missing bits make the system less production-ready.
 
-## Author
-
-Arvydas Sidorenko
-
-[Resume](https://drive.google.com/open?id=1rp6DXQoXR7WZFy2ogMdRpWNTGJtF22EA)
-
-[LinkedIn](www.linkedin.com/in/arvydassidorenko)
-
 ## Related projects
 [SF Movies frontend](https://github.com/uber-asido/frontend)
