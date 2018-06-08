@@ -211,16 +211,6 @@ The project is straightforward and there were no technical trade-offs taken duri
 
 However, none of the missing bits make the system less production-ready.
 
-## Live
-
-A web client using the API is available at:
-https://uber-frontend.azurewebsites.net/
-
-The web client also includes an admin section:
-https://uber-frontend.azurewebsites.net/admin
-
-[Source code](https://github.com/uber-asido/frontend)
-
 ## Author
 
 Arvydas Sidorenko
